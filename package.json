@@ -35,7 +35,7 @@
     "italia-pagopa-commons": "^1.0.0",
     "italia-ts-commons": "5.1.1",
     "lodash": "^4.17.11",
-    "native-base": "2.12.1",
+    "native-base": "2.13.6",
     "native-base-shoutem-theme": "^0.2.3",
     "path-browserify": "0.0.0",
     "react": "16.8.3",
