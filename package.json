@@ -18,7 +18,9 @@
     "bundle:android-release": "node node_modules/react-native/local-cli/cli.js bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
     "generate:locales": "ts-node --skip-project -O '{\"lib\":[\"es2015\"]}' scripts/make-locales.ts",
     "generate:content-definitions": "rimraf definitions/content && mkdir -p definitions/content && gen-api-models --api-spec https://raw.githubusercontent.com/teamdigitale/italia-services-metadata/master/definitions.yml --out-dir ./definitions/content",
-    "generate:all": "npm-run-all generate:mock-google-services-json generate:api-definitions generate:pagopa-api-definitions generate:content-definitions generate:locales"
+    "generate:all": "npm-run-all generate:mock-google-services-json generate:api-definitions generate:pagopa-api-definitions generate:content-definitions generate:locales",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.5.0",
@@ -90,7 +92,8 @@
     "typesafe-actions": "^4.0.0",
     "uuid": "^3.3.2",
     "validator": "^10.7.0",
-    "whatwg-fetch": "git://github.com/github/fetch#141665b1477bb25ac1427b2cb3e05203453e30cb"
+    "whatwg-fetch": "git://github.com/github/fetch#141665b1477bb25ac1427b2cb3e05203453e30cb",
+    "snyk": "^1.228.5"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -184,5 +187,6 @@
   },
   "browser": {
     "path": "path-browserify"
-  }
+  },
+  "snyk": true
 }
