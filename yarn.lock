@@ -1321,6 +1321,11 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
+arg@^4.1.0:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/arg/-/arg-4.1.2.tgz#e70c90579e02c63d80e3ad4e31d8bfdb8bd50064"
+  integrity sha512-+ytCkGcBtHZ3V2r2Z06AncYO8jz46UEamcspGoU8lHcEbpn6J77QK0vdWvChsclg/tM5XIJC5tnjmPp7Eq6Obg==
+
 argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
@@ -1387,7 +1392,7 @@ array-unique@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
 
-arrify@^1.0.0, arrify@^1.0.1:
+arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
@@ -2193,7 +2198,7 @@ buffer-equal-constant-time@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
 
-buffer-from@1.x, buffer-from@^1.0.0, buffer-from@^1.1.0:
+buffer-from@1.x, buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
@@ -2923,9 +2928,14 @@ diff-sequences@^24.3.0:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-24.3.0.tgz#0f20e8a1df1abddaf4d9c226680952e64118b975"
   integrity sha512-xLqpez+Zj9GKSnPWS0WZw1igGocZ+uua8+y+5dDNTT934N3QuY1sp2LkHzwiaYQGz60hMq0pjAshdeXm5VUOEw==
 
-diff@^3.1.0, diff@^3.2.0:
+diff@^3.2.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
+
+diff@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
+  integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
 doctrine@0.7.2:
   version "0.7.2"
@@ -8682,18 +8692,16 @@ ts-jest@24.0.1:
     semver "^5.5"
     yargs-parser "10.x"
 
-ts-node@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-7.0.1.tgz#9562dc2d1e6d248d24bc55f773e3f614337d9baf"
+ts-node@^8.6.2:
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"
+  integrity sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
   dependencies:
-    arrify "^1.0.0"
-    buffer-from "^1.1.0"
-    diff "^3.1.0"
+    arg "^4.1.0"
+    diff "^4.0.1"
     make-error "^1.1.1"
-    minimist "^1.2.0"
-    mkdirp "^0.5.1"
     source-map-support "^0.5.6"
-    yn "^2.0.0"
+    yn "3.1.1"
 
 tslib@1.9.0:
   version "1.9.0"
@@ -9460,9 +9468,10 @@ yargs@^9.0.0:
     y18n "^3.2.1"
     yargs-parser "^7.0.0"
 
-yn@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
+yn@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
+  integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
 z-schema@^3.19.1:
   version "3.20.0"
