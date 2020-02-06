@@ -89,7 +89,7 @@
     "typesafe-actions": "^4.0.0",
     "uuid": "^3.3.2",
     "validator": "^10.7.0",
-    "whatwg-fetch": "git://github.com/github/fetch#141665b1477bb25ac1427b2cb3e05203453e30cb"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
