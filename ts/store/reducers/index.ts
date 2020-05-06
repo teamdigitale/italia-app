@@ -1,7 +1,6 @@
 /**
  * Aggregates all defined reducers
  */
-import { reducer as networkReducer } from "react-native-offline";
 import { combineReducers, Reducer } from "redux";
 import { PersistConfig, persistReducer, purgeStoredState } from "redux-persist";
 import { isActionOf } from "typesafe-actions";
@@ -25,6 +24,7 @@ import instabugUnreadMessagesReducer from "./instabug/instabugUnreadMessages";
 import installationReducer from "./installation";
 import navigationReducer from "./navigation";
 import navigationHistoryReducer from "./navigationHistory";
+import networkReducer from "./network";
 import notificationsReducer from "./notifications";
 import onboardingReducer from "./onboarding";
 import paymentsReducer from "./payments";

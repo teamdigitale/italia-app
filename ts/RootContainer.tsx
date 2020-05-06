@@ -1,6 +1,7 @@
 /**
  * The main container of the application with the IdentificationModal and the Navigator
  */
+import NetInfo, { NetInfoSubscription } from "@react-native-community/netinfo";
 import { Root } from "native-base";
 import * as React from "react";
 import {
@@ -26,6 +27,7 @@ import {
 } from "./store/actions/application";
 import { navigateToDeepLink, setDeepLink } from "./store/actions/deepLink";
 import { navigateBack } from "./store/actions/navigation";
+import { networkStateUpdate } from "./store/actions/network";
 import { isBackendServicesStatusOffSelector } from "./store/reducers/backendStatus";
 import { GlobalState } from "./store/reducers/types";
 import SystemOffModal from "./SystemOffModal";
@@ -40,6 +42,7 @@ import { isUpdateNeeded } from "./utils/appVersion";
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 class RootContainer extends React.PureComponent<Props> {
+  public netInfoSubscription?: NetInfoSubscription;
   constructor(props: Props) {
     super(props);
 
@@ -83,6 +86,11 @@ class RootContainer extends React.PureComponent<Props> {
     AppState.addEventListener("change", this.handleApplicationActivity);
     // Hide splash screen
     SplashScreen.hide();
+
+    // tslint:disable-next-line: no-object-mutation
+    this.netInfoSubscription = NetInfo.addEventListener(state => {
+      this.props.networkStateUpdate(state.isConnected);
+    });
   }
 
   public componentWillUnmount() {
@@ -93,6 +101,10 @@ class RootContainer extends React.PureComponent<Props> {
     }
 
     AppState.removeEventListener("change", this.handleApplicationActivity);
+
+    if (this.netInfoSubscription) {
+      this.netInfoSubscription();
+    }
   }
 
   public componentDidUpdate() {
@@ -164,7 +176,8 @@ const mapDispatchToProps = {
   applicationChangeState,
   setDeepLink,
   navigateToDeepLink,
-  navigateBack
+  navigateBack,
+  networkStateUpdate
 };
 
 export default connect(

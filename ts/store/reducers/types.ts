@@ -1,7 +1,6 @@
 import { NavigationState } from "react-navigation";
 import { PersistPartial } from "redux-persist";
 
-import { Action } from "../actions/types";
 import { AppState } from "./appState";
 import { PersistedAuthenticationState } from "./authentication";
 import { BackendInfoState } from "./backendInfo";
@@ -27,9 +26,8 @@ import { UserDataProcessingState } from "./userDataProcessing";
 import { UserMetadataState } from "./userMetadata";
 import { WalletState } from "./wallet";
 
-type NetworkState = Readonly<{
+export type NetworkState = Readonly<{
   isConnected: boolean;
-  actionQueue: ReadonlyArray<Action>;
 }>;
 
 export type GlobalState = Readonly<{

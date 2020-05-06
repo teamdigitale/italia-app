@@ -25,6 +25,7 @@ import { InstallationActions } from "./installation";
 import { MessagesActions } from "./messages";
 import { NavigationActions } from "./navigation";
 import { NavigationHistoryActions } from "./navigationHistory";
+import { NetworkStateActions } from "./network";
 import { NotificationsActions } from "./notifications";
 import { OnboardingActions } from "./onboarding";
 import { OrganizationsActions } from "./organizations";
@@ -68,7 +69,8 @@ export type Action =
   | PaymentsActions
   | OrganizationsActions
   | InstabugInfoActions
-  | UserDataProcessingActions;
+  | UserDataProcessingActions
+  | NetworkStateActions;
 
 export type Dispatch = DispatchAPI<Action>;
 

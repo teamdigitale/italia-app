@@ -8,6 +8,7 @@ import { Platform, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import I18n from "../i18n";
 import { ReduxProps } from "../store/actions/types";
+import { networkStateSelector } from "../store/reducers/network";
 import { GlobalState } from "../store/reducers/types";
 import customVariables from "../theme/variables";
 import IconFont from "./ui/IconFont";
@@ -58,7 +59,7 @@ const ConnectionBar: React.SFC<Props> = props => {
 };
 
 const mapStateToProps = (state: GlobalState) => ({
-  isConnected: state.network.isConnected
+  isConnected: networkStateSelector(state)
 });
 
 export default connect(mapStateToProps)(ConnectionBar);
