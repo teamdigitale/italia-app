@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import AddCardScreen from "../screens/wallet/AddCardScreen";
 import AddPaymentMethodScreen from "../screens/wallet/AddPaymentMethodScreen";
 import ConfirmCardDetailsScreen from "../screens/wallet/ConfirmCardDetailsScreen";

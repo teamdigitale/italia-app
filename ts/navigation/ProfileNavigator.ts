@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import EmailInsertScreen from "../screens/onboarding/EmailInsertScreen";
 import EmailReadScreen from "../screens/onboarding/EmailReadScreen";
 import TosScreen from "../screens/onboarding/TosScreen";

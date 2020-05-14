@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import MessageDetailScreen from "../screens/messages/MessageDetailScreen";
 import MessagesHomeScreen from "../screens/messages/MessagesHomeScreen";
 import ROUTES from "./routes";

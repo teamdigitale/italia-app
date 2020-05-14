@@ -8,12 +8,12 @@
 import * as React from "react";
 import { Platform, StyleSheet, Text } from "react-native";
 import {
-  createBottomTabNavigator,
   NavigationRoute,
   NavigationScreenProp,
   NavigationState,
   StackActions
 } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 import MessagesTabIcon from "../components/MessagesTabIcon";
 import ProfileTabIcon from "../components/ProfileTabIcon";
 import ServiceTabIcon from "../components/ServiceTabIcon";

@@ -1,7 +1,5 @@
-import {
-  createStackNavigator,
-  NavigationRouteConfigMap
-} from "react-navigation";
+import { NavigationRouteConfigMap } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { environment } from "../config";
 import CardSelectionScreen from "../screens/authentication/CardSelectionScreen";
 import CieAuthorizeDataUsageScreen from "../screens/authentication/cie/CieAuthorizeDataUsageScreen";
