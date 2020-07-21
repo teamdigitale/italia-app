@@ -42,6 +42,13 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     justifyContent: "center",
     alignContent: "center"
+  },
+  noPadRight: {
+    paddingRight: 0
+  },
+  buttonStyle: {
+    padding: 8,
+    paddingRight: 0
   }
 });
 
@@ -134,8 +141,13 @@ class InstabugChatsComponent extends React.PureComponent<Props, State> {
                 "global.accessibility.chat.description"
               )}
               accessibilityHint={accessibilityHint}
+              style={styles.buttonStyle}
             >
-              <IconFont name="io-chat" color={this.props.color} />
+              <IconFont
+                name="io-chat"
+                color={this.props.color}
+                style={styles.noPadRight}
+              />
             </ButtonDefaultOpacity>
             <CustomBadge
               badgeStyle={styles.badgeStyle}

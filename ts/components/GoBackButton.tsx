@@ -53,6 +53,7 @@ class GoBackButton extends React.PureComponent<Props> {
       <ButtonDefaultOpacity
         {...buttonProps}
         accessibilityLabel={I18n.t("global.buttons.back")}
+        style={{ paddingLeft: 0 }}
       >
         <IconFont
           name={"io-back"}

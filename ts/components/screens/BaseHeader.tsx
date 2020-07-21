@@ -1,5 +1,5 @@
 import { Millisecond } from "italia-ts-commons/lib/units";
-import { Body, Left, Right, Text, View } from "native-base";
+import { Text, View } from "native-base";
 import { Ref } from "react";
 import * as React from "react";
 import { AccessibilityInfo, StyleSheet } from "react-native";
@@ -13,21 +13,47 @@ import { isPagoPATestEnabledSelector } from "../../store/reducers/persistedPrefe
 import { isSearchEnabledSelector } from "../../store/reducers/search";
 import { GlobalState } from "../../store/reducers/types";
 import variables from "../../theme/variables";
+import customVariables from "../../theme/variables";
 import { setAccessibilityFocus } from "../../utils/accessibility";
 import { maybeNotNullyString } from "../../utils/strings";
 import ButtonDefaultOpacity from "../ButtonDefaultOpacity";
 import GoBackButton from "../GoBackButton";
 import InstabugChatsComponent from "../InstabugChatsComponent";
 import SearchButton, { SearchType } from "../search/SearchButton";
-import TouchableDefaultOpacity from "../TouchableDefaultOpacity";
 import AppHeader from "../ui/AppHeader";
 
 const styles = StyleSheet.create({
   helpButton: {
-    padding: 8
+    padding: 8,
+    paddingRight: 0
   },
   noLeft: {
-    marginLeft: variables.contentPadding - variables.appHeaderPaddingHorizontal
+    marginLeft: 2
+  },
+  noPadRight: {
+    paddingRight: 0
+  },
+  row: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 8
+  },
+  leftItem: {
+    alignSelf: "center",
+    justifyContent: "flex-start",
+    flex: 1
+  },
+  centerItem: {
+    alignSelf: "center",
+    justifyContent: "center",
+    flex: 1
+  },
+  rightItem: {
+    alignSelf: "center",
+    justifyContent: "flex-end",
+    flex: 1
   }
 });
 
@@ -105,16 +131,6 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
     }, noReferenceTimeout);
   }
 
-  /**
-   * if go back is a function it will be returned
-   * otherwise the default goback navigation will be returned
-   */
-  private getGoBackHandler = () => {
-    return typeof this.props.goBack === "function"
-      ? this.props.goBack()
-      : this.props.navigateBack();
-  };
-
   private renderHeader = () => {
     const { customGoBack, headerTitle } = this.props;
 
@@ -123,15 +139,7 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
       return this.renderBodyLabel(headerTitle, false);
     }
     // if no customGoBack is provided also the header text could be press to execute goBack
-    // note goBack could a boolean or a function (check this.getGoBackHandler)
-    return (
-      <TouchableDefaultOpacity
-        onPress={this.getGoBackHandler}
-        accessible={false}
-      >
-        {this.renderBodyLabel(headerTitle)}
-      </TouchableDefaultOpacity>
-    );
+    return this.renderBodyLabel(headerTitle);
   };
 
   private renderBodyLabel = (
@@ -147,9 +155,7 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
           white={isWhite}
           numberOfLines={1}
           accessible={accessible}
-          accessibilityElementsHidden={true}
           accessibilityRole={"header"}
-          importantForAccessibility="no-hide-descendants"
         >
           {l}
         </Text>
@@ -174,29 +180,31 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
         noShadow={isSearchEnabled}
         dark={dark}
       >
-        {this.renderLeft()}
+        <View style={styles.row}>
+          {this.renderLeft()}
 
-        {/* if screen reader is active and the accessibility label is defined, render the accessibility label
+          {/* if screen reader is active and the accessibility label is defined, render the accessibility label
           as placeholder where force focus
         */}
-        {!isSearchEnabled && (
-          <Body style={goBack ? {} : styles.noLeft}>
-            {this.state.isScreenReaderActive &&
-            maybeAccessibilityLabel.isSome() ? (
-              this.renderBodyLabel(
-                maybeAccessibilityLabel.value,
-                true,
-                this.firstElementRef
-              )
-            ) : (
-              <View ref={this.firstElementRef} accessible={true}>
-                {body ? body : headerTitle && this.renderHeader()}
+          {!isSearchEnabled && (
+            <View style={goBack ? {} : [styles.noLeft]}>
+              <View style={goBack ? styles.centerItem : {}}>
+                {this.state.isScreenReaderActive &&
+                maybeAccessibilityLabel.isSome()
+                  ? this.renderBodyLabel(
+                      maybeAccessibilityLabel.value,
+                      true,
+                      this.firstElementRef
+                    )
+                  : body
+                    ? body
+                    : headerTitle && this.renderHeader()}
               </View>
-            )}
-          </Body>
-        )}
+            </View>
+          )}
 
-        {this.renderRight()}
+          {this.renderRight()}
+        </View>
       </AppHeader>
     );
   }
@@ -208,13 +216,23 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
       isSearchAvailable,
       searchType,
       showInstabugChat,
-      customRightIcon
+      customRightIcon,
+      dark,
+      primary
     } = this.props;
 
     return (
-      <Right>
+      <View style={[styles.rightItem, { flexDirection: "row" }]}>
         {!isSearchEnabled &&
-          showInstabugChat !== false && <InstabugChatsComponent />}
+          showInstabugChat !== false && (
+            <InstabugChatsComponent
+              color={
+                dark || primary
+                  ? customVariables.colorWhite
+                  : customVariables.colorBlack
+              }
+            />
+          )}
         {onShowHelp &&
           !isSearchEnabled && (
             <ButtonDefaultOpacity
@@ -228,7 +246,15 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
                 "global.accessibility.contextualHelp.open.hint"
               )}
             >
-              <IconFont name={"io-question"} />
+              <IconFont
+                name={"io-question"}
+                style={styles.noPadRight}
+                color={
+                  dark || primary
+                    ? customVariables.colorWhite
+                    : customVariables.colorBlack
+                }
+              />
             </ButtonDefaultOpacity>
           )}
 
@@ -242,25 +268,32 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
               accessible={customRightIcon.accessibilityLabel !== undefined}
               accessibilityLabel={customRightIcon.accessibilityLabel}
             >
-              <IconFont name={customRightIcon.iconName} />
+              <IconFont
+                name={customRightIcon.iconName}
+                color={
+                  dark || primary
+                    ? customVariables.colorWhite
+                    : customVariables.colorBlack
+                }
+              />
             </ButtonDefaultOpacity>
           )}
         {!this.props.avoidNavigationEventsUsage && (
           <NavigationEvents onDidFocus={this.handleFocus} />
         )}
-      </Right>
+      </View>
     );
   };
 
   private renderGoBack = () => {
     const { goBack, dark, customGoBack } = this.props;
     return customGoBack ? (
-      <Left>{customGoBack}</Left>
+      <View style={styles.leftItem}>{customGoBack}</View>
     ) : (
       goBack && (
-        <Left>
+        <View style={styles.leftItem}>
           <GoBackButton testID={"back-button"} onPress={goBack} white={dark} />
-        </Left>
+        </View>
       )
     );
   };
@@ -283,15 +316,14 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
     return (
       !isSearchEnabled &&
       (appLogo ? (
-        <Left>
-          <View
-            accessible={true}
-            accessibilityElementsHidden={true}
-            importantForAccessibility="no-hide-descendants"
-          >
-            <IconFont name={"io-logo"} color={iconColor} accessible={false} />
-          </View>
-        </Left>
+        <View
+          style={styles.leftItem}
+          accessible={true}
+          accessibilityElementsHidden={true}
+          importantForAccessibility="no-hide-descendants"
+        >
+          <IconFont name={"io-logo"} color={iconColor} accessible={false} />
+        </View>
       ) : (
         this.renderGoBack()
       ))
