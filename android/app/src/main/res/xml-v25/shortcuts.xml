@@ -1,0 +1,14 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+  <shortcut
+    android:shortcutId="fiscal-code"
+    android:enabled="true"
+    android:icon="@mipmap/shortcut_fiscal_code"
+    android:shortcutShortLabel="@string/fiscal_code"
+    android:shortcutLongLabel="@string/fiscal_code_long">
+    <intent
+      android:action="android.intent.action.VIEW"
+      android:targetPackage="it.pagopa.io.app"
+      android:targetClass="it.pagopa.io.app.MainActivity"
+      android:data="ioit://PROFILE_FISCAL_CODE" />
+  </shortcut>
+</shortcuts>

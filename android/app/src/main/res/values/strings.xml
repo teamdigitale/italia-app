@@ -7,4 +7,6 @@
     <string name="alert_device_rooted_desc">This device is rooted, you can\'t use this app for security reasons</string>
     <string name="dialog_attention">Attention</string>
     <string name="tablet_not_supported">Tablet devices are not currently supported</string>
+    <string name="fiscal_code">Fiscal code</string>
+    <string name="fiscal_code_long">Your fiscal code fac-simile</string>
 </resources>

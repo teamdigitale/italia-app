@@ -7,4 +7,6 @@
     <string name="alert_device_rooted_desc">Questo dispositivo dispone di permessi di root, non puoi usare questa app per motivi di sicurezza</string>
     <string name="dialog_attention">Attenzione</string>
     <string name="tablet_not_supported">I dispositivi tablet non sono al momento supportati</string>
+    <string name="fiscal_code">Codice fiscale</string>
+    <string name="fiscal_code_long">Fac-simile del tuo codice fiscale</string>
 </resources>
