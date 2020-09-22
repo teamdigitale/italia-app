@@ -75,8 +75,18 @@ const implementedMethod: IPaymentMethod = {
 
 const paymentMethods: ReadonlyArray<IPaymentMethod> = [
   {
+    name: I18n.t("wallet.methods.applepay.name"),
+    image: require("../../../img/wallet/payment-methods/applepay-logo.png"),
+    implemented: false
+  },
+  {
+    name: I18n.t("wallet.methods.googlepay.name"),
+    image: require("../../../img/wallet/payment-methods/googlepay-logo.png"),
+    implemented: false
+  },
+  {
     name: I18n.t("wallet.methods.satispay.name"),
-    image: require("../../../img/wallet/payment-methods/satispay-logoi.png"),
+    image: require("../../../img/wallet/payment-methods/satispay-logo.png"),
     implemented: false
   },
   {

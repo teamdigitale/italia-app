@@ -823,6 +823,10 @@ wallet:
       name: Postepay
     paypal:
       name: Paypal
+    googlepay:
+      name: Google Pay
+    applepay:
+      name: Apple Pay
     notImplemented: Coming soon
   addCardTitle: Card details
   dummyCard:
