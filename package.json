@@ -34,7 +34,9 @@
     "generate:locales": "ts-node --skip-project -O '{\"lib\":[\"es2015\"]}' scripts/make-locales.ts",
     "generate:content-definitions": "rimraf definitions/content && mkdir -p definitions/content && gen-api-models --api-spec $npm_package_io_content_specs --out-dir ./definitions/content",
     "generate:all": "npm-run-all generate:mock-google-services-json generate:api-definitions generate:pagopa-api-definitions generate:content-definitions generate:bonus-vacanze-definitions generate:locales",
-    "locales_unused": "ts-node --skip-project -O '{\"lib\":[\"es2015\"]}' scripts/unused-locales.ts"
+    "locales_unused": "ts-node --skip-project -O '{\"lib\":[\"es2015\"]}' scripts/unused-locales.ts",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "@pagopa/react-native-cie": "0.2.2",
@@ -125,7 +127,8 @@
     "uuid": "^3.3.2",
     "validator": "^10.7.0",
     "whatwg-fetch": "git://github.com/github/fetch#141665b1477bb25ac1427b2cb3e05203453e30cb",
-    "xss": "1.0.6"
+    "xss": "1.0.6",
+    "snyk": "^1.369.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -228,5 +231,6 @@
     "scripts": {
       "postchangelog": "node scripts/changelog/add_pivotal_stories.js"
     }
-  }
+  },
+  "snyk": true
 }
