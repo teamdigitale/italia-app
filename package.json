@@ -63,7 +63,7 @@
     "italia-ts-commons": "5.1.11",
     "jail-monkey": "^2.3.2",
     "lodash": "^4.17.20",
-    "native-base": "^2.13.13",
+    "native-base": "2.13.13",
     "native-base-shoutem-theme": "0.3.1",
     "path-browserify": "0.0.0",
     "react": "16.13.1",

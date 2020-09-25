@@ -69,29 +69,29 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - instabug-reactnative (9.1.6):
+  - instabug-reactnative (9.1.8):
     - React
-  - jail-monkey (2.3.2):
+  - jail-monkey (2.3.3):
     - React
   - Mixpanel (3.6.1)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
-  - Permission-Calendars (2.1.5):
+  - Permission-Calendars (2.2.1):
     - RNPermissions
-  - Permission-Camera (2.1.5):
+  - Permission-Camera (2.2.1):
     - RNPermissions
-  - Permission-Contacts (2.1.5):
+  - Permission-Contacts (2.2.1):
     - RNPermissions
-  - Permission-FaceID (2.1.5):
+  - Permission-FaceID (2.2.1):
     - RNPermissions
-  - Permission-MediaLibrary (2.1.5):
+  - Permission-MediaLibrary (2.2.1):
     - RNPermissions
-  - Permission-Notifications (2.1.5):
+  - Permission-Notifications (2.2.1):
     - RNPermissions
-  - Permission-PhotoLibrary (2.1.5):
+  - Permission-PhotoLibrary (2.2.1):
     - RNPermissions
-  - Permission-Reminders (2.1.5):
+  - Permission-Reminders (2.2.1):
     - RNPermissions
   - QrCode (1.1.0):
     - React
@@ -265,14 +265,14 @@ PODS:
     - React
   - react-native-calendar-events (1.7.1):
     - React
-  - react-native-camera (3.35.0):
-    - React
-    - react-native-camera/RCT (= 3.35.0)
-    - react-native-camera/RN (= 3.35.0)
-  - react-native-camera/RCT (3.35.0):
-    - React
-  - react-native-camera/RN (3.35.0):
-    - React
+  - react-native-camera (3.40.0):
+    - React-Core
+    - react-native-camera/RCT (= 3.40.0)
+    - react-native-camera/RN (= 3.40.0)
+  - react-native-camera/RCT (3.40.0):
+    - React-Core
+  - react-native-camera/RN (3.40.0):
+    - React-Core
   - react-native-cameraroll (4.0.0):
     - React
   - react-native-config (1.0.0):
@@ -358,31 +358,31 @@ PODS:
     - React
   - ReactNativeExceptionHandler (2.10.8):
     - React
-  - RNCAsyncStorage (1.11.0):
+  - RNCAsyncStorage (1.12.0):
     - React
-  - RNCPushNotificationIOS (1.4.0):
+  - RNCPushNotificationIOS (1.5.0):
     - React
   - RNDeviceInfo (5.6.4):
     - React
   - RNFS (2.16.6):
     - React
-  - RNGestureHandler (1.7.0):
+  - RNGestureHandler (1.8.0):
     - React
   - RNI18n (2.0.15):
     - React
   - RNKeychain (6.2.0):
     - React
-  - RNPermissions (2.1.5):
-    - React
-  - RNScreens (2.10.1):
+  - RNPermissions (2.2.1):
+    - React-Core
+  - RNScreens (2.11.0):
     - React
   - RNSha256 (1.2.3):
     - React
-  - RNShare (3.7.0):
-    - React
+  - RNShare (3.8.3):
+    - React-Core
   - RNSVG (12.1.0):
     - React
-  - RNVectorIcons (7.0.0):
+  - RNVectorIcons (7.1.0):
     - React
   - TouchID (4.4.1):
     - React
@@ -649,18 +649,18 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  instabug-reactnative: aae9da235f22a48455fd837f5983c144d169330c
-  jail-monkey: d7c5048b2336f22ee9c9e0efa145f1f917338ea9
+  instabug-reactnative: 9dc4969640e94b738c71c203f0fa3633ec96247d
+  jail-monkey: 80c9e34da2cd54023e5ad08bf7051ec75bd43d5b
   Mixpanel: 61e6d8c0717c8e94ccc6d3a1ae8677b9a78f64c5
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Calendars: dc345e3388149514603309c621151ff3cfd5816a
-  Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
-  Permission-Contacts: edde2d433382b3118f0d4c9ebc7708d5d87c4f17
-  Permission-FaceID: fbdeb41087f35887f0cade55396007fadee3a234
-  Permission-MediaLibrary: dd1c48888cd95961fbfebdaebf8d4127c6e92e7d
-  Permission-Notifications: 231d0e1db2300b686548587d384ba414e6a93332
-  Permission-PhotoLibrary: 4d2eff62c8f4b8a27bcf045c0e36f5047efbbf20
-  Permission-Reminders: 330cfafecc259594cfd7845a035580b623f771ae
+  Permission-Calendars: a0e108931f9d111ea291cf31d6b323aa55474ab3
+  Permission-Camera: 357e8024a3597a5c0df529a8f87120f1f7e36895
+  Permission-Contacts: 842e5c90da4f14f6ddce430f059ae93337e34a9f
+  Permission-FaceID: 65e9643924136d34007c339f64dd9389ba174312
+  Permission-MediaLibrary: 67006580556e4fd8d886486348fcf309922cff13
+  Permission-Notifications: 68ed977040885caa5c9ace4812ed448c70018e8d
+  Permission-PhotoLibrary: 6c7add434f810971ea2019117f5322cf54bcace0
+  Permission-Reminders: 7f664e6c5361fd123a174171eea40e178411c521
   QrCode: 1212ff8b8fae1a0e2c698d1c42560abcc0c9019b
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
@@ -674,7 +674,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-background-timer: 1b6e6b4e10f1b74c367a1fdc3c72b67c619b222b
   react-native-calendar-events: 667f4141959b3f90c44cd328396c1488f216922d
-  react-native-camera: d9e7b66e40420dcef111f3265a00f01eea54c52c
+  react-native-camera: 35854c4f764a4a6cf61c1c3525888b92f0fe4b31
   react-native-cameraroll: ae0a7c0cc8462508855707ff623b1e789b692865
   react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
   react-native-cookies: ff2e6865dff2e5feeca8f1ed082ae7898e4fa912
@@ -697,19 +697,19 @@ SPEC CHECKSUMS:
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
   ReactNativeExceptionHandler: 8025d98049c25f186835a3af732dd7c9974d6dce
-  RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
-  RNCPushNotificationIOS: dc1c0c6aa18a128df123598149f42e848d26a4ac
+  RNCAsyncStorage: 2a692bcb9b69b76a2f1a95f33db057129700af64
+  RNCPushNotificationIOS: ef00b111c849a9bb5dbc86d40cf91acb8b262772
   RNDeviceInfo: a576aac2f2927eb7e0058a27dad811c8e7cd1474
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
-  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
-  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
-  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
+  RNPermissions: 54f83272e3d1961fcbd6aff8fd826014c37fc578
+  RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNSha256: ab608b2185fb806185a2cc112e0474065842e085
-  RNShare: a1d5064df7a0ebe778d001869b3f0a124bf0a491
+  RNShare: ec48772563576a8ff19022c3d1db410429fb3e2e
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
