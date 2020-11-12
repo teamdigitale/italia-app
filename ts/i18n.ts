@@ -26,13 +26,20 @@ export function setLocale(lang: locales.Locales) {
   I18n.locale = lang;
 }
 
+type TranslateReturn<S extends string> = S extends string & locales.TranslationKeys
+  ? string
+  : `${S}.one` extends locales.TranslationKeys
+  ? `${S}.other` extends locales.TranslationKeys
+    ? string
+    : never
+  : never;
+
 type TranslateT = {
   // allow unsafe translations only when a defaultValue gets passed
   // allows the use of implicit pluralization of translations, use count as numeral variable
   // how-to use pluralization explained here https://github.com/pagopa/io-app/pull/2366
-  (scope: string, options: { defaultValue: string; count?: number }): string;
   // or else, the lookup must be safe
-  (scope: locales.TranslationKeys, options?: I18n.TranslateOptions): string;
+  <S extends string>(scope: S, options?: I18n.TranslateOptions): TranslateReturn<S>;
 };
 
 /**

@@ -1,7 +1,7 @@
 import { View } from "native-base";
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import I18n from "../../../../i18n";
+import TypedI18n from "../../../../i18n";
 import { H3 } from "../../../../components/core/typography/H3";
 import { H5 } from "../../../../components/core/typography/H5";
 import IconFont from "../../../../components/ui/IconFont";
@@ -37,7 +37,7 @@ const BaseDailyTransactionHeader: React.FunctionComponent<Props> = (
           color={IOColors.bluegrey}
         />
         <H5 color={"bluegrey"}>
-          {` ${I18n.t(
+          {` ${TypedI18n.t(
             "bonus.bpd.details.components.transactionsCountOverview.label",
             {
               defaultValue: I18n.t(
@@ -49,7 +49,7 @@ const BaseDailyTransactionHeader: React.FunctionComponent<Props> = (
           )}`}
         </H5>
       </View>
-      <H5 color={"bluegrey"}>{`${I18n.t("bonus.bpd.name")} (€)`} </H5>
+      <H5 color={"bluegrey"}>{`${TypedI18n.t("bonus.bpd.name")} (€)`} </H5>
     </View>
   </>
 );
