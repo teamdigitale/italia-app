@@ -2,30 +2,32 @@ import { Content, View } from "native-base";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
-import { BugReporting } from "instabug-reactnative";
 import I18n from "../i18n";
 import themeVariables from "../theme/variables";
 import ButtonDefaultOpacity from "./ButtonDefaultOpacity";
-import { CheckBox } from "./core/selection/CheckBox";
 import { H1 } from "./core/typography/H1";
 import { BaseHeader } from "./screens/BaseHeader";
 import Accordion from "./ui/Accordion";
 import Markdown from "./ui/Markdown";
 import IconFont from "./ui/IconFont";
 import FooterWithButtons from "./ui/FooterWithButtons";
+import { RawCheckBox } from "./core/selection/RawCheckBox";
+import { Label } from "./core/typography/Label";
 
-type ownProps = {
+type Props = {
   onClose: () => void;
   onGoBack: () => void;
-  requestAssistance: (
-    reportType: BugReporting.reportType,
-    sendToken: boolean
-  ) => void;
+  onContinue: (sharingPersonalData: boolean) => void;
 };
 
 const styles = StyleSheet.create({
   contentContainer: {
     padding: themeVariables.contentPadding
+  },
+  checkBoxContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly"
   }
 });
 const continueButtonProps = (onContinue: () => void) => ({
@@ -46,10 +48,10 @@ const CustomGoBackButton: React.FunctionComponent<{
   </ButtonDefaultOpacity>
 );
 
-const SendSupportTokenInfo: React.FunctionComponent<ownProps> = ({
+const SendSupportTokenInfo: React.FunctionComponent<Props> = ({
   onClose,
   onGoBack,
-  requestAssistance
+  onContinue
 }) => {
   const [sendPersonalInfo, setSendPersonalInfo] = React.useState(false);
 
@@ -80,25 +82,26 @@ const SendSupportTokenInfo: React.FunctionComponent<ownProps> = ({
             {I18n.t("contextualHelp.sendPersonalInfo.description")}
           </Markdown>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-start",
-            justifyContent: "space-evenly"
-          }}
-        >
-          <CheckBox
-            onValueChange={() => setSendPersonalInfo(!sendPersonalInfo)}
+        <View style={styles.checkBoxContainer}>
+          <RawCheckBox
+            checked={sendPersonalInfo}
+            onPress={() => setSendPersonalInfo(ov => !ov)}
           />
           <View hspacer={true} />
           <View style={{ flex: 1 }}>
-            <Markdown>{I18n.t("contextualHelp.sendPersonalInfo.cta")}</Markdown>
+            <Label
+              color={"bluegrey"}
+              weight={"Regular"}
+              onPress={() => setSendPersonalInfo(ov => !ov)}
+            >
+              {I18n.t("contextualHelp.sendPersonalInfo.cta")}
+            </Label>
             <Accordion
               title={I18n.t("contextualHelp.sendPersonalInfo.informativeTitle")}
               content={I18n.t(
                 "contextualHelp.sendPersonalInfo.informativeDescription"
               )}
-            ></Accordion>
+            />
           </View>
         </View>
       </Content>
@@ -106,7 +109,7 @@ const SendSupportTokenInfo: React.FunctionComponent<ownProps> = ({
         <FooterWithButtons
           type={"SingleButton"}
           leftButton={continueButtonProps(() => {
-            requestAssistance(BugReporting.reportType.bug, sendPersonalInfo);
+            onContinue(sendPersonalInfo);
             onClose();
           })}
         />

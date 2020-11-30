@@ -25,8 +25,6 @@ type HomeProps = {
   isContentLoaded: boolean | undefined;
   onLinkClicked?: (url: string) => void;
   onRequestAssistance: (reportType: BugReporting.reportType) => void;
-  onBugPressLoggedUser: () => void;
-  isAuthenticated: boolean;
 };
 
 const ContextualHelpHome: React.FunctionComponent<HomeProps> = ({
@@ -34,9 +32,7 @@ const ContextualHelpHome: React.FunctionComponent<HomeProps> = ({
   contextualHelpData,
   isContentLoaded,
   onLinkClicked,
-  onRequestAssistance,
-  onBugPressLoggedUser,
-  isAuthenticated
+  onRequestAssistance
 }) => (
   <>
     <BaseHeader
@@ -72,8 +68,6 @@ const ContextualHelpHome: React.FunctionComponent<HomeProps> = ({
           <>
             <View spacer={true} extralarge={true} />
             <InstabugAssistanceComponent
-              showSendPersonalInfo={isAuthenticated}
-              onBugPressLoggedUser={onBugPressLoggedUser}
               requestAssistance={reportType => onRequestAssistance(reportType)}
             />
           </>

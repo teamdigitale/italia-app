@@ -51,26 +51,6 @@ export type ContextualHelpData = {
 };
 
 /**
-  When the user open an assistance request he can choice if send he's identification data.
-  If the user is not logged the token is not available by default.
-*/
-const requestAssistance = (
-  reportType: BugReporting.reportType,
-  sendToken: boolean,
-  onRequestAssistance: (
-    type: BugReporting.reportType,
-    supportToken: SupportTokenState
-  ) => void,
-  supportToken: SupportTokenState
-) => {
-  if (sendToken) {
-    onRequestAssistance(reportType, supportToken);
-  } else {
-    onRequestAssistance(reportType, remoteUndefined);
-  }
-};
-
-/**
  * A modal to show the contextual help reelated to a screen.
  * The contextual help is characterized by:
  * - a title
@@ -88,6 +68,9 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
   const [showSendPersonalInfo, setShowSendPersonalInfo] = React.useState<
     boolean
   >(false);
+  const [supportType, setSupportType] = React.useState<
+    BugReporting.reportType | undefined
+  >(undefined);
 
   React.useEffect(() => {
     // if the contextual data is empty or is in error -> try to reload
@@ -154,6 +137,24 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
     _ => contentLoaded
   );
 
+  const handleOnRequestAssistance = (reportType: BugReporting.reportType) => {
+    if (props.isAuthenticated) {
+      setShowSendPersonalInfo(true);
+      setSupportType(reportType);
+      return;
+    }
+    props.onRequestAssistance(reportType, props.supportToken);
+  };
+
+  const handleSendSupportTokenInfoContinue = (sendSupportToken: boolean) => {
+    fromNullable(supportType).map(st => {
+      props.onRequestAssistance(
+        st,
+        sendSupportToken ? props.supportToken : remoteUndefined
+      );
+    });
+  };
+
   return (
     <Modal
       visible={props.isVisible}
@@ -168,28 +169,14 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
           <SendSupportTokenInfo
             onClose={onClose}
             onGoBack={() => setShowSendPersonalInfo(false)}
-            requestAssistance={(
-              reportType: BugReporting.reportType,
-              sendToken: boolean
-            ) =>
-              requestAssistance(
-                reportType,
-                sendToken,
-                props.onRequestAssistance,
-                props.supportToken
-              )
-            }
+            onContinue={handleSendSupportTokenInfoContinue}
           />
         ) : (
           <ContextualHelpHome
-            isAuthenticated={props.isAuthenticated}
             onClose={onClose}
             contextualHelpData={contextualHelpData}
             isContentLoaded={isContentLoaded}
-            onBugPressLoggedUser={() => setShowSendPersonalInfo(true)}
-            onRequestAssistance={reportType =>
-              props.onRequestAssistance(reportType, props.supportToken)
-            }
+            onRequestAssistance={handleOnRequestAssistance}
           />
         )}
       </Container>

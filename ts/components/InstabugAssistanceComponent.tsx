@@ -8,8 +8,6 @@ import Markdown from "./ui/Markdown";
 
 type Props = Readonly<{
   requestAssistance: (type: BugReporting.reportType) => void;
-  showSendPersonalInfo: boolean;
-  onBugPressLoggedUser: () => void;
 }>;
 
 /**
@@ -18,9 +16,7 @@ type Props = Readonly<{
  */
 
 const InstabugAssistanceComponent: React.FunctionComponent<Props> = ({
-  requestAssistance,
-  showSendPersonalInfo,
-  onBugPressLoggedUser
+  requestAssistance
 }) => {
   const [hasPreviousChats, setHasPreviousChats] = React.useState<boolean>(
     false
@@ -44,11 +40,7 @@ const InstabugAssistanceComponent: React.FunctionComponent<Props> = ({
       <View spacer={true} />
       <ButtonWithImage
         icon={"io-bug"}
-        onPress={
-          showSendPersonalInfo
-            ? onBugPressLoggedUser
-            : () => requestAssistance(BugReporting.reportType.bug)
-        }
+        onPress={() => requestAssistance(BugReporting.reportType.bug)}
         text={I18n.t("instabug.contextualHelp.buttonBug")}
         disabled={false}
         light={true}
