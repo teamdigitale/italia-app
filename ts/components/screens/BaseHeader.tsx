@@ -3,7 +3,7 @@ import { Millisecond } from "italia-ts-commons/lib/units";
 import { Body, Left, Right, Text, View } from "native-base";
 import { Ref } from "react";
 import * as React from "react";
-import { AccessibilityInfo, StyleSheet } from "react-native";
+import { AccessibilityInfo, ColorValue, StyleSheet } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
 import IconFont from "../../components/ui/IconFont";
@@ -45,6 +45,7 @@ interface OwnProps {
   accessibilityLabel?: string; // rendered only if it is defined and a screen reader is active
   dark?: boolean;
   headerTitle?: string;
+  headerBackgroundColor?: ColorValue;
   goBack?: React.ComponentProps<typeof GoBackButton>["goBack"];
   primary?: boolean;
   appLogo?: boolean;
@@ -155,6 +156,7 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
     const maybeAccessibilityLabel = maybeNotNullyString(accessibilityLabel);
     return (
       <AppHeader
+        backgroundColor={this.props.headerBackgroundColor}
         primary={this.props.primary}
         noShadow={isSearchEnabled}
         dark={dark}

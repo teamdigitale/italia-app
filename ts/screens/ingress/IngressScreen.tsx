@@ -4,7 +4,7 @@
 import * as pot from "italia-ts-commons/lib/pot";
 import { Body, Container, List, ListItem, Spinner, Text } from "native-base";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import ConnectionBar from "../../components/ConnectionBar";
 import I18n from "../../i18n";
@@ -17,6 +17,7 @@ import {
 import { profileSelector } from "../../store/reducers/profile";
 import { GlobalState } from "../../store/reducers/types";
 import variables from "../../theme/variables";
+import BaseScreenComponent from "../../components/screens/BaseScreenComponent";
 import { IngressCheckBox } from "./CheckBox";
 
 type Props = ReduxProps & ReturnType<typeof mapStateToProps>;
@@ -51,25 +52,27 @@ class IngressScreen extends React.PureComponent<Props> {
       }
     ];
     return (
-      <Container style={styles.container}>
-        <ConnectionBar />
-        <Text white={true} alignCenter={true}>
-          {I18n.t("startup.title")}
-        </Text>
-        <Spinner color="white" />
-        <List withContentLateralPadding={true}>
-          {items.map((item, index) => (
-            <ListItem key={`item-${index}`}>
-              <IngressCheckBox checked={item.enabled} />
-              <Body>
-                <Text white={true} bold={item.enabled}>
-                  {item.label}
-                </Text>
-              </Body>
-            </ListItem>
-          ))}
-        </List>
-      </Container>
+      <BaseScreenComponent primary={true} headerBackgroundColor={"green"}>
+        <Container style={styles.container}>
+          <ConnectionBar />
+          <Text white={true} alignCenter={true}>
+            {I18n.t("startup.title")}
+          </Text>
+          <Spinner color="white" />
+          <List withContentLateralPadding={true}>
+            {items.map((item, index) => (
+              <ListItem key={`item-${index}`}>
+                <IngressCheckBox checked={item.enabled} />
+                <Body>
+                  <Text white={true} bold={item.enabled}>
+                    {item.label}
+                  </Text>
+                </Body>
+              </ListItem>
+            ))}
+          </List>
+        </Container>
+      </BaseScreenComponent>
     );
   }
 }
