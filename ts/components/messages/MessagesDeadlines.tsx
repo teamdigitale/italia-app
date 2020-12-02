@@ -61,7 +61,7 @@ type OwnProps = {
 
 type Props = Pick<
   ComponentProps<typeof MessageAgenda>,
-  "servicesById" | "paymentsByRptId"
+  "servicesById" | "paymentsByRptId" | "animated"
 > &
   OwnProps &
   InjectedWithItemsSelectionProps;
@@ -589,7 +589,8 @@ class MessagesDeadlines extends React.PureComponent<Props, State> {
       servicesById,
       paymentsByRptId,
       selectedItemIds,
-      resetSelection
+      resetSelection,
+      animated
     } = this.props;
     const {
       allMessageIdsState,
@@ -619,6 +620,7 @@ class MessagesDeadlines extends React.PureComponent<Props, State> {
             isContinuosScrollEnabled={isContinuosScrollEnabled}
             lastDeadlineId={lastDeadlineId}
             nextDeadlineId={nextDeadlineId}
+            animated={animated}
           />
         </View>
         <ListSelectionBar

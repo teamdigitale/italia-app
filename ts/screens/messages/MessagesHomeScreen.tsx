@@ -245,6 +245,16 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
             paymentsByRptId={paymentsByRptId}
             setMessagesArchivedState={updateMessagesArchivedState}
             navigateToMessageDetail={navigateToMessageDetail}
+            animated={{
+              onScroll: Animated.event([
+                {
+                  nativeEvent: {
+                    contentOffset: { y: this.animatedTabScrollPositions[1] }
+                  }
+                }
+              ]),
+              scrollEventThrottle: 8
+            }}
           />
         </Tab>
 

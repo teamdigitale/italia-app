@@ -37,7 +37,7 @@ type ItemLayout = {
   index: number;
 };
 
-type AnimatedProps = {
+export type AnimatedProps = {
   animated?: {
     onScroll: (_: NativeSyntheticEvent<NativeScrollEvent>) => void;
     scrollEventThrottle?: number;
