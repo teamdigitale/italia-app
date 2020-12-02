@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import I18n from "../../../../../i18n";
 import { Dispatch } from "../../../../../store/actions/types";
 import { GlobalState } from "../../../../../store/reducers/types";
-import { emptyContextualHelp } from "../../../../../utils/emptyContextualHelp";
 import { actionWithAlert } from "../../../bonusVacanze/components/alert/ActionWithAlert";
 import { availableBonusTypesSelectorFromId } from "../../../bonusVacanze/store/reducers/availableBonusesTypes";
 import { ID_BPD_TYPE } from "../../../bonusVacanze/utils/bonus";
@@ -42,7 +41,6 @@ const BpdInformationScreen: React.FunctionComponent<Props> = (props: Props) => {
           bonus={props.bonus}
           onConfirm={onConfirm}
           onCancel={props.onCancel}
-          contextualHelp={emptyContextualHelp}
         />
       ) : null}
     </>

@@ -29,7 +29,7 @@ const chooseRenderScreen = (props: Props) => {
   } else if (isReady(ibanStatus)) {
     switch (ibanStatus.value) {
       case IbanStatus.NOT_OWNED:
-        return <IbanKoNotOwned contextualHelp={emptyContextualHelp} />;
+        return <IbanKoNotOwned />;
       case IbanStatus.NOT_VALID:
         return <IbanKOWrong contextualHelp={emptyContextualHelp} />;
       case IbanStatus.OK:

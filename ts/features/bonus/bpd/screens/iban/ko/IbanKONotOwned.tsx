@@ -20,11 +20,11 @@ import {
   bpdIbanInsertionCancel,
   bpdIbanInsertionResetScreen
 } from "../../../store/actions/iban";
+import { emptyContextualHelp } from "../../../../../../utils/emptyContextualHelp";
 import IbanKoBody from "./IbanKoBody";
 
 export type Props = ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps> &
-  Pick<React.ComponentProps<typeof BaseScreenComponent>, "contextualHelp">;
+  ReturnType<typeof mapStateToProps>;
 
 const loadLocales = () => ({
   headerTitle: I18n.t("bonus.bpd.title"),
@@ -78,7 +78,7 @@ const IbanKoNotOwned: React.FunctionComponent<Props> = props => {
     <BaseScreenComponent
       goBack={props.modifyIban}
       headerTitle={headerTitle}
-      contextualHelp={props.contextualHelp}
+      contextualHelp={emptyContextualHelp}
     >
       <SafeAreaView style={IOStyles.flex}>
         <InfoScreenComponent

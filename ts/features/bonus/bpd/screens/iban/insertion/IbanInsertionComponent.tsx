@@ -11,17 +11,15 @@ import BaseScreenComponent from "../../../../../../components/screens/BaseScreen
 import I18n from "../../../../../../i18n";
 import { FooterTwoButtons } from "../../../../bonusVacanze/components/markdown/FooterTwoButtons";
 import { withKeyboard } from "../../../../../../utils/keyboard";
+import { emptyContextualHelp } from "../../../../../../utils/emptyContextualHelp";
 
-type OwnProps = {
+type Props = {
   onBack: () => void;
   onIbanConfirm: (iban: Iban) => void;
   onContinue: () => void;
   startIban?: string;
   cancelText: string;
 };
-
-type Props = OwnProps &
-  Pick<React.ComponentProps<typeof BaseScreenComponent>, "contextualHelp">;
 
 // https://en.wikipedia.org/wiki/International_Bank_Account_Number
 // Italian Iban max length: 27 (sample: IT60X0542811101000000123456)
@@ -45,7 +43,7 @@ export const IbanInsertionComponent: React.FunctionComponent<Props> = props => {
     <BaseScreenComponent
       goBack={props.onBack}
       headerTitle={headerTitle}
-      contextualHelp={props.contextualHelp}
+      contextualHelp={emptyContextualHelp}
     >
       <SafeAreaView style={IOStyles.flex}>
         <View style={[IOStyles.horizontalContentPadding, IOStyles.flex]}>

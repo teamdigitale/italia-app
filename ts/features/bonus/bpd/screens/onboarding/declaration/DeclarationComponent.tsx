@@ -12,15 +12,14 @@ import BaseScreenComponent from "../../../../../../components/screens/BaseScreen
 import I18n from "../../../../../../i18n";
 import { openWebUrl } from "../../../../../../utils/url";
 import { FooterTwoButtons } from "../../../../bonusVacanze/components/markdown/FooterTwoButtons";
+import { emptyContextualHelp } from "../../../../../../utils/emptyContextualHelp";
 import { DeclarationEntry } from "./DeclarationEntry";
 
-type OwnProps = {
+type Props = {
   onCancel: () => void;
   onConfirm: () => void;
 };
 
-type Props = OwnProps &
-  Pick<React.ComponentProps<typeof BaseScreenComponent>, "contextualHelp">;
 type NormalBold = {
   normal: string;
   bold: string;
@@ -121,7 +120,7 @@ export const DeclarationComponent: React.FunctionComponent<Props> = props => {
     <BaseScreenComponent
       goBack={props.onCancel}
       headerTitle={title}
-      contextualHelp={props.contextualHelp}
+      contextualHelp={emptyContextualHelp}
     >
       <SafeAreaView style={IOStyles.flex}>
         <ScrollView>

@@ -24,6 +24,7 @@ import { maybeNotNullyString } from "../../../../utils/strings";
 import ButtonDefaultOpacity from "../../../../components/ButtonDefaultOpacity";
 import TosBonusComponent from "../../bonusVacanze/components/TosBonusComponent";
 import TouchableDefaultOpacity from "../../../../components/TouchableDefaultOpacity";
+import { emptyContextualHelp } from "../../../../utils/emptyContextualHelp";
 
 type OwnProps = {
   bonus: BonusAvailable;
@@ -36,7 +37,7 @@ type Props = OwnProps &
   LightModalContextInterface &
   Pick<
     ComponentProps<typeof BaseScreenComponent>,
-    "contextualHelp" | "contextualHelpMarkdown" | "faqCategories"
+    "contextualHelpMarkdown" | "faqCategories"
   >;
 
 const CSS_STYLE = `
@@ -215,7 +216,7 @@ const BonusInformationComponent: React.FunctionComponent<Props> = props => {
       goBack={true}
       headerTitle={bonusTypeLocalizedContent.name}
       contextualHelpMarkdown={props.contextualHelpMarkdown}
-      contextualHelp={props.contextualHelp}
+      contextualHelp={emptyContextualHelp}
       faqCategories={props.faqCategories}
     >
       <SafeAreaView style={IOStyles.flex}>

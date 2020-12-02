@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { emptyContextualHelp } from "../../../../../../utils/emptyContextualHelp";
 import {
   bpdOnboardingAcceptDeclaration,
   bpdOnboardingCancel
@@ -18,7 +17,6 @@ const DeclarationScreen: React.FunctionComponent<Props> = props => (
   <DeclarationComponent
     onCancel={props.onCancel}
     onConfirm={props.userAcceptDeclaration}
-    contextualHelp={emptyContextualHelp}
   />
 );
 
