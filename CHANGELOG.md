@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0-rc.1](https://github.com/pagopa/io-app/compare/1.11.0-rc.0...1.11.0-rc.1) (2020-12-03)
+
+
+### Features
+
+* [[#175375298](https://www.pivotaltracker.com/story/show/175375298)] Add choice to send support token on Instabug reporting ([#2461](https://github.com/pagopa/io-app/issues/2461)) ([dce7980](https://github.com/pagopa/io-app/commit/dce7980f7bf5b8b2a8c9aa9fba08b8f8e5a40325))
+* **Bonus pagamenti digitali:** [[#175975866](https://www.pivotaltracker.com/story/show/175975866)] BPD copy updates ([#2482](https://github.com/pagopa/io-app/issues/2482)) ([8a0a2d8](https://github.com/pagopa/io-app/commit/8a0a2d8c85a198a60e32be49cefb8e0acecda3ec))
+* **Bonus Pagamenti Digitali:** [[#175044647](https://www.pivotaltracker.com/story/show/175044647),[#175044584](https://www.pivotaltracker.com/story/show/175044584),[#175044536](https://www.pivotaltracker.com/story/show/175044536),[#175311259](https://www.pivotaltracker.com/story/show/175311259)] Add Contextual help to cashback screens ([#2473](https://github.com/pagopa/io-app/issues/2473)) ([cc05a59](https://github.com/pagopa/io-app/commit/cc05a597585e0bc5750512f1525d684e2c6b5b0e))
+* **Bonus Pagamenti Digitali:** [[#175164698](https://www.pivotaltracker.com/story/show/175164698)] Display bancomat bottomsheet after adding a new bancomat ([#2466](https://github.com/pagopa/io-app/issues/2466)) ([e9fa29d](https://github.com/pagopa/io-app/commit/e9fa29d17a8564f581ebc21e46202314f62ed50f))
+* **Bonus Pagamenti Digitali:** [[#175909052](https://www.pivotaltracker.com/story/show/175909052)] Display only internal payment methods ([#2471](https://github.com/pagopa/io-app/issues/2471)) ([e5eb533](https://github.com/pagopa/io-app/commit/e5eb533701f8d65a547760b31ddde636454192c2)), closes [#175949561](https://www.pivotaltracker.com/story/show/175949561) [#175949561](https://www.pivotaltracker.com/story/show/175949561)
+* **Bonus Pagamenti Digitali:** [[#175931579](https://www.pivotaltracker.com/story/show/175931579)] digital payment is incoming ([#2457](https://github.com/pagopa/io-app/issues/2457)) ([238e3a3](https://github.com/pagopa/io-app/commit/238e3a3ea20ed0614b1fd23bfc7dc49a3e7b3374)), closes [#175931046](https://www.pivotaltracker.com/story/show/175931046)
+* **Bonus Pagamenti Digitali:** [[#175971953](https://www.pivotaltracker.com/story/show/175971953)] No retries and increased timeout for PM requests ([#2484](https://github.com/pagopa/io-app/issues/2484)) ([ffce56d](https://github.com/pagopa/io-app/commit/ffce56d4b6c3b338f2d6e428edbf63f1ad3fc968))
+
+
+### Bug Fixes
+
+* **Bonus Pagamenti Digitali:** [[#175765023](https://www.pivotaltracker.com/story/show/175765023)] Fixes on Add Bancomat Screen ([#2449](https://github.com/pagopa/io-app/issues/2449)) ([0d56ddf](https://github.com/pagopa/io-app/commit/0d56ddf4f456ff97e9cb94109e217f0da6e47868))
+* **Bonus Pagamenti Digitali:** [[#175931000](https://www.pivotaltracker.com/story/show/175931000)] Convert date formatting with i18n ([#2467](https://github.com/pagopa/io-app/issues/2467)) ([724aa8a](https://github.com/pagopa/io-app/commit/724aa8a0def4866fcc6be870336c91980a487483))
+* **Bonus Pagamenti Digitali:** [[#175973388](https://www.pivotaltracker.com/story/show/175973388)] Fixes BPD card spaces ([#2480](https://github.com/pagopa/io-app/issues/2480)) ([10ce988](https://github.com/pagopa/io-app/commit/10ce98888c6d4f947db538f9d73bd24bed2e342c))
+
+
+### Chores
+
+* **Bonus Pagamenti Digitali:** [[#175963022](https://www.pivotaltracker.com/story/show/175963022)] Minor networking improvement ([#2476](https://github.com/pagopa/io-app/issues/2476)) ([12b4333](https://github.com/pagopa/io-app/commit/12b433313cd83ad41d3b7f890aa2110171308cab))
+
 ## [1.11.0-rc.0](https://github.com/pagopa/io-app/compare/1.10.0-rc.5...1.11.0-rc.0) (2020-12-02)
 
 
