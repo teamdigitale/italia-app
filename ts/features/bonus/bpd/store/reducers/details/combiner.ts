@@ -39,7 +39,17 @@ export const bpdAllPeriodsWithAmountSelector = createSelector(
   (potPeriods, amountsIndex) =>
     pot.map(potPeriods, periods =>
       periods.reduce((acc, val) => {
-        const potAmount = readPot(val.awardPeriodId, amountsIndex);
+        // read the pot value from the amounts
+        const readPotAmount = readPot(val.awardPeriodId, amountsIndex);
+        // for the inactive period, the transactionNumber and totalCashback is always zero
+        const potAmount =
+          !pot.isSome(readPotAmount) && val.status === "Inactive"
+            ? pot.some<BpdAmount>({
+                awardPeriodId: val.awardPeriodId,
+                transactionNumber: 0,
+                totalCashback: 0
+              })
+            : readPotAmount;
         if (pot.isSome(potAmount)) {
           return [...acc, { period: val, amount: potAmount.value }];
         }
