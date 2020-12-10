@@ -27,8 +27,8 @@ type PostTestLoginT = IPostApiRequestType<
 >;
 
 const LocalizedMessage = t.interface({
-  "it-IT": t.string,
-  "en-EN": t.string
+  "en-EN": t.string,
+  "it-IT": t.string
 });
 
 const BackendStatusR = t.interface({
@@ -45,11 +45,12 @@ const Levels = t.keyof({
 // SectionStatus represents the status of a single section
 const SectionStatusR = t.interface({
   is_visible: t.boolean,
-  message: LocalizedMessage,
-  level: Levels
+  level: Levels,
+  message: LocalizedMessage
 });
 
 const SectionStatusO = t.partial({
+  badge: LocalizedMessage,
   web_url: LocalizedMessage
 });
 
@@ -60,13 +61,18 @@ export const SectionStatus = t.intersection(
 export type SectionStatus = t.TypeOf<typeof SectionStatus>;
 
 const Sections = t.interface({
-  ingress: SectionStatus,
-  messages: SectionStatus,
-  wallets: SectionStatus,
-  login: SectionStatus,
-  services: SectionStatus,
+  bancomat: SectionStatus,
+  bancomatpay: SectionStatus,
+  cashback: SectionStatus,
+  credit_card: SectionStatus,
+  digital_payments: SectionStatus,
   email_validation: SectionStatus,
-  cashback: SectionStatus
+  ingress: SectionStatus,
+  login: SectionStatus,
+  messages: SectionStatus,
+  satispay: SectionStatus,
+  services: SectionStatus,
+  wallets: SectionStatus
 });
 export type Sections = t.TypeOf<typeof Sections>;
 const BackendStatusO = t.partial({

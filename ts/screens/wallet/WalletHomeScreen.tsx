@@ -52,9 +52,7 @@ import {
 } from "../../store/actions/navigation";
 import { Dispatch } from "../../store/actions/types";
 import {
-  clearTransactions,
   fetchTransactionsLoadComplete,
-  fetchTransactionsRequest,
   fetchTransactionsRequestWithExpBackoff,
   readTransaction
 } from "../../store/actions/wallet/transactions";
@@ -633,12 +631,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(navigateToBonusActiveDetailScreen({ bonus, validFrom, validTo })),
   navigateToBonusList: () => dispatch(navigateToAvailableBonusScreen()),
   navigateBack: (keyFrom?: string) => dispatch(navigateBack({ key: keyFrom })),
-  refreshTransactions: () => {
-    dispatch(clearTransactions());
-    dispatch(fetchTransactionsRequestWithExpBackoff({ start: 0 }));
-  },
   loadTransactions: (start: number) =>
-    dispatch(fetchTransactionsRequest({ start })),
+    dispatch(fetchTransactionsRequestWithExpBackoff({ start })),
   loadWallets: () => dispatch(fetchWalletsRequestWithExpBackoff()),
   dispatchAllTransactionLoaded: (transactions: ReadonlyArray<Transaction>) =>
     dispatch(fetchTransactionsLoadComplete(transactions))

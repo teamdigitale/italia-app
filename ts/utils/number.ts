@@ -26,3 +26,6 @@ export class NumberFromStringType extends t.Type<number, string> {
 }
 
 export const NumberFromString = new NumberFromStringType();
+
+export const roundToThirdDecimal = (value: number) =>
+  isNaN(value) ? 0 : Math.floor(value * 1000) / 1000;

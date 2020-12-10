@@ -3,10 +3,17 @@
  */
 import { View } from "native-base";
 import * as React from "react";
-import { Animated, Dimensions, ScrollView, StyleSheet } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Platform,
+  ScrollView,
+  StyleSheet
+} from "react-native";
 import { fromNullable } from "fp-ts/lib/Option";
 import I18n from "../i18n";
 import variables from "../theme/variables";
+import { roundToThirdDecimal } from "../utils/number";
 
 type Props = {
   cards: ReadonlyArray<JSX.Element>;
@@ -107,9 +114,15 @@ export const HorizontalScroll: React.FunctionComponent<Props> = (
         scrollEventThrottle={props.cards.length}
         pagingEnabled={true}
         onScroll={event => {
-          const currentIndex = Math.floor(
-            event.nativeEvent.contentOffset.x / Dimensions.get("window").width
-          );
+          const currentIndex = Platform.select({
+            ios: Math.floor(
+              event.nativeEvent.contentOffset.x / Dimensions.get("window").width
+            ),
+            default: Math.floor(
+              roundToThirdDecimal(event.nativeEvent.contentOffset.x) /
+                roundToThirdDecimal(Dimensions.get("window").width)
+            )
+          });
           fromNullable(props.onCurrentElement).map(onCurrElement =>
             onCurrElement(currentIndex)
           );

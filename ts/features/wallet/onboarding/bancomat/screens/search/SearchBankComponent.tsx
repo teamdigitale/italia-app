@@ -21,6 +21,7 @@ import {
   confirmButtonProps
 } from "../../../../../bonus/bonusVacanze/components/buttons/ButtonConfigurations";
 import { IOColors } from "../../../../../../components/core/variables/IOColors";
+import SectionStatusComponent from "../../../../../../components/SectionStatusComponent";
 
 type Props = {
   bankList: ReadonlyArray<Abi>;
@@ -132,6 +133,7 @@ export const SearchBankComponent: React.FunctionComponent<Props> = (
           />
         )}
       </Content>
+      <SectionStatusComponent sectionKey={"bancomat"} />
       <FooterWithButtons
         type={"TwoButtonsInlineThird"}
         leftButton={cancelButtonProps(

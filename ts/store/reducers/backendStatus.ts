@@ -29,9 +29,13 @@ export const backendServicesStatusSelector = (
   state: GlobalState
 ): BackendStatusState => state.backendStatus;
 
+export const backendStatusSelector = (
+  state: GlobalState
+): Option<BackendStatus> => state.backendStatus.status;
+
 export const sectionStatusSelector = (sectionStatusKey: SectionStatusKey) =>
-  createSelector(backendServicesStatusSelector, bss =>
-    bss.status
+  createSelector(backendStatusSelector, backendStatus =>
+    backendStatus
       .mapNullable(bs => bs.sections)
       .fold(undefined, s => s[sectionStatusKey])
   );

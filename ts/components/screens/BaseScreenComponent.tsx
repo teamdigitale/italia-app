@@ -17,7 +17,8 @@ import {
   instabugLog,
   TypeLogs,
   openInstabugQuestionReport,
-  openInstabugReplies
+  openInstabugReplies,
+  DefaultReportAttachmentTypeConfiguration
 } from "../../boot/configureInstabug";
 import I18n from "../../i18n";
 import customVariables from "../../theme/variables";
@@ -55,6 +56,7 @@ interface OwnProps {
   appLogo?: boolean;
   isSearchAvailable?: boolean;
   searchType?: SearchType;
+  reportAttachmentTypes?: DefaultReportAttachmentTypeConfiguration;
 }
 
 type Props = OwnProps &
@@ -137,7 +139,7 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
 
         switch (type) {
           case BugReporting.reportType.bug:
-            openInstabugQuestionReport();
+            openInstabugQuestionReport(this.props.reportAttachmentTypes);
             break;
           case BugReporting.reportType.question:
             openInstabugReplies();

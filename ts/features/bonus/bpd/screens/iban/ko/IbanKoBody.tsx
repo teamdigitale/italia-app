@@ -37,7 +37,7 @@ const IbanKoBody: React.FunctionComponent<Props> = props => {
         {props.text1}
       </H4>
       <View spacer={true} small={true} />
-      <Monospace style={styles.text} weight={"SemiBold"}>
+      <Monospace selectable={true} style={styles.text} weight={"Bold"}>
         {iban}
       </Monospace>
       <View spacer={true} small={true} />

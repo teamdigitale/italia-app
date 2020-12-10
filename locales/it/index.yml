@@ -766,7 +766,7 @@ wallet:
     title: Aggiungi PagoBANCOMAT
     description:
       text1: Se vuoi, puoi indicare la banca
-      text2: " su cui hai un carta PagoBANCOMAT attiva. Altrimenti cercheremo tutte le carta associate a te: proseguendo accetti l’"
+      text2: " su cui hai un carta PagoBANCOMAT attiva. Altrimenti cercheremo tutte le carte associate a te: proseguendo accetti l’"
       text3: informativa sul trattamento dei dati personali
     bankName: Denominazione della banca
     noName: Nome non disponibile
@@ -1975,6 +1975,10 @@ bonus:
           body: "Hai aggiunto al Cashback questi metodi di pagamento direttamente dai canali messi a disposizione dalla tua banca o app di pagamenti. Puoi attivare o disattivare la registrazione delle transazioni di questi metodi anche da IO.\n
                  Se vuoi usare alcuni di questi metodi anche per pagare tramite IO, aggiungili al tuo portafoglio!"
           addWallet: "Aggiungi al portafoglio"
+          whyOtherCards:
+            title: "Perché vedo carte che non riconosco?"
+            body: "Non preoccuparti, si tratta delle versioni virtuali delle tue carte che Apple, Google e Samsung utilizzano per proteggere i tuoi acquisti effettuati tramite i loro ‘wallet’. Stiamo lavorando con i soggetti coinvolti nell’iniziativa per migliorare la visualizzazione sull’app IO di questo tipo di carte."
+            cta: "Scopri di più"
         notActivable:
           header: "Non attivabili o non compatibili"
           title: "Metodo non attivabile"

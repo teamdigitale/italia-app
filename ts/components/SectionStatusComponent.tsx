@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   text: { marginLeft: 16, flex: 1 }
 });
 
-const statusColorMap: Record<SectionStatus["level"], string> = {
+export const statusColorMap: Record<SectionStatus["level"], string> = {
   normal: IOColors.aqua,
   critical: IOColors.red,
   warning: IOColors.orange
@@ -48,6 +48,12 @@ const statusIconMap: Record<SectionStatus["level"], string> = {
 const iconSize = 24;
 const color = IOColors.white;
 
+// if not italian, for all other languages english is the default
+export const getSectionMessageLocale = (): "it-IT" | "en-EN" =>
+  getLocalePrimary(I18n.currentLocale()).fold("en-EN", l =>
+    l === "it" ? "it-IT" : "en-EN"
+  );
+
 /**
  * this component shows a full width banner with an icon and text
  * it could be tappable if the web url is defined
@@ -55,7 +61,6 @@ const color = IOColors.white;
  * @param props
  * @constructor
  */
-
 const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   if (props.sectionStatus === undefined) {
     return null;
@@ -65,12 +70,10 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   }
 
   const sectionStatus = props.sectionStatus;
-  // if not italian, for all other languages english is the default
-  const locale = getLocalePrimary(I18n.currentLocale()).fold("en-EN", l =>
-    l === "it" ? "it-IT" : "en-EN"
-  );
+
   const iconName = statusIconMap[sectionStatus.level];
   const backgroundColor = statusColorMap[sectionStatus.level];
+  const locale = getSectionMessageLocale();
   const maybeWebUrl = maybeNotNullyString(
     sectionStatus.web_url && sectionStatus.web_url[locale]
   );

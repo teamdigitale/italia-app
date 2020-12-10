@@ -5,6 +5,8 @@
 import { Badge, ListItem, Text, View } from "native-base";
 import * as React from "react";
 import { Alert, FlatList, ListRenderItemInfo, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { Option } from "fp-ts/lib/Option";
 import { H3 } from "../core/typography/H3";
 import { H5 } from "../core/typography/H5";
 import { IOColors } from "../core/variables/IOColors";
@@ -12,13 +14,22 @@ import { withLightModalContext } from "../helpers/withLightModalContext";
 import IconFont from "../ui/IconFont";
 import { LightModalContextInterface } from "../ui/LightModal";
 import I18n from "../../i18n";
+import { BackendStatus, SectionStatusKey } from "../../api/backendPublic";
+import { GlobalState } from "../../store/reducers/types";
+import { backendStatusSelector } from "../../store/reducers/backendStatus";
+import {
+  getSectionMessageLocale,
+  statusColorMap
+} from "../SectionStatusComponent";
 
 type OwnProps = Readonly<{
   paymentMethods: ReadonlyArray<IPaymentMethod>;
   navigateToAddCreditCard: () => void;
 }>;
 
-type Props = OwnProps & LightModalContextInterface;
+type Props = OwnProps &
+  LightModalContextInterface &
+  ReturnType<typeof mapStateToProps>;
 
 export type IPaymentMethod = Readonly<{
   name: string;
@@ -27,6 +38,7 @@ export type IPaymentMethod = Readonly<{
   icon?: any;
   image?: any;
   status: "implemented" | "incoming" | "notImplemented";
+  section?: SectionStatusKey;
   onPress?: () => void;
 }>;
 
@@ -60,24 +72,77 @@ export const showPaymentMethodIncomingAlert = () =>
     { cancelable: true }
   );
 
+/**
+ * return a status badge displaying the section.badge label
+ * the badge background color is according with the status (normal | warning | critical)
+ * if it is critical status, it returns also an alert function, undefined otherwise
+ * the alert display a title (section.badge) and a message (section.message) with default dismiss button
+ * @param paymentMethod
+ * @param backendStatus
+ */
+const getBadgeStatus = (
+  paymentMethod: IPaymentMethod,
+  backendStatus: Option<BackendStatus>
+): null | { badge: React.ReactNode; alert?: () => void } => {
+  const itemSection = paymentMethod.section;
+  // no section
+  if (itemSection === undefined) {
+    return null;
+  }
+  return backendStatus
+    .mapNullable(bs => bs.sections)
+    .fold(null, sections => {
+      const section = sections[itemSection];
+      // no badge if section is not visible or badge is not defined
+      if (section.is_visible === false || section.badge === undefined) {
+        return null;
+      }
+      const locale = getSectionMessageLocale();
+      const badgeLabel = section.badge[locale];
+      return {
+        badge: (
+          <Badge
+            style={[
+              styles.badgeContainer,
+              { backgroundColor: statusColorMap[section.level] }
+            ]}
+          >
+            <Text style={styles.badgeText} semibold={true}>
+              {badgeLabel}
+            </Text>
+          </Badge>
+        ),
+        alert:
+          section.level === "critical"
+            ? () => Alert.alert(badgeLabel, section.message[locale])
+            : undefined
+      };
+    });
+};
+
 const renderListItem = (
   itemInfo: ListRenderItemInfo<IPaymentMethod>,
-  paymentMethodsLength: number
+  paymentMethodsLength: number,
+  backendStatus: Option<BackendStatus>
 ) => {
   switch (itemInfo.item.status) {
-    case "implemented":
+    case "implemented": {
+      const badgeStatus = getBadgeStatus(itemInfo.item, backendStatus);
       return (
         <ListItem
-          onPress={itemInfo.item.onPress}
+          onPress={badgeStatus?.alert ?? itemInfo.item.onPress}
           style={styles.container}
           first={itemInfo.index === 0}
           last={itemInfo.index === paymentMethodsLength}
         >
           <View style={styles.flexColumn}>
             <View style={styles.row}>
-              <H3 color={"bluegreyDark"} weight={"SemiBold"}>
-                {itemInfo.item.name}
-              </H3>
+              <View>
+                {badgeStatus?.badge}
+                <H3 color={"bluegreyDark"} weight={"SemiBold"}>
+                  {itemInfo.item.name}
+                </H3>
+              </View>
               <IconFont name={"io-right"} color={IOColors.blue} size={24} />
             </View>
             <H5
@@ -90,6 +155,7 @@ const renderListItem = (
           </View>
         </ListItem>
       );
+    }
     case "incoming":
       return (
         <ListItem
@@ -138,11 +204,16 @@ const PaymentMethodsList: React.FunctionComponent<Props> = (props: Props) => (
         renderListItem(
           i,
           props.paymentMethods.filter(pm => pm.status !== "notImplemented")
-            .length - 1
+            .length - 1,
+          props.sectionStatus
         )
       }
     />
   </>
 );
-
-export default withLightModalContext(PaymentMethodsList);
+const mapStateToProps = (state: GlobalState) => ({
+  sectionStatus: backendStatusSelector(state)
+});
+export default connect(mapStateToProps)(
+  withLightModalContext(PaymentMethodsList)
+);

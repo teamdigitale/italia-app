@@ -650,7 +650,7 @@ export function* watchWalletSaga(
   );
 
   yield takeLatest(getType(fetchTransactionsRequestWithExpBackoff), function* (
-    action: ActionType<typeof fetchTransactionsRequest>
+    action: ActionType<typeof fetchTransactionsRequestWithExpBackoff>
   ) {
     const waiting: ReturnType<typeof backOffWaitingTime> = yield select(
       backOffWaitingTime
@@ -658,12 +658,7 @@ export function* watchWalletSaga(
     if (waiting > 0) {
       yield delay(waiting);
     }
-    yield call(
-      fetchTransactionsRequestHandler,
-      paymentManagerClient,
-      pmSessionManager,
-      action
-    );
+    yield put(fetchTransactionsRequest(action.payload));
   });
 
   /**
@@ -702,7 +697,7 @@ export function* watchWalletSaga(
     if (waiting > 0) {
       yield delay(waiting);
     }
-    yield call(getWallets, paymentManagerClient, pmSessionManager);
+    yield put(fetchWalletsRequest());
   });
 
   yield takeLatest(

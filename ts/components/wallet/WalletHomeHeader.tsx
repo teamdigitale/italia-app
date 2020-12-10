@@ -38,20 +38,19 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     paddingLeft: 0,
     marginVertical: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    height: 60,
     backgroundColor: IOColors.white
   },
   flexColumn: {
     flexDirection: "column",
-    justifyContent: "space-between",
     flex: 1
   },
   row: {
     flexDirection: "row",
+    alignItems: "flex-start",
     justifyContent: "space-between"
   },
-  descriptionPadding: { paddingRight: 24 },
+  descriptionPadding: { marginRight: 4 },
 
   badgeContainer: { height: 18, backgroundColor: IOColors.blue },
   badgeText: { fontSize: 12, lineHeight: 18 }
@@ -109,18 +108,16 @@ const WalletHomeHeader: React.FC<Props> = (props: Props) => {
             >
               <View style={styles.flexColumn}>
                 <View style={styles.row}>
-                  <H3 color={"bluegreyDark"} weight={"SemiBold"}>
-                    {item.title}
-                  </H3>
+                  <View style={{ flex: 1 }}>
+                    <H3 color={"bluegreyDark"} weight={"SemiBold"}>
+                      {item.title}
+                    </H3>
+                    <H5 color={"bluegrey"} weight={"Regular"}>
+                      {item.subtitle}
+                    </H5>
+                  </View>
                   <IconFont name={"io-right"} color={IOColors.blue} size={24} />
                 </View>
-                <H5
-                  color={"bluegrey"}
-                  weight={"Regular"}
-                  style={styles.descriptionPadding}
-                >
-                  {item.subtitle}
-                </H5>
               </View>
             </ButtonDefaultOpacity>
 
@@ -131,7 +128,7 @@ const WalletHomeHeader: React.FC<Props> = (props: Props) => {
         )}
       />,
       I18n.t("global.buttons.add"),
-      300,
+      315,
       closeBS
     );
 

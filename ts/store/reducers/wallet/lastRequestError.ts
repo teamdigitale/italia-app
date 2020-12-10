@@ -19,7 +19,7 @@ export type LastRequestErrorState = {
 
 const defaultState: LastRequestErrorState = { attempts: 0 };
 const backOffExpLimitAttempts = 4;
-const backOffBase = 1.6;
+const backOffBase = 2;
 const reducer = (
   state: LastRequestErrorState = defaultState,
   action: Action

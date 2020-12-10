@@ -71,7 +71,30 @@ export const initialiseInstabug = () => {
   setInstabugUserAttribute("appVersion", getAppVersion());
 };
 
-export const openInstabugQuestionReport = () => {
+export const defaultAttachmentTypeConfiguration = {
+  screenshot: true,
+  extraScreenshot: true,
+  galleryImage: true,
+  screenRecording: true
+};
+
+export const attachmentTypeConfigurationNoScreenshot = {
+  ...defaultAttachmentTypeConfiguration,
+  screenshot: false,
+  extraScreenshot: false
+};
+
+export type DefaultReportAttachmentTypeConfiguration = typeof defaultAttachmentTypeConfiguration;
+
+export const openInstabugQuestionReport = (
+  attcahmentTypeConfiguration: DefaultReportAttachmentTypeConfiguration = defaultAttachmentTypeConfiguration
+) => {
+  Instabug.setEnabledAttachmentTypes(
+    attcahmentTypeConfiguration.screenshot,
+    attcahmentTypeConfiguration.extraScreenshot,
+    attcahmentTypeConfiguration.galleryImage,
+    attcahmentTypeConfiguration.screenRecording
+  );
   BugReporting.showWithOptions(BugReporting.reportType.question, [
     BugReporting.option.commentFieldRequired,
     BugReporting.option.emailFieldOptional

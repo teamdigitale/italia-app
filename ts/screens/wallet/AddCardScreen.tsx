@@ -36,6 +36,7 @@ import {
 import { CreditCardDetector, SupportedBrand } from "../../utils/creditCard";
 import { GlobalState } from "../../store/reducers/types";
 import { profileNameSurnameSelector } from "../../store/reducers/profile";
+import { attachmentTypeConfigurationNoScreenshot } from "../../boot/configureInstabug";
 
 type NavigationParams = Readonly<{
   inPayment: Option<{
@@ -212,6 +213,7 @@ class AddCardScreen extends React.Component<Props, State> {
 
     return (
       <BaseScreenComponent
+        reportAttachmentTypes={attachmentTypeConfigurationNoScreenshot}
         goBack={true}
         headerTitle={I18n.t("wallet.addCardTitle")}
         contextualHelpMarkdown={contextualHelpMarkdown}

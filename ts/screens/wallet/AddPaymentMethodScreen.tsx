@@ -50,13 +50,15 @@ const getpaymentMethods = (props: Props): ReadonlyArray<IPaymentMethod> => [
     name: I18n.t("wallet.methods.card.name"),
     description: I18n.t("wallet.methods.card.description"),
     onPress: props.navigateToAddCreditCard,
-    status: "implemented"
+    status: "implemented",
+    section: "credit_card"
   },
   {
     name: I18n.t("wallet.methods.postepay.name"),
     description: I18n.t("wallet.methods.postepay.description"),
     onPress: props.navigateToAddCreditCard,
-    status: "implemented"
+    status: "implemented",
+    section: "credit_card"
   },
   {
     name: I18n.t("wallet.methods.pagobancomat.name"),
@@ -65,7 +67,8 @@ const getpaymentMethods = (props: Props): ReadonlyArray<IPaymentMethod> => [
     status:
       bpdEnabled && props.navigation.getParam("inPayment").isNone()
         ? "implemented"
-        : "notImplemented"
+        : "notImplemented",
+    section: "bancomat"
   },
   {
     name: I18n.t("wallet.methods.digital.name"),
@@ -73,7 +76,8 @@ const getpaymentMethods = (props: Props): ReadonlyArray<IPaymentMethod> => [
     onPress: props.navigateToWalletAddDigitalPaymentMethod,
     status: props.navigation.getParam("inPayment").isNone()
       ? "incoming"
-      : "notImplemented"
+      : "notImplemented",
+    section: "digital_payments"
   },
   {
     name: I18n.t("wallet.methods.bonus.name"),
