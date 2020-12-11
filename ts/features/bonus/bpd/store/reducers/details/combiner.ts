@@ -6,6 +6,7 @@ import { IndexedById } from "../../../../../../store/helpers/indexer";
 import { readPot } from "../../../../../../store/reducers/IndexedByIdPot";
 import { paymentMethodsSelector } from "../../../../../../store/reducers/wallet/wallets";
 import { PaymentMethod } from "../../../../../../types/pagopa";
+import { getPaymentMethodHash } from "../../../../../../utils/paymentMethod";
 import { FOUR_UNICODE_CIRCLES } from "../../../../../../utils/wallet";
 import { EnhancedBpdTransaction } from "../../../components/transactionItem/BpdTransactionItem";
 import { isReady, RemoteValue } from "../../../model/RemoteValue";
@@ -13,7 +14,6 @@ import { BpdAmount } from "../../actions/amount";
 import { BpdPaymentMethodActivation } from "../../actions/paymentMethods";
 import { BpdPeriod } from "../../actions/periods";
 import { BpdTransaction } from "../../actions/transactions";
-import { getPaymentMethodHash } from "../../../../../../utils/paymentMethod";
 import { bpdEnabledSelector } from "./activation";
 import { bpdAllAmountSelector } from "./amounts";
 import { bpdPaymentMethodActivationSelector } from "./paymentMethods";
@@ -27,23 +27,6 @@ import { bpdTransactionsForSelectedPeriod } from "./transactions";
 export type BpdPeriodAmount = {
   period: BpdPeriod;
   amount: BpdAmount;
-};
-
-const potOrder = (
-  potVal: pot.Pot<unknown, unknown>,
-  potCompare: pot.Pot<unknown, unknown>
-) => {
-  if (pot.isNone(potCompare)) {
-    return pot.none;
-  }
-  if (pot.isError(potCompare)) {
-    return pot.toError(potVal, potCompare.error);
-  }
-  if (pot.isLoading(potCompare)) {
-    return pot.toLoading(potCompare);
-  }
-
-  return potVal;
 };
 
 /**
@@ -75,8 +58,14 @@ const extendReturnPot = (
   if (pot.getOrElse(isAnyPotKind(potVal, amountsIndex, pot.isNone), true)) {
     return pot.none;
   }
+  if (pot.getOrElse(isAnyPotKind(potVal, amountsIndex, pot.isError), false)) {
+    return pot.toError(potVal, new Error("Error while loading a period"));
+  }
+  if (pot.getOrElse(isAnyPotKind(potVal, amountsIndex, pot.isLoading), false)) {
+    return pot.toLoading(potVal);
+  }
 
-  return undefined;
+  return potVal;
 };
 
 /**
@@ -109,17 +98,8 @@ export const bpdAllPeriodsWithAmountSelector = createSelector(
         return acc;
       }, [] as ReadonlyArray<BpdPeriodAmount>)
     );
-    // wait to dispatch the partial data, until all the period !== Inactive are loaded
-    const anyAmountNone = pot.getOrElse(
-      pot.map(potPeriods, periods =>
-        periods
-          .filter(p => p.status !== "Inactive")
-          .some(p => pot.isNone(readPot(p.awardPeriodId, amountsIndex)))
-      ),
-      true
-    );
-    console.log("asd" + anyAmountNone);
-    return anyAmountNone ? pot.none : potPeriodsAmount;
+
+    return extendReturnPot(potPeriodsAmount, amountsIndex);
   }
 );
 
