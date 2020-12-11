@@ -1,16 +1,16 @@
 import * as pot from "italia-ts-commons/lib/pot";
-import { remoteReady } from "../../../model/RemoteValue";
-import { AwardPeriodId } from "../../actions/periods";
-import { eligibleAmount, zeroAmount } from "../__mock__/amount";
+import { remoteReady } from "../../../../model/RemoteValue";
+import { AwardPeriodId } from "../../../actions/periods";
+import { eligibleAmount, zeroAmount } from "../../__mock__/amount";
 import {
   activePeriod,
   closedPeriod,
   inactivePeriod
-} from "../__mock__/periods";
+} from "../../__mock__/periods";
 import {
   BpdPeriodAmount,
   bpdPeriodsAmountWalletVisibleSelector
-} from "../details/combiner";
+} from "../../details/combiner";
 
 const inactivePeriodA: BpdPeriodAmount = {
   amount: zeroAmount,

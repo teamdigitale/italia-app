@@ -2,6 +2,7 @@ import { fromNullable, none, Option } from "fp-ts/lib/Option";
 import * as pot from "italia-ts-commons/lib/pot";
 import { createSelector } from "reselect";
 import { cardIcons } from "../../../../../../components/wallet/card/Logo";
+import { IndexedById } from "../../../../../../store/helpers/indexer";
 import { readPot } from "../../../../../../store/reducers/IndexedByIdPot";
 import { paymentMethodsSelector } from "../../../../../../store/reducers/wallet/wallets";
 import { PaymentMethod } from "../../../../../../types/pagopa";
@@ -28,16 +29,68 @@ export type BpdPeriodAmount = {
   amount: BpdAmount;
 };
 
+const potOrder = (
+  potVal: pot.Pot<unknown, unknown>,
+  potCompare: pot.Pot<unknown, unknown>
+) => {
+  if (pot.isNone(potCompare)) {
+    return pot.none;
+  }
+  if (pot.isError(potCompare)) {
+    return pot.toError(potVal, potCompare.error);
+  }
+  if (pot.isLoading(potCompare)) {
+    return pot.toLoading(potCompare);
+  }
+
+  return potVal;
+};
+
+/**
+ * Verify if there is at least one pot of a specific kind
+ * @param potVal
+ * @param amountsIndex
+ * @param kind
+ */
+const isAnyPotKind = (
+  potVal: pot.Pot<ReadonlyArray<BpdPeriodAmount>, Error>,
+  amountsIndex: IndexedById<pot.Pot<BpdAmount, Error>>,
+  kind: (p: pot.Pot<unknown, unknown>) => boolean
+): pot.Pot<boolean, Error> =>
+  pot.map(potVal, periods =>
+    periods
+      .filter(p => p.period.status !== "Inactive")
+      .some(p => kind(readPot(p.period.awardPeriodId, amountsIndex)))
+  );
+
+/**
+ * Use the state of individual pots in order to calculate the state of the returned pot
+ * @param potVal
+ * @param amountsIndex
+ */
+const extendReturnPot = (
+  potVal: pot.Pot<ReadonlyArray<BpdPeriodAmount>, Error>,
+  amountsIndex: IndexedById<pot.Pot<BpdAmount, Error>>
+) => {
+  if (pot.getOrElse(isAnyPotKind(potVal, amountsIndex, pot.isNone), true)) {
+    return pot.none;
+  }
+
+  return undefined;
+};
+
 /**
  * Combine period with the related amount.
  * The pot state is periods driven and the entry BpdPeriodAmount is skipped if the amount
  * for a specific period is !== pot.Some
+ * TODO: could be an idea simplify this selector and move this logic in the saga,
+ * in order to collect the needed data and create the aggregated model
  * @return {pot.Pot<ReadonlyArray<BpdPeriodAmount>, Error>}
  */
 export const bpdAllPeriodsWithAmountSelector = createSelector(
   [bpdPeriodsSelector, bpdAllAmountSelector],
-  (potPeriods, amountsIndex) =>
-    pot.map(potPeriods, periods =>
+  (potPeriods, amountsIndex) => {
+    const potPeriodsAmount = pot.map(potPeriods, periods =>
       periods.reduce((acc, val) => {
         // read the pot value from the amounts
         const readPotAmount = readPot(val.awardPeriodId, amountsIndex);
@@ -55,7 +108,19 @@ export const bpdAllPeriodsWithAmountSelector = createSelector(
         }
         return acc;
       }, [] as ReadonlyArray<BpdPeriodAmount>)
-    )
+    );
+    // wait to dispatch the partial data, until all the period !== Inactive are loaded
+    const anyAmountNone = pot.getOrElse(
+      pot.map(potPeriods, periods =>
+        periods
+          .filter(p => p.status !== "Inactive")
+          .some(p => pot.isNone(readPot(p.awardPeriodId, amountsIndex)))
+      ),
+      true
+    );
+    console.log("asd" + anyAmountNone);
+    return anyAmountNone ? pot.none : potPeriodsAmount;
+  }
 );
 
 /**
