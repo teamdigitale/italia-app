@@ -34,10 +34,12 @@ type OwnProps = Readonly<{
   isVisible: boolean;
   onLinkClicked?: (url: string) => void;
   modalAnimation?: ModalBaseProps["animationType"];
+  reportScreenshot?: boolean;
   close: () => void;
   onRequestAssistance: (
     type: BugReporting.reportType,
-    supportToken: SupportTokenState
+    supportToken: SupportTokenState,
+    includeScreenShot: boolean
   ) => void;
   faqCategories?: ReadonlyArray<FAQsCategoriesType>;
 }>;
@@ -154,7 +156,7 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
       setSupportType(reportType);
       return;
     }
-    props.onRequestAssistance(reportType, props.supportToken);
+    props.onRequestAssistance(reportType, props.supportToken, true);
   };
 
   /**
@@ -168,7 +170,8 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
     fromNullable(supportType).map(st => {
       props.onRequestAssistance(
         st,
-        options.sendPersonalInfo ? props.supportToken : remoteUndefined
+        options.sendPersonalInfo ? props.supportToken : remoteUndefined,
+        options.sendScreenshot !== false // include as default
       );
     });
   };
@@ -185,6 +188,7 @@ const ContextualHelpModal: React.FunctionComponent<Props> = (props: Props) => {
       <Container>
         {showSendPersonalInfo ? (
           <SendSupportRequestOptions
+            initialScreenshotCheckboxValue={props.reportScreenshot}
             onClose={onClose}
             onGoBack={() => setShowSendPersonalInfo(false)}
             onContinue={handleContinue}

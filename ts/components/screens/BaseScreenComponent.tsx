@@ -18,7 +18,9 @@ import {
   TypeLogs,
   openInstabugQuestionReport,
   openInstabugReplies,
-  DefaultReportAttachmentTypeConfiguration
+  DefaultReportAttachmentTypeConfiguration,
+  defaultAttachmentTypeConfiguration,
+  attachmentTypeConfigurationNoScreenshot
 } from "../../boot/configureInstabug";
 import I18n from "../../i18n";
 import customVariables from "../../theme/variables";
@@ -56,6 +58,7 @@ interface OwnProps {
   appLogo?: boolean;
   isSearchAvailable?: boolean;
   searchType?: SearchType;
+  reportScreenshot?: boolean;
   reportAttachmentTypes?: DefaultReportAttachmentTypeConfiguration;
 }
 
@@ -66,6 +69,7 @@ type Props = OwnProps &
 interface State {
   isHelpVisible: boolean;
   requestReport: Option<BugReporting.reportType>;
+  includeScreenshots: boolean;
   supportToken?: SupportTokenState;
   markdownContentLoaded: Option<boolean>;
   contextualHelpModalAnimation: ModalBaseProps["animationType"];
@@ -84,6 +88,7 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
       contextualHelpModalAnimation: "slide",
       isHelpVisible: false,
       requestReport: none,
+      includeScreenshots: true,
       // if the content is markdown we listen for load end event, otherwise the content is
       // assumed always loaded
       markdownContentLoaded: fromNullable(
@@ -94,7 +99,8 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
 
   private handleOnRequestAssistance = (
     type: BugReporting.reportType,
-    supportToken: SupportTokenState
+    supportToken: SupportTokenState,
+    includeScreenshots: boolean
   ) => {
     // don't close modal if the report isn't a bug (bug brings a screenshot)
     if (type !== BugReporting.reportType.bug) {
@@ -112,17 +118,20 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
     });
     this.setState({ contextualHelpModalAnimation }, () => {
       this.setState({ isHelpVisible: false }, () => {
-        this.setState({ requestReport: some(type), supportToken }, () => {
-          // since in Android we have no way to handle Modal onDismiss event https://reactnative.dev/docs/modal#ondismiss
-          // we force handling here. The timeout is due to wait until the modal is completely hidden
-          // otherwise in the Instabug screeshoot we will see the contextual help content instead the screen below
-          // TODO: To complete the porting to 0.63.x, both iOS and Android will use the timeout. https://www.pivotaltracker.com/story/show/174195300
-          setTimeout(
-            this.handleOnContextualHelpDismissed,
-            ANDROID_OPEN_REPORT_DELAY
-          );
-          this.setState({ contextualHelpModalAnimation: "slide" });
-        });
+        this.setState(
+          { requestReport: some(type), supportToken, includeScreenshots },
+          () => {
+            // since in Android we have no way to handle Modal onDismiss event https://reactnative.dev/docs/modal#ondismiss
+            // we force handling here. The timeout is due to wait until the modal is completely hidden
+            // otherwise in the Instabug screeshoot we will see the contextual help content instead the screen below
+            // TODO: To complete the porting to 0.63.x, both iOS and Android will use the timeout. https://www.pivotaltracker.com/story/show/174195300
+            setTimeout(
+              this.handleOnContextualHelpDismissed,
+              ANDROID_OPEN_REPORT_DELAY
+            );
+            this.setState({ contextualHelpModalAnimation: "slide" });
+          }
+        );
       });
     });
   };
@@ -139,7 +148,11 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
 
         switch (type) {
           case BugReporting.reportType.bug:
-            openInstabugQuestionReport(this.props.reportAttachmentTypes);
+            openInstabugQuestionReport(
+              this.props.reportAttachmentTypes ?? this.state.includeScreenshots
+                ? defaultAttachmentTypeConfiguration
+                : attachmentTypeConfigurationNoScreenshot
+            );
             break;
           case BugReporting.reportType.question:
             openInstabugReplies();
@@ -259,6 +272,7 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
         {children}
         {ch && (
           <ContextualHelpModal
+            reportScreenshot={this.props.reportScreenshot}
             title={ch.title}
             onLinkClicked={this.handleOnLinkClicked}
             body={ch.body}
