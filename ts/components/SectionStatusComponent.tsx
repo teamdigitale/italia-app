@@ -10,6 +10,7 @@ import { maybeNotNullyString } from "../utils/strings";
 import { openWebUrl } from "../utils/url";
 import { getLocalePrimary } from "../utils/locale";
 import { SectionStatus, SectionStatusKey } from "../types/backendStatus";
+import * as BpdTransactionsScreen from "../features/bonus/bpd/screens/details/transaction/BpdTransactionsScreen";
 import { IOColors } from "./core/variables/IOColors";
 import IconFont from "./ui/IconFont";
 import { Label } from "./core/typography/Label";
@@ -82,6 +83,7 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
       onPress={() => maybeWebUrl.map(openWebUrl)}
       testID={"SectionStatusComponentTouchable"}
     >
+      <BpdTransactionsScreen />
       <View style={[styles.container, { backgroundColor }]}>
         <IconFont
           testID={"SectionStatusComponentIcon"}

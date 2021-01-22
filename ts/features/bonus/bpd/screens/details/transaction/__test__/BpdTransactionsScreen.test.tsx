@@ -4,13 +4,13 @@ import * as pot from "italia-ts-commons/lib/pot";
 import configureMockStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { Store } from "redux";
-import * as BpdTransactionsScreen from "../BpdTransactionsScreen";
+import BpdTransactionsScreen from "../BpdTransactionsScreen";
 import * as transactionsReducer from "../../../../store/reducers/details/combiner";
 import * as lastUpdateReducer from "../../../../store/reducers/details/lastUpdate";
 import { EnhancedBpdTransaction } from "../../../../components/transactionItem/BpdTransactionItem";
 import * as LoadTransactions from "../LoadTransactions";
 import * as TransactionsUnavailable from "../TransactionsUnavailable";
-import * as BpdAvailableTransactionsScreen from "../BpdAvailableTransactionsScreen";
+import { remoteReady } from "../../../../model/RemoteValue";
 
 jest.mock("react-navigation", () => ({
   NavigationEvents: "mockNavigationEvents",
@@ -39,12 +39,18 @@ describe("BpdTransactionsScreen", () => {
     store = mockStore({
       bonus: { bpd: { details: { lastUpdate: pot.none } } },
       wallet: {
-        wallets: { walletById: pot.some({} as EnhancedBpdTransaction) }
+        wallets: { walletById: pot.some({} as EnhancedBpdTransaction) },
+        abi: remoteReady([])
       },
+      content: { contextualHelp: pot.none },
       search: { isSearchEnabled: false },
       persistedPreferences: { isPagoPATestEnabled: false },
       network: { isConnected: true },
-      instabug: { unreadMessages: 0 }
+      instabug: { unreadMessages: 0 },
+      authentication: {
+        kind: "LoggedOutWithoutIdp",
+        reason: "NOT_LOGGED_IN"
+      }
     });
   });
 
@@ -72,15 +78,12 @@ describe("BpdTransactionsScreen", () => {
   it.each`
     bpdDisplayTransactions
     ${pot.noneLoading}
-    ${pot.noneUpdating({})}
-    ${pot.someLoading({})}
-    ${pot.someUpdating({}, {})}
+    ${pot.noneUpdating([])}
+    ${pot.someLoading([])}
+    ${pot.someUpdating([], [])}
   `(
     "should show loading screen if $bpdDisplayTransactions is pot.loading or pot.updating and bpdLastUpdate is pot.Some",
     ({ bpdDisplayTransactions }) => {
-      jest
-        .spyOn(lastUpdateReducer, "bpdLastUpdateSelector")
-        .mockReturnValue(pot.some({} as Date));
       jest
         .spyOn(transactionsReducer, "bpdDisplayTransactionsSelector")
         .mockReturnValue(bpdDisplayTransactions);
@@ -137,22 +140,22 @@ describe("BpdTransactionsScreen", () => {
   it.each`
     bpdDisplayTransactions
     ${pot.none}
-    ${pot.some({})}
+    ${pot.some([])}
   `(
     "should show unavailable screen if $bpdDisplayTransactions is pot.Error and bpdLastUpdateSelector is pot.Some",
     ({ bpdDisplayTransactions }) => {
+      jest.useFakeTimers();
       jest
         .spyOn(lastUpdateReducer, "bpdLastUpdateSelector")
-        .mockReturnValue(pot.some({} as Date));
+        .mockReturnValue(pot.some(new Date()));
       jest
         .spyOn(transactionsReducer, "bpdDisplayTransactionsSelector")
         .mockReturnValue(bpdDisplayTransactions);
 
-      const myspy = jest.spyOn(BpdAvailableTransactionsScreen, "default");
-
-      getComponent(store);
-
-      expect(myspy).toHaveBeenCalled();
+      const component = getComponent(store);
+      expect(
+        component.getByTestId("BpdAvailableTransactionsScreen")
+      ).toBeDefined();
     }
   );
 });
@@ -160,6 +163,6 @@ describe("BpdTransactionsScreen", () => {
 const getComponent = (store: Store<unknown>) =>
   render(
     <Provider store={store}>
-      <BpdTransactionsScreen.default />
+      <BpdTransactionsScreen />
     </Provider>
   );
