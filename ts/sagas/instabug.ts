@@ -1,5 +1,4 @@
 import { BugReporting, dismissType, Replies } from "instabug-reactnative";
-import { EventChannel, eventChannel } from "redux-saga";
 import {
   call,
   Effect,
@@ -8,7 +7,7 @@ import {
   select,
   takeLatest
 } from "redux-saga/effects";
-import { InstabugDismiss, instabugReportClosed } from "../store/actions/debug";
+import { instabugReportClosed } from "../store/actions/debug";
 import {
   instabugUnreadMessagesLoaded,
   updateInstabugUnreadMessages
@@ -30,36 +29,23 @@ const onNewReplyReceived = () =>
     });
   });
 
-function initializeInstabugSDKDismissalListener(): EventChannel<unknown> {
-  // Register to the instabug dismiss event.
-  // (https://docs.instabug.com/docs/react-native-bug-reporting-event-handlers#section-after-dismissing-instabug)
-  // This event is fired when chat or bug screen is dismissed
-
-  return eventChannel(emitter => {
-    BugReporting.onSDKDismissedHandler((how: dismissType): void =>
-      emitter({ how })
-    );
-
-    return () => null;
-  });
-}
-
-function* instabugSDKDismissalWorker(payload: InstabugDismiss) {
-  const type = yield select(instabugReportingTypeSelector);
-
-  yield put(instabugReportClosed({ type, how: payload.how }));
-  // when user dismisses instabug report (chat or bug) we update the unread messages counter.
-  // This is because user could have read or reply to some messages
-  yield put(updateInstabugUnreadMessages());
+function* watchIBSDKdismiss() {
+  const onDismissPromise = () =>
+    new Promise<dismissType>(resolve => {
+      BugReporting.onSDKDismissedHandler((how: dismissType): void =>
+        resolve(how)
+      );
+    });
+  while (true) {
+    const ibHowDismissed = yield call(onDismissPromise);
+    const type = yield select(instabugReportingTypeSelector);
+    yield put(instabugReportClosed({ type, how: ibHowDismissed }));
+    yield put(updateInstabugUnreadMessages());
+  }
 }
 
 function* watchInstabugSaga() {
-  const instabugSDKDismissalChannel = yield call(
-    initializeInstabugSDKDismissalListener
-  );
-
-  yield takeLatest(instabugSDKDismissalChannel, instabugSDKDismissalWorker);
-
+  yield fork(watchIBSDKdismiss);
   yield call(updateInstabugBadgeSaga);
 
   while (true) {
