@@ -52,6 +52,7 @@ import {
 } from "../store/actions/crossSessions";
 import { isDifferentFiscalCodeSelector } from "../store/reducers/crossSessions";
 import { isTestEnv } from "../utils/environment";
+import { deletePin } from "../utils/keychain";
 
 // A saga to load the Profile.
 export function* loadProfile(
@@ -330,6 +331,7 @@ function* checkStoreHashedFiscalCode(
   );
   // the current logged user has a different fiscal code from the stored hashed one
   if (checkIsDifferentFiscalCode === true) {
+    yield call(deletePin);
     yield put(differentProfileLoggedIn());
   }
   yield put(

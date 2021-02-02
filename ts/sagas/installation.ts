@@ -9,7 +9,6 @@ import {
 } from "../boot/scheduleLocalNotifications";
 import { sessionInvalid } from "../store/actions/authentication";
 import { isFirstRunAfterInstallSelector } from "../store/reducers/installation";
-import { deletePin } from "../utils/keychain";
 
 /**
  * This generator function removes user data from previous application
@@ -25,9 +24,6 @@ export function* previousInstallationDataDeleteSaga(): Generator<
   );
 
   if (isFirstRunAfterInstall) {
-    // Delete the current unlock code from the Keychain
-    // eslint-disable-next-line
-    yield call(deletePin);
     // invalidate the session
     yield put(sessionInvalid());
     // Remove all the notification already set
