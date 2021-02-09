@@ -673,7 +673,7 @@ export function* paymentAttivaRequestHandler(
     const response: SagaCallReturnType<typeof postAttivaRpt> = yield call(
       postAttivaRpt,
       {
-        paymentActivationsPostRequest: {
+        body: {
           rptId: RptIdFromString.encode(action.payload.rptId),
           codiceContestoPagamento:
           action.payload.verifica.codiceContestoPagamento,

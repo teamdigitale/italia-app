@@ -29,7 +29,7 @@ export function* loadUserDataProcessingSaga(
     const response: SagaCallReturnType<typeof getUserDataProcessingRequest> = yield call(
       getUserDataProcessingRequest,
       {
-        userDataProcessingChoiceParam: choice
+        choice
       }
     );
     if (response.isRight()) {
@@ -70,7 +70,7 @@ export function* upsertUserDataProcessingSaga(
     const response: SagaCallReturnType<typeof postUserDataProcessingRequest> = yield call(
       postUserDataProcessingRequest,
       {
-        userDataProcessingChoiceRequest: { choice }
+        body: { choice }
       }
     );
 
@@ -102,7 +102,7 @@ export function* deleteUserDataProcessingSaga(
     const response: SagaCallReturnType<typeof deleteUserDataProcessingRequest> = yield call(
       deleteUserDataProcessingRequest,
       {
-        userDataProcessingChoiceParam: choice
+        choice
       }
     );
     if (response.isRight()) {

@@ -143,7 +143,7 @@ export function* postUserMetadata(
 > {
   try {
     const response = yield call(createOrUpdateUserMetadata, {
-      userMetadata: backendUserMetadata
+      body: backendUserMetadata
     });
 
     // Can't decode response

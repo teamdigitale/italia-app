@@ -139,7 +139,7 @@ function* createOrUpdateProfileSaga(
     const response: SagaCallReturnType<typeof createOrUpdateProfile> = yield call(
       createOrUpdateProfile,
       {
-        profile: newProfile
+        body: newProfile
       }
     );
 

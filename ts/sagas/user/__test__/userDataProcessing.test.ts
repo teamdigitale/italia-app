@@ -31,7 +31,7 @@ describe("loadUserDataProcessingSaga", () => {
     )
       .next()
       .call(getUserDataProcessingRequest, {
-        userDataProcessingChoiceParam: loadAction.payload
+        choice: loadAction.payload
       })
       .next(get404Response)
       .put(
@@ -59,7 +59,7 @@ describe("loadUserDataProcessingSaga", () => {
     )
       .next()
       .call(getUserDataProcessingRequest, {
-        userDataProcessingChoiceParam: loadAction.payload
+        choice: loadAction.payload
       })
       .next(get200Response)
       .put(
@@ -84,7 +84,7 @@ describe("loadUserDataProcessingSaga", () => {
     )
       .next()
       .call(getUserDataProcessingRequest, {
-        userDataProcessingChoiceParam: loadAction.payload
+        choice: loadAction.payload
       })
       .next(get500Response)
       .put(
@@ -120,7 +120,7 @@ describe("upsertUserDataProcessingSaga", () => {
     )
       .next()
       .call(postUserDataProcessingRequest, {
-        userDataProcessingChoiceRequest: { choice: requestAction.payload }
+        body: { choice: requestAction.payload }
       })
       .next(post200Response)
       .put(upsertUserDataProcessing.success(mokedNewStatus))
@@ -142,7 +142,7 @@ describe("upsertUserDataProcessingSaga", () => {
     )
       .next()
       .call(postUserDataProcessingRequest, {
-        userDataProcessingChoiceRequest: { choice: requestAction.payload }
+        body: { choice: requestAction.payload }
       })
       .next(get500Response)
       .put(
@@ -176,7 +176,7 @@ describe("deleteUserDataProcessingSaga", () => {
     )
       .next()
       .call(deleteUserDataProcessingRequest, {
-        userDataProcessingChoiceParam: requestAction.payload
+        choice: requestAction.payload
       })
       .next(post202Response)
       .put(deleteUserDataProcessing.success({ choice: requestAction.payload }))
@@ -200,7 +200,7 @@ describe("deleteUserDataProcessingSaga", () => {
     )
       .next()
       .call(deleteUserDataProcessingRequest, {
-        userDataProcessingChoiceParam: choice
+        choice
       })
       .next(get409Response)
       .put(

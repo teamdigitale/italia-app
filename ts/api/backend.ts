@@ -182,12 +182,13 @@ export function BackendClient(
     response_decoder: getUserMessageDefaultDecoder()
   };
 
+  const initializedProfileDecoder = getUserProfileDecoder(InitializedProfile);
   const getProfileT: GetUserProfileT = {
     method: "get",
     url: () => "/api/v1/profile",
     query: _ => ({}),
     headers: tokenHeaderProducer,
-    response_decoder: getUserProfileDecoder(InitializedProfile)
+    response_decoder: initializedProfileDecoder
   };
 
   const createOrUpdateProfileT: UpdateProfileT = {
@@ -195,7 +196,7 @@ export function BackendClient(
     url: () => "/api/v1/profile",
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
     query: _ => ({}),
-    body: p => JSON.stringify(p.profile),
+    body: p => JSON.stringify(p.body),
     response_decoder: updateProfileDefaultDecoder()
   };
 
@@ -257,14 +258,13 @@ export function BackendClient(
     url: () => "/api/v1/user-metadata",
     query: _ => ({}),
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
-    body: p => JSON.stringify(p.userMetadata),
+    body: p => JSON.stringify(p.body),
     response_decoder: upsertUserMetadataDefaultDecoder()
   };
 
   const getUserDataProcessingT: GetUserDataProcessingT = {
     method: "get",
-    url: ({ userDataProcessingChoiceParam }) =>
-      `/api/v1/user-data-processing/${userDataProcessingChoiceParam}`,
+    url: ({ choice }) => `/api/v1/user-data-processing/${choice}`,
     query: _ => ({}),
     headers: tokenHeaderProducer,
     response_decoder: getUserDataProcessingDefaultDecoder()
@@ -275,7 +275,7 @@ export function BackendClient(
     url: () => `/api/v1/user-data-processing`,
     query: _ => ({}),
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
-    body: _ => JSON.stringify(_.userDataProcessingChoiceRequest),
+    body: _ => JSON.stringify(_.body),
     response_decoder: upsertUserDataProcessingDefaultDecoder()
   };
 
@@ -317,8 +317,7 @@ export function BackendClient(
 
   const deleteUserDataProcessingT: AbortUserDataProcessingT = {
     method: "delete",
-    url: ({ userDataProcessingChoiceParam }) =>
-      `/api/v1/user-data-processing/${userDataProcessingChoiceParam}`,
+    url: ({ choice }) => `/api/v1/user-data-processing/${choice}`,
     query: _ => ({}),
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
     response_decoder: abortUserDataProcessingDecoderTest()
@@ -329,7 +328,7 @@ export function BackendClient(
     url: params => `/api/v1/installations/${params.installationID}`,
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
     query: _ => ({}),
-    body: p => JSON.stringify(p.installation),
+    body: p => JSON.stringify(p.body),
     response_decoder: createOrUpdateInstallationDefaultDecoder()
   };
 
@@ -355,8 +354,7 @@ export function BackendClient(
     url: ({ test }) => `/api/v1/payment-activations?test=${test}`,
     headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
     query: () => ({}),
-    body: ({ paymentActivationsPostRequest }) =>
-      JSON.stringify(paymentActivationsPostRequest),
+    body: ({ body }) => JSON.stringify(body),
     response_decoder: activatePaymentDefaultDecoder()
   };
 

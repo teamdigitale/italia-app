@@ -62,12 +62,13 @@ type FindUsingGETTExtra = MapResponseType<
   PatchedCitizenResource
 >;
 
+const findUsingGETDecoderUtils = findUsingGETDecoder(PatchedCitizenResource);
 const findT: FindUsingGETTExtra = {
   method: "get",
   url: () => `/bpd/io/citizen`,
   query: _ => ({}),
   headers: headersProducers(),
-  response_decoder: findUsingGETDecoder(PatchedCitizenResource)
+  response_decoder: findUsingGETDecoderUtils
 };
 
 type EnrollmentTTExtra = MapResponseType<
@@ -75,13 +76,15 @@ type EnrollmentTTExtra = MapResponseType<
   200,
   PatchedCitizenResource
 >;
+
+const enrollmentDecoderUtils = enrollmentDecoder(PatchedCitizenResource);
 const enrollCitizenIOT: EnrollmentTTExtra = {
   method: "put",
   url: () => `/bpd/io/citizen`,
   query: _ => ({}),
   body: _ => "",
   headers: composeHeaderProducers(headersProducers(), ApiHeaderJson),
-  response_decoder: enrollmentDecoder(PatchedCitizenResource)
+  response_decoder: enrollmentDecoderUtils
 };
 
 const deleteResponseDecoders = r.composeResponseDecoders(
@@ -192,6 +195,10 @@ export type FindWinningTransactionsUsingGETTExtra = r.IGetApiRequestType<
   | r.IResponseType<401, undefined>
   | r.IResponseType<500, undefined>
 >;
+
+const findWinningTransactionsUsingGETDecoderUtils = findWinningTransactionsUsingGETDecoder(
+  PatchedBpdWinningTransactions
+);
 // winning transactions
 const winningTransactions: FindWinningTransactionsUsingGETTExtra = {
   method: "get",
@@ -203,9 +210,7 @@ const winningTransactions: FindWinningTransactionsUsingGETTExtra = {
       .getOrElse("")}`,
   query: _ => ({}),
   headers: headersProducers(),
-  response_decoder: findWinningTransactionsUsingGETDecoder(
-    PatchedBpdWinningTransactions
-  )
+  response_decoder: findWinningTransactionsUsingGETDecoderUtils
 };
 
 // decoders composition to handle updatePaymentMethod response

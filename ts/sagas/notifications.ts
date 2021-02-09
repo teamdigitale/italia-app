@@ -45,7 +45,7 @@ export function* updateInstallationSaga(
       createOrUpdateInstallation,
       {
         installationID: notificationsInstallation.id,
-        installation: {
+        body: {
           platform: notificationsPlatform,
           pushChannel: notificationsInstallation.token
         }
