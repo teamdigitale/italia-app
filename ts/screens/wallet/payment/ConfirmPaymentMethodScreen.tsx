@@ -29,6 +29,7 @@ import {
 import { Dispatch } from "../../../store/actions/types";
 import {
   backToEntrypointPayment,
+  paymentCompletedFailure,
   paymentCompletedSuccess,
   paymentExecuteStart,
   paymentInitializeState,
@@ -62,6 +63,7 @@ import { paymentOutcomeCode } from "../../../store/actions/wallet/outcomeCode";
 import { outcomeCodesSelector } from "../../../store/reducers/wallet/outcomeCode";
 import { isPaymentOutcomeCodeSuccessfully } from "../../../utils/payment";
 import { fetchTransactionsRequestWithExpBackoff } from "../../../store/actions/wallet/transactions";
+import { OutcomeCodesKey } from "../../../types/outcomeCode";
 
 export type NavigationParams = Readonly<{
   rptId: RptId;
@@ -183,6 +185,13 @@ const ConfirmPaymentMethodScreen: React.FC<Props> = (props: Props) => {
       );
       // refresh transactions list
       props.loadTransactions();
+    } else {
+      props.dispatchPaymentFailure(
+        maybeOutcomeCode.fold(undefined, oc => {
+          const maybeCode = OutcomeCodesKey.decode(oc);
+          return maybeCode.isRight() ? maybeCode.value : undefined;
+        })
+      );
     }
     props.dispatchEndPaymentWebview("EXIT_FROM_WEB_VIEW");
     props.dispatchPaymentOutCome(maybeOutcomeCode);
@@ -404,7 +413,9 @@ const mapDispatchToProps = (dispatch: Dispatch, props: OwnProps) => {
           rptId,
           transaction: undefined
         })
-      )
+      ),
+    dispatchPaymentFailure: (outcomeCode: OutcomeCodesKey | undefined) =>
+      dispatch(paymentCompletedFailure(outcomeCode))
   };
 };
 

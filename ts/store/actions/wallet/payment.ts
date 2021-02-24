@@ -23,6 +23,7 @@ import {
   EntrypointRoute,
   PaymentStartPayload
 } from "../../reducers/wallet/payment";
+import { OutcomeCodesKey } from "../../../types/outcomeCode";
 import { fetchWalletsFailure, fetchWalletsSuccess } from "./wallets";
 
 /**
@@ -219,7 +220,7 @@ export const paymentCompletedSuccess = createStandardAction(
 
 export const paymentCompletedFailure = createStandardAction(
   "PAYMENT_COMPLETED_FAILURE"
-)();
+)<OutcomeCodesKey | undefined>();
 
 //
 // delete an ongoing payment

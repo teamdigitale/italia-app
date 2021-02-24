@@ -39,3 +39,4 @@ export type OutcomeStatus = t.TypeOf<typeof Status>;
 export type OutcomeCode = t.TypeOf<typeof OutcomeCode>;
 export type OutcomeCodes = t.TypeOf<typeof OutcomeCodesCodec>;
 export const OutcomeCodesKey = t.keyof(OutcomeCodes);
+export type OutcomeCodesKey = t.TypeOf<typeof OutcomeCodesKey>;
