@@ -49,9 +49,7 @@ import {
   fetchWalletsRequestWithExpBackoff,
   fetchWalletsSuccess,
   payCreditCardVerificationFailure,
-  payCreditCardVerificationRequest,
   payCreditCardVerificationSuccess,
-  payCreditCardVerificationWithBackoffRetryRequest,
   setFavouriteWalletFailure,
   setFavouriteWalletRequest,
   setFavouriteWalletSuccess
@@ -441,12 +439,6 @@ const reducer = (
     //
     // pay credit card verification
     //
-    case getType(payCreditCardVerificationWithBackoffRetryRequest):
-    case getType(payCreditCardVerificationRequest):
-      return {
-        ...state,
-        creditCardVerification: pot.noneLoading
-      };
 
     case getType(payCreditCardVerificationSuccess):
       return {

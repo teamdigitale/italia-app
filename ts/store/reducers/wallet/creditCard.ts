@@ -131,12 +131,13 @@ const reducer = (
         urlHistory3ds: action.payload
       }));
 
+    // @deprecated
     case getType(payCreditCardVerificationSuccess):
       return updateStateHead(state, attempt => ({
         ...attempt,
         verificationTransaction: action.payload
       }));
-
+    // @deprecated
     case getType(payCreditCardVerificationFailure):
       return updateStateHead(state, attempt => ({
         ...attempt,

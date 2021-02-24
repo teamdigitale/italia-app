@@ -72,20 +72,6 @@ export const addWalletCreditCardFailure = createStandardAction(
   "WALLET_ADD_CREDITCARD_FAILURE"
 )<CreditCardFailure>();
 
-type PayCreditCardVerificationRequestPayload = Readonly<{
-  payRequest: PayRequest;
-  language?: string;
-}>;
-
-export const payCreditCardVerificationRequest = createStandardAction(
-  "WALLET_ADD_CREDITCARD_VERIFICATION_REQUEST"
-)<PayCreditCardVerificationRequestPayload>();
-
-// this action follows a backoff retry strategy
-export const payCreditCardVerificationWithBackoffRetryRequest = createStandardAction(
-  "WALLET_ADD_CREDITCARD_VERIFICATION_WITH_BACKOFF_REQUEST"
-)<PayCreditCardVerificationRequestPayload>();
-
 export const payCreditCardVerificationSuccess = createStandardAction(
   "WALLET_ADD_CREDITCARD_VERIFICATION_SUCCESS"
 )<TransactionResponse>();
@@ -175,8 +161,6 @@ export type WalletsActions =
   | ActionType<typeof addWalletCreditCardFailure>
   | ActionType<typeof addWalletNewCreditCardSuccess>
   | ActionType<typeof addWalletNewCreditCardFailure>
-  | ActionType<typeof payCreditCardVerificationRequest>
-  | ActionType<typeof payCreditCardVerificationWithBackoffRetryRequest>
   | ActionType<typeof payCreditCardVerificationSuccess>
   | ActionType<typeof payCreditCardVerificationFailure>
   | ActionType<typeof creditCardCheckout3dsRequest>

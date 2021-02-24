@@ -35,9 +35,6 @@ import {
   deleteWalletSuccess,
   fetchWalletsFailure,
   fetchWalletsSuccess,
-  payCreditCardVerificationFailure,
-  payCreditCardVerificationRequest,
-  payCreditCardVerificationSuccess,
   setFavouriteWalletFailure,
   setFavouriteWalletRequest,
   setFavouriteWalletSuccess
@@ -411,38 +408,6 @@ export function* addWalletCreditCardRequestHandler(
         reason: getError(e).message
       })
     );
-  }
-}
-
-/**
- * Handles payCreditCardVerificationRequest
- */
-export function* payCreditCardVerificationRequestHandler(
-  pagoPaClient: PaymentManagerClient,
-  pmSessionManager: SessionManager<PaymentManagerToken>,
-  action: ActionType<typeof payCreditCardVerificationRequest>
-) {
-  const boardPay = pagoPaClient.payCreditCardVerification(
-    action.payload.payRequest,
-    action.payload.language
-  );
-  const boardPayWithRefresh = pmSessionManager.withRefresh(boardPay);
-  try {
-    const response: SagaCallReturnType<typeof boardPayWithRefresh> = yield call(
-      boardPayWithRefresh
-    );
-
-    if (response.isRight()) {
-      if (response.value.status === 200) {
-        yield put(payCreditCardVerificationSuccess(response.value.value));
-      } else {
-        throw Error(`response status ${response.value.status}`);
-      }
-    } else {
-      throw Error(readablePrivacyReport(response.value));
-    }
-  } catch (e) {
-    yield put(payCreditCardVerificationFailure(e));
   }
 }
 
