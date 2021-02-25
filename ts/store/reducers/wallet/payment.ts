@@ -25,6 +25,7 @@ import {
 } from "../../../features/bonus/bpd/model/RemoteValue";
 import { Locales } from "../../../../locales/locales";
 import { PaymentManagerToken } from "../../../types/pagopa";
+import { refreshPMTokenWhileAddCreditCard } from "../../actions/wallet/wallets";
 
 export type EntrypointRoute = Readonly<{
   name: string;
@@ -251,7 +252,7 @@ const reducer = (
       };
 
     //
-    // start payment
+    // start payment or refresh token while add credit card
     //
     case getType(paymentExecuteStart.request):
       return {
@@ -259,11 +260,18 @@ const reducer = (
         paymentStartPayload: action.payload,
         pmSessionToken: remoteLoading
       };
+    case getType(refreshPMTokenWhileAddCreditCard.request):
+      return {
+        ...state,
+        pmSessionToken: remoteLoading
+      };
+    case getType(refreshPMTokenWhileAddCreditCard.success):
     case getType(paymentExecuteStart.success):
       return {
         ...state,
         pmSessionToken: remoteReady(action.payload)
       };
+    case getType(refreshPMTokenWhileAddCreditCard.failure):
     case getType(paymentExecuteStart.failure):
       return {
         ...state,

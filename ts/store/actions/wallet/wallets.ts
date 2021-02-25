@@ -1,4 +1,8 @@
-import { ActionType, createStandardAction } from "typesafe-actions";
+import {
+  ActionType,
+  createAsyncAction,
+  createStandardAction
+} from "typesafe-actions";
 
 import {
   CreditCard,
@@ -142,6 +146,18 @@ export const runStartOrResumeAddCreditCardSaga = createStandardAction(
   "RUN_ADD_CREDIT_CARD_SAGA"
 )<StartOrResumeAddCreditCardSagaPayload>();
 
+/**
+ * user wants to pay
+ * - request: we know the idWallet, we need a fresh PM session token
+ * - success: we got a fresh PM session token
+ * - failure: we can't get a fresh PM session token
+ */
+export const refreshPMTokenWhileAddCreditCard = createAsyncAction(
+  "REFRESH_PM_TOKEN_WHILE_ADD_CREDIT_CARD_REQUEST",
+  "REFRESH_PM_TOKEN_WHILE_ADD_CREDIT_CARD_SUCCESS",
+  "REFRESH_PM_TOKEN_WHILE_ADD_CREDIT_CARD_FAILURE"
+)<{ idWallet: number }, PaymentManagerToken, Error>();
+
 export type WalletsActions =
   | ActionType<typeof fetchWalletsRequest>
   | ActionType<typeof fetchWalletsSuccess>
@@ -166,4 +182,5 @@ export type WalletsActions =
   | ActionType<typeof creditCardCheckout3dsSuccess>
   | ActionType<typeof setWalletSessionEnabled>
   | ActionType<typeof creditCardCheckout3dsRedirectionUrls>
-  | ActionType<typeof fetchWalletsRequestWithExpBackoff>;
+  | ActionType<typeof fetchWalletsRequestWithExpBackoff>
+  | ActionType<typeof refreshPMTokenWhileAddCreditCard>;

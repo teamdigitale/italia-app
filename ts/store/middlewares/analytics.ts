@@ -117,6 +117,7 @@ import {
   deleteWalletSuccess,
   payCreditCardVerificationFailure,
   payCreditCardVerificationSuccess,
+  refreshPMTokenWhileAddCreditCard,
   setFavouriteWalletFailure,
   setFavouriteWalletRequest,
   setFavouriteWalletSuccess
@@ -290,6 +291,7 @@ const trackAction = (mp: NonNullable<typeof mixpanel>) => (
     case getType(loadVisibleServices.failure):
     // @deprecated
     case getType(payCreditCardVerificationFailure):
+    case getType(refreshPMTokenWhileAddCreditCard.failure):
     case getType(deleteWalletFailure):
     case getType(setFavouriteWalletFailure):
     case getType(fetchTransactionsFailure):
@@ -311,6 +313,7 @@ const trackAction = (mp: NonNullable<typeof mixpanel>) => (
         reason: action.payload.error.message,
         codice_catastale: action.payload.codiceCatastale
       });
+
     // download / delete profile
     case getType(upsertUserDataProcessing.success):
       return mp.track(action.type, action.payload);
@@ -370,6 +373,8 @@ const trackAction = (mp: NonNullable<typeof mixpanel>) => (
     case getType(setFavouriteWalletRequest):
     case getType(setFavouriteWalletSuccess):
     case getType(fetchTransactionsRequest):
+    case getType(refreshPMTokenWhileAddCreditCard.request):
+    case getType(refreshPMTokenWhileAddCreditCard.success):
     // payment
     case getType(paymentInitializeState):
     case getType(paymentAttiva.success):

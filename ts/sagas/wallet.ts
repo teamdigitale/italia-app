@@ -123,6 +123,7 @@ import {
   fetchWalletsRequest,
   fetchWalletsRequestWithExpBackoff,
   fetchWalletsSuccess,
+  refreshPMTokenWhileAddCreditCard,
   runStartOrResumeAddCreditCardSaga,
   setFavouriteWalletRequest,
   setWalletSessionEnabled
@@ -254,11 +255,12 @@ function* startOrResumeAddCreditCardSaga(
     try {
       // Request a new token to the PM. This prevent expired token during the webview navigation.
       // If the request for the new token fails a new Error is caught, the step fails and we exit the flow.
+      yield put(refreshPMTokenWhileAddCreditCard.request({ idWallet }));
       const pagoPaToken: Option<PaymentManagerToken> = yield call(
         pmSessionManager.getNewToken
       );
       if (pagoPaToken.isSome()) {
-        yield put(paymentExecuteStart.success(pagoPaToken.value));
+        yield put(refreshPMTokenWhileAddCreditCard.success(pagoPaToken.value));
         // Wait until the outcome code from the webview is available
         yield take(getType(addCreditCardOutcomeCode));
 
@@ -358,10 +360,12 @@ function* startOrResumeAddCreditCardSaga(
         }
       } else {
         // Cannot refresh wallet token
+        yield put(
+          refreshPMTokenWhileAddCreditCard.failure(
+            Error("cannot refresh wallet token")
+          )
+        );
         if (action.payload.onFailure) {
-          yield call(mixpanelTrack, getType(addWalletNewCreditCardFailure), {
-            reason: "cannot refresh wallet token"
-          });
           action.payload.onFailure();
         }
         return;
