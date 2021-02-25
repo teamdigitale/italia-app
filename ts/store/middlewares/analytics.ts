@@ -105,6 +105,7 @@ import {
   fetchTransactionsSuccess
 } from "../actions/wallet/transactions";
 import {
+  addCreditCardWebViewEnd,
   addWalletCreditCardFailure,
   addWalletCreditCardInit,
   addWalletCreditCardRequest,
@@ -126,6 +127,7 @@ import {
 import trackBpdAction from "../../features/bonus/bpd/analytics/index";
 import trackBancomatAction from "../../features/wallet/onboarding/bancomat/analytics/index";
 import trackSatispayAction from "../../features/wallet/satispay/analytics/index";
+import { addCreditCardOutcomeCode } from "../actions/wallet/outcomeCode";
 
 // eslint-disable-next-line complexity
 const trackAction = (mp: NonNullable<typeof mixpanel>) => (
@@ -238,6 +240,15 @@ const trackAction = (mp: NonNullable<typeof mixpanel>) => (
           action.payload.kind === "GENERIC_ERROR"
             ? action.payload.reason
             : "n/a"
+      });
+    // Add credit card WebView events
+    case getType(addCreditCardWebViewEnd):
+      return mp.track(action.type, {
+        exitType: action.payload
+      });
+    case getType(addCreditCardOutcomeCode):
+      return mp.track(action.type, {
+        outCome: action.payload.getOrElse("")
       });
     case getType(addWalletNewCreditCardFailure):
       return mp.track(action.type);
