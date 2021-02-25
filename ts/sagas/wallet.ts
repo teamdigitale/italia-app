@@ -81,7 +81,6 @@ import {
   searchUserSatispay,
   walletAddSatispayStart
 } from "../features/wallet/onboarding/satispay/store/actions";
-import { mixpanelTrack } from "../mixpanel";
 import ROUTES from "../navigation/routes";
 import { navigateBack } from "../store/actions/navigation";
 import { navigationHistoryPop } from "../store/actions/navigationHistory";

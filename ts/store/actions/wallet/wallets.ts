@@ -158,6 +158,12 @@ export const refreshPMTokenWhileAddCreditCard = createAsyncAction(
   "REFRESH_PM_TOKEN_WHILE_ADD_CREDIT_CARD_FAILURE"
 )<{ idWallet: number }, PaymentManagerToken, Error>();
 
+export type AddCreditCardWebViewEndReason = "USER_ABORT" | "EXIT_PATH";
+// event fired when the paywebview ends its challenge (used to reset pmSessionToken)
+export const addCreditCardWebViewEnd = createStandardAction(
+  "ADD_CREDIT_CARD_WEB_VIEW_END"
+)<AddCreditCardWebViewEndReason>();
+
 export type WalletsActions =
   | ActionType<typeof fetchWalletsRequest>
   | ActionType<typeof fetchWalletsSuccess>
@@ -183,4 +189,5 @@ export type WalletsActions =
   | ActionType<typeof setWalletSessionEnabled>
   | ActionType<typeof creditCardCheckout3dsRedirectionUrls>
   | ActionType<typeof fetchWalletsRequestWithExpBackoff>
-  | ActionType<typeof refreshPMTokenWhileAddCreditCard>;
+  | ActionType<typeof refreshPMTokenWhileAddCreditCard>
+  | ActionType<typeof addCreditCardWebViewEnd>;

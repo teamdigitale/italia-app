@@ -31,10 +31,8 @@ import {
 import { Dispatch } from "../../store/actions/types";
 import { getLocalePrimaryWithFallback } from "../../utils/locale";
 import {
-  paymentWebViewEnd,
-  PaymentWebViewEndReason
-} from "../../store/actions/wallet/payment";
-import {
+  addCreditCardWebViewEnd,
+  AddCreditCardWebViewEndReason,
   addWalletCreditCardInit,
   fetchWalletsRequestWithExpBackoff,
   runStartOrResumeAddCreditCardSaga
@@ -142,6 +140,7 @@ class ConfirmCardDetailsScreen extends React.Component<Props, State> {
           text: I18n.t("wallet.abortWebView.confirm"),
           onPress: () => {
             this.props.onCancel();
+            this.props.dispatchEndAddCreditCardWebview("USER_ABORT");
           },
           style: "cancel"
         },
@@ -292,7 +291,7 @@ class ConfirmCardDetailsScreen extends React.Component<Props, State> {
               this.props.goToAddCreditCardOutcomeCode(
                 payWebViewPayload.crediCardTempWallet
               );
-              this.props.dispatchEndPaymentWebview("EXIT_FROM_WEB_VIEW");
+              this.props.dispatchEndAddCreditCardWebview("EXIT_PATH");
             }}
             outcomeQueryparamName={webViewOutcomeParamName}
             onGoBack={handlePayWebviewGoBack}
@@ -443,8 +442,10 @@ const mapDispatchToProps = (
       dispatch(
         navigateToAddCreditCardOutcomeCode({ selectedWallet: creditCard })
       ),
-    dispatchEndPaymentWebview: (reason: PaymentWebViewEndReason) => {
-      dispatch(paymentWebViewEnd(reason));
+    dispatchEndAddCreditCardWebview: (
+      reason: AddCreditCardWebViewEndReason
+    ) => {
+      dispatch(addCreditCardWebViewEnd(reason));
     }
   };
 };
