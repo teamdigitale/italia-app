@@ -1,16 +1,21 @@
 import WebView from "react-native-webview";
 import React from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Alert, Modal, StyleSheet, View } from "react-native";
 import _ from "lodash";
 import { fromNullable, Option } from "fp-ts/lib/Option";
 import uuid from "uuid/v4";
-import { WebViewNavigation } from "react-native-webview/lib/WebViewTypes";
+import {
+  WebViewNavigation,
+  WebViewNavigationEvent
+} from "react-native-webview/lib/WebViewTypes";
 import URLParse from "url-parse";
 import BaseScreenComponent from "../screens/BaseScreenComponent";
 import { emptyContextualHelp } from "../../utils/emptyContextualHelp";
 import { RefreshIndicator } from "../ui/RefreshIndicator";
 import { useHardwareBackButton } from "../../features/bonus/bonusVacanze/components/hooks/useHardwareBackButton";
 import { isTestEnv } from "../../utils/environment";
+import { RTron } from "../../boot/configureStoreAndPersistor";
+import { closeInjectedScript } from "../../utils/webview";
 
 type Props = {
   // the uri to send the form data thought POST
@@ -117,6 +122,10 @@ export const PayWebViewModal = (props: Props) => {
   const [outcomeCode, setOutcomeCode] = React.useState<string | undefined>(
     undefined
   );
+  const webView = React.createRef<WebView>();
+  const [js, setJs] = React.useState<string | undefined>(
+    closeInjectedScript(`alert(1);`)
+  );
   useHardwareBackButton(() => {
     props.onGoBack();
     return true;
@@ -139,9 +148,9 @@ export const PayWebViewModal = (props: Props) => {
         return false;
       }
     }
+    RTron.log("start loading url", navState.url);
     return true;
   };
-
   return (
     <Modal
       animationType="fade"
@@ -156,12 +165,26 @@ export const PayWebViewModal = (props: Props) => {
       >
         <WebView
           textZoom={100}
+          ref={webView}
           source={{
             html:
               crateAutoPostForm(props.formData, props.postUri) +
               injectedJSPostForm
           }}
+          javaScriptCanOpenWindowsAutomatically={true}
+          onHttpError={e => RTron?.log("get an http error", e)}
           onShouldStartLoadWithRequest={handleOnShouldStartLoadWithRequest}
+          onMessage={m => RTron?.log("html page", m)}
+          onLoadEnd={(e: any) => {
+            if (e.nativeEvent.url && webView.current) {
+              webView.current.injectJavaScript(
+                closeInjectedScript(
+                  `window.ReactNativeWebView.postMessage(document.documentElement.innerHTML);`
+                )
+              );
+            }
+          }}
+          onError={e => RTron.log("onError", e)}
           startInLoadingState={true}
           renderLoading={renderLoading}
           javaScriptEnabled={true}
