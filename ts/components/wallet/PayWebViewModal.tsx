@@ -144,6 +144,7 @@ export const PayWebViewModal = (props: Props) => {
       }
       // found exit path
       if (isFinish) {
+        RTron.log("start loading url - finish", navState.url);
         props.onFinish(fromNullable(outcome));
         return false;
       }
