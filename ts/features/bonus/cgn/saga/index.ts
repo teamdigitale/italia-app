@@ -26,7 +26,7 @@ export function* watchBonusCgnSaga(bearerToken: string): SagaIterator {
     handleCgnActivationSaga,
     cgnActivationSaga(
       backendCGN.startCgnActivation,
-      handleCgnStatusPolling(backendCGN.getCgnStatus)
+      handleCgnStatusPolling(backendCGN.getCgnActivation)
     )
   );
 

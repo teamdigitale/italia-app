@@ -5,11 +5,11 @@ import {
 } from "typesafe-actions";
 import { NullType } from "io-ts";
 import { CgnActivationProgressEnum } from "../reducers/activation";
-import { Card } from "../../../../../../definitions/cgn/Card";
+import { CgnActivationDetail } from "../../../../../../definitions/cgn/CgnActivationDetail";
 
 type ActivationStatus = {
   status: CgnActivationProgressEnum;
-  activation?: Card;
+  activation?: CgnActivationDetail;
 };
 
 export const cgnActivationStart = createStandardAction("CGN_ACTIVATION_START")<

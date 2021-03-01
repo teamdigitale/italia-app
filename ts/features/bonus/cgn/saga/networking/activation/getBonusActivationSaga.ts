@@ -7,9 +7,9 @@ import { cgnActivationStatus } from "../../../store/actions/activation";
 import { CgnActivationProgressEnum } from "../../../store/reducers/activation";
 import { startTimer } from "../../../../../../utils/timer";
 import { readablePrivacyReport } from "../../../../../../utils/reporters";
-import { CardActivated } from "../../../../../../../definitions/cgn/CardActivated";
 import { getError } from "../../../../../../utils/errors";
 import { mixpanelTrack } from "../../../../../../mixpanel";
+import { StatusEnum } from "../../../../../../../definitions/cgn/CgnActivationDetail";
 
 // wait time between requests
 const cgnResultPolling = 1000 as Millisecond;
@@ -76,36 +76,46 @@ export const cgnActivationSaga = (
 /**
  * Function that handles the polling check of the CGN's status
  * Calls the status API with a polling interrupted only if it's activated or if a network error has been raised
- * @param getCgnStatus backend client to know the current user CGN status
+ * @param getCgnActivation backend client to know the current user CGN status
  */
 export const handleCgnStatusPolling = (
-  getCgnStatus: ReturnType<typeof BackendCGN>["getCgnStatus"]
+  getCgnActivation: ReturnType<typeof BackendCGN>["getCgnActivation"]
 ) =>
   function* (): Generator<Effect, ActionType<typeof cgnActivationStatus>, any> {
     const startPollingTime = new Date().getTime();
     while (true) {
-      const cgnStatusResult: SagaCallReturnType<typeof getCgnStatus> = yield call(
-        getCgnStatus,
+      const cgnActivationResult: SagaCallReturnType<typeof getCgnActivation> = yield call(
+        getCgnActivation,
         {}
       );
       // blocking error -> stop polling
-      if (cgnStatusResult.isLeft()) {
-        throw cgnStatusResult.value;
+      if (cgnActivationResult.isLeft()) {
+        throw cgnActivationResult.value;
       }
       // we got the result -> stop polling
       else if (
-        cgnStatusResult.isRight() &&
-        cgnStatusResult.value.status === 200
+        cgnActivationResult.isRight() &&
+        cgnActivationResult.value.status === 200
       ) {
-        if (CardActivated.is(cgnStatusResult.value.value)) {
-          return cgnActivationStatus.success({
-            status: CgnActivationProgressEnum.SUCCESS,
-            activation: cgnStatusResult.value.value
-          });
-        } else {
-          void mixpanelTrack(getType(cgnActivationStatus.failure), {
-            reason: `unexpected status result ${cgnStatusResult.value.value.status}`
-          });
+        switch (cgnActivationResult.value.value.status) {
+          case StatusEnum.COMPLETED:
+            return cgnActivationStatus.success({
+              status: CgnActivationProgressEnum.SUCCESS,
+              activation: cgnActivationResult.value.value
+            });
+          case StatusEnum.ERROR:
+            throw Error(
+              `CGN Activation status ${cgnActivationResult.value.value.status}`
+            );
+            break;
+           // activation is still pending skip
+          case StatusEnum.PENDING:
+            break;
+          default:
+            void mixpanelTrack(getType(cgnActivationStatus.failure), {
+              reason: `unexpected status result ${cgnActivationResult.value.value.status}`
+            });
+            break;
         }
       }
       // sleep

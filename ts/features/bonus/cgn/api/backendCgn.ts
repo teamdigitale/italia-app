@@ -8,6 +8,8 @@ import {
 import { Omit } from "italia-ts-commons/lib/types";
 import { defaultRetryingFetch } from "../../../../utils/fetch";
 import {
+  getCgnActivationDefaultDecoder,
+  GetCgnActivationT,
   getCgnStatusDefaultDecoder,
   GetCgnStatusT,
   startCgnActivationDefaultDecoder,
@@ -23,6 +25,14 @@ const startCgnActivation: StartCgnActivationT = {
   body: _ => "",
   headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
   response_decoder: startCgnActivationDefaultDecoder()
+};
+
+const getCgnActivation: GetCgnActivationT = {
+  method: "get",
+  url: () => `/api/v1/cgn/activation`,
+  query: _ => ({}),
+  headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
+  response_decoder: getCgnActivationDefaultDecoder()
 };
 
 const getCgnStatus: GetCgnStatusT = {
@@ -66,6 +76,9 @@ export function BackendCGN(
   return {
     startCgnActivation: withBearerToken(
       createFetchRequestForApi(startCgnActivation, options)
+    ),
+    getCgnActivation: withBearerToken(
+      createFetchRequestForApi(getCgnActivation, options)
     ),
     getCgnStatus: withBearerToken(
       createFetchRequestForApi(getCgnStatus, options)
