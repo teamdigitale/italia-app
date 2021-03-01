@@ -122,6 +122,7 @@ export const PayWebViewModal = (props: Props) => {
   const [outcomeCode, setOutcomeCode] = React.useState<string | undefined>(
     undefined
   );
+  const requestTime = React.useRef<number>(-1);
   const webView = React.createRef<WebView>();
   const [js, setJs] = React.useState<string | undefined>(
     closeInjectedScript(`alert(1);`)
@@ -148,8 +149,13 @@ export const PayWebViewModal = (props: Props) => {
         props.onFinish(fromNullable(outcome));
         return false;
       }
+      if (requestTime.current !== -1) {
+        RTron.log("last step LT", new Date().getTime() - requestTime.current);
+      }
+      requestTime.current = new Date().getTime();
+      RTron.log("start loading url", navState.url);
     }
-    RTron.log("start loading url", navState.url);
+
     return true;
   };
   return (
@@ -177,12 +183,14 @@ export const PayWebViewModal = (props: Props) => {
           onShouldStartLoadWithRequest={handleOnShouldStartLoadWithRequest}
           onMessage={m => RTron?.log("html page", m)}
           onLoadEnd={(e: any) => {
-            if (e.nativeEvent.url && webView.current) {
-              webView.current.injectJavaScript(
-                closeInjectedScript(
-                  `window.ReactNativeWebView.postMessage(document.documentElement.innerHTML);`
-                )
-              );
+            if (e.nativeEvent.url) {
+              if (webView.current) {
+                webView.current.injectJavaScript(
+                  closeInjectedScript(
+                    `window.ReactNativeWebView.postMessage(document.documentElement.innerHTML);`
+                  )
+                );
+              }
             }
           }}
           onError={e => RTron.log("onError", e)}
