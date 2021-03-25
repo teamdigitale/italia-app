@@ -131,18 +131,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 // Taken from @https://pinkstone.co.uk/how-to-control-the-preview-screenshot-in-the-ios-multitasking-switcher/
 - (void)applicationWillResignActive:(UIApplication *)application {
 
-     // Fill screen with our own colour
-    UIView *colourView = [[UIView alloc]initWithFrame:self.window.frame];
-    colourView.backgroundColor = [UIColor whiteColor];
-    colourView.tag = 1234;
-    colourView.alpha = 0;
-    [self.window addSubview:colourView];
-    [self.window bringSubviewToFront:colourView];
 
-     // Fade in the view
-    [UIView animateWithDuration:0.5 animations:^{
-        colourView.alpha = 1;
-    }];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
