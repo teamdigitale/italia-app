@@ -37,6 +37,7 @@ async function replacePivotalUrl(match, storyId, url) {
 async function replaceJiraStories() {
   // capture [JIRAID-123], avoid already linked ticket with pattern [JIRAID-123](http://jiraurl)
   const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
+  //
 }
 
 async function replacePivotalStories() {
