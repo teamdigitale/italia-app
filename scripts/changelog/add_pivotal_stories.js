@@ -34,10 +34,11 @@ async function replacePivotalUrl(match, storyId, url) {
   }
 }
 
-async function addJiraUrl(match, ticketKeys) {
-  return `[${ticketKeys.map(
-    x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`
-  )}]`;
+async function addJiraUrl(match, ...ticketKeys) {
+  return ticketKeys;
+  // return `[${ticketKeys.map(
+  //   x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`
+  // )}]`;
 }
 
 async function replaceJiraStories(content) {
