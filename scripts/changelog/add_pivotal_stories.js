@@ -34,8 +34,8 @@ async function replacePivotalUrl(match, storyId, url) {
   }
 }
 
-async function addJiraUrl(match, ...ticketKeys) {
-  return `asd+ ${ticketKeys}`;
+async function addJiraUrl(match, ticketKeys) {
+  return `asd+ ${ticketKeys} END`;
   // return `[${ticketKeys.map(
   //   x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`
   // )}]`;
@@ -44,7 +44,7 @@ async function addJiraUrl(match, ...ticketKeys) {
 async function replaceJiraStories(content) {
   // capture [JIRAID-123], avoid already linked ticket with pattern [JIRAID-123](http://jiraurl)
   // const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
-  const jiraTagRegex = /\[(([a-zA-Z0-9]+-\d+),*)+\](?!\()/g;
+  const jiraTagRegex = /\[([A-Z0-9]+-\d+(,[a-zA-Z]+-\d+)*)](?!\()/g;
   return await replaceAsync(content, jiraTagRegex, addJiraUrl);
 }
 
