@@ -35,7 +35,6 @@ async function replacePivotalUrl(match, storyId, url) {
 }
 
 async function addJiraUrl(match, ticketKeys) {
-  //
   return `[${ticketKeys
     .split(",")
     .map(x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`)}]`;
@@ -47,11 +46,13 @@ async function replaceJiraStories(content) {
   return await replaceAsync(content, jiraTagRegex, addJiraUrl);
 }
 
-async function addJiraPivotalUrls() {
+async function addTasksUrls() {
   // read changelog
   const rawChangelog = fs.readFileSync("CHANGELOG.md").toString("utf8");
 
+  // Add pivotal stories url
   const withPivotalStories = await replacePivotalStories(rawChangelog);
+  // Add jira ticket url
   const withJiraStories = await replaceJiraStories(withPivotalStories);
 
   // write the new modified changelog
@@ -98,7 +99,8 @@ getStory = storyId =>
     });
   });
 
-// Execute the script to find the pivotal stories id in order to associate the right url in the changelog
-addJiraPivotalUrls()
+// Execute the script to find the pivotal stories and jira ticket id in order to associate
+// the right url in the changelog
+addTasksUrls()
   .then(() => console.log("done"))
   .catch(ex => console.log(ex));

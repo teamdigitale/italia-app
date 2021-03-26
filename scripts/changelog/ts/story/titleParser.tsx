@@ -12,7 +12,7 @@ import {
   GenericTicket
 } from "./types";
 
-const jiraRegex = /\[([a-zA-Z]+-\d+(,[a-zA-Z]+-\d+)*)]\s.+/;
+const jiraRegex = /\[([A-Z0-9]+-\d+(,[A-Z0-9]+-\d+)*)]\s.+/;
 
 export const prTitleContainsJiraIds = (title: string) =>
   title.match(jiraRegex) !== null;
