@@ -35,12 +35,16 @@ async function replacePivotalUrl(match, storyId, url) {
 }
 
 async function addJiraUrl(match, ticketKey) {
-  return `[${ticketKey}](${new URL(ticketKey, jiraTicketBaseUrl).toString()})`;
+  return `[[${ticketKey}](${new URL(
+    ticketKey,
+    jiraTicketBaseUrl
+  ).toString()})]`;
 }
 
 async function replaceJiraStories(content) {
   // capture [JIRAID-123], avoid already linked ticket with pattern [JIRAID-123](http://jiraurl)
-  const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
+  // const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
+  const jiraTagRegex = /\[(([a-zA-Z0-9]+-\d+),*)+\](?!\()/g;
   return await replaceAsync(content, jiraTagRegex, addJiraUrl);
 }
 
