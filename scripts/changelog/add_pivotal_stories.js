@@ -35,10 +35,10 @@ async function replacePivotalUrl(match, storyId, url) {
 }
 
 async function addJiraUrl(match, ...ticketKeys) {
-  return `asd+ ${ticketKeys}`;
-  // return `[${ticketKeys.map(
-  //   x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`
-  // )}]`;
+  // return `asd+ ${ticketKeys}`;
+  return `[${ticketKeys.map(
+    x => `[${x}](${new URL(x, jiraTicketBaseUrl).toString()})`
+  )}]`;
 }
 
 async function replaceJiraStories(content) {
@@ -61,7 +61,7 @@ async function replacePivotalStories() {
   //   replacePivotalUrl
   // );
 
-  const updatedJiraChangelog = await replaceJiraStories(pivotalTagRegex);
+  const updatedJiraChangelog = await replaceJiraStories(content);
 
   // write the new modified changelog
   fs.writeFileSync("CHANGELOG.md", updatedJiraChangelog);
