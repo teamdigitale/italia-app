@@ -99,6 +99,6 @@ getStory = storyId =>
   });
 
 // Execute the script to find the pivotal stories id in order to associate the right url in the changelog
-replacePivotalStories()
+addJiraPivotalUrls()
   .then(() => console.log("done"))
   .catch(ex => console.log(ex));
