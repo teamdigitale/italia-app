@@ -34,10 +34,14 @@ async function replacePivotalUrl(match, storyId, url) {
   }
 }
 
-async function replaceJiraStories() {
+async function addJiraUrl(match, ticketKey) {
+  return `[${ticketKey}](${new URL(ticketKey, jiraTicketBaseUrl).toString()})`;
+}
+
+async function replaceJiraStories(content) {
   // capture [JIRAID-123], avoid already linked ticket with pattern [JIRAID-123](http://jiraurl)
   const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
-  //
+  return await replaceAsync(content, jiraTagRegex, addJiraUrl);
 }
 
 async function replacePivotalStories() {
@@ -53,8 +57,10 @@ async function replacePivotalStories() {
     replacePivotalUrl
   );
 
+  const updatedJiraChangelog = await replaceJiraStories(updatedChangelog);
+
   // write the new modified changelog
-  fs.writeFileSync("CHANGELOG.md", updatedChangelog);
+  fs.writeFileSync("CHANGELOG.md", updatedJiraChangelog);
 }
 
 /**
