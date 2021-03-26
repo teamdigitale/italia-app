@@ -54,13 +54,13 @@ async function replacePivotalStories() {
   const pivotalTagRegex = /\[(#\d+)\]\(([a-zA-z:\/\.\d-@:%._\+~#=]+)\)/g;
 
   // check for all the matches if is a pivotal story and update the url
-  const updatedChangelog = await replaceAsync(
-    content,
-    pivotalTagRegex,
-    replacePivotalUrl
-  );
+  // const updatedChangelog = await replaceAsync(
+  //   content,
+  //   pivotalTagRegex,
+  //   replacePivotalUrl
+  // );
 
-  const updatedJiraChangelog = await replaceJiraStories(updatedChangelog);
+  const updatedJiraChangelog = await replaceJiraStories(pivotalTagRegex);
 
   // write the new modified changelog
   fs.writeFileSync("CHANGELOG.md", updatedJiraChangelog);
