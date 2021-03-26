@@ -43,28 +43,27 @@ async function addJiraUrl(match, ticketKeys) {
 
 async function replaceJiraStories(content) {
   // capture [JIRAID-123], avoid already linked ticket with pattern [JIRAID-123](http://jiraurl)
-  // const jiraTagRegex = /\[([a-zA-Z0-9]+-\d+)\](?!\()/g;
   const jiraTagRegex = /\[([A-Z0-9]+-\d+(,[a-zA-Z]+-\d+)*)](?!\()/g;
   return await replaceAsync(content, jiraTagRegex, addJiraUrl);
 }
 
-async function replacePivotalStories() {
+async function addJiraPivotalUrls() {
   // read changelog
-  const content = fs.readFileSync("CHANGELOG.md").toString("utf8");
+  const rawChangelog = fs.readFileSync("CHANGELOG.md").toString("utf8");
+
+  const withPivotalStories = await replacePivotalStories(rawChangelog);
+  const withJiraStories = await replaceJiraStories(withPivotalStories);
+
+  // write the new modified changelog
+  fs.writeFileSync("CHANGELOG.md", withJiraStories);
+}
+
+async function replacePivotalStories(content) {
   // identify the pattern [#XXXXX](url) for markdown link
   const pivotalTagRegex = /\[(#\d+)\]\(([a-zA-z:\/\.\d-@:%._\+~#=]+)\)/g;
 
   // check for all the matches if is a pivotal story and update the url
-  // const updatedChangelog = await replaceAsync(
-  //   content,
-  //   pivotalTagRegex,
-  //   replacePivotalUrl
-  // );
-
-  const updatedJiraChangelog = await replaceJiraStories(content);
-
-  // write the new modified changelog
-  fs.writeFileSync("CHANGELOG.md", updatedJiraChangelog);
+  return await replaceAsync(content, pivotalTagRegex, replacePivotalUrl);
 }
 
 /**
