@@ -33,6 +33,7 @@ import { setLocale } from "./i18n";
 import RootModal from "./screens/modal/RootModal";
 import { preferredLanguageSelector } from "./store/reducers/persistedPreferences";
 import { CgnTestOverlay } from "./features/bonus/cgn/components/CgnTestOverlay";
+import { initialiseInstabug } from "./boot/configureInstabug";
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
@@ -75,6 +76,7 @@ class RootContainer extends React.PureComponent<Props> {
   public componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
     if (Platform.OS === "android") {
+      initialiseInstabug();
       Linking.getInitialURL()
         .then(this.navigateToUrlHandler)
         .catch(console.error); // eslint-disable-line no-console

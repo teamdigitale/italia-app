@@ -52,18 +52,19 @@ const InstabugLogger: InstabugLoggerType = {
 
 // eslint-disable-next-line functional/no-let
 let instabugInitialized = false;
-const initialiseInstabug = () => {
+export const initialiseInstabug = () => {
   if (instabugInitialized) {
     return;
   }
   // Initialise Instabug for iOS. The Android initialisation is inside MainApplication.java
   Instabug.startWithToken(instabugToken, [Instabug.invocationEvent.none]);
-  // it seems NetworkLogger.setEnabled(false) turns off all network interceptions
-  // this may cause an empty timeline in Reactotron too
-  if (!isDevEnv) {
-    // avoid Instabug to log network requests
-    NetworkLogger.setEnabled(false);
-  }
+
+  /**
+   * it seems NetworkLogger.setEnabled(false) turns off all network interceptions
+   * this may cause an empty timeline in Reactotron too
+   * avoid Instabug to log network requests in production
+   */
+  NetworkLogger.setEnabled(isDevEnv);
 
   Instabug.setString(
     Instabug.strings.commentFieldHintForQuestion,
@@ -71,7 +72,7 @@ const initialiseInstabug = () => {
   );
   // Set primary color for iOS. The Android's counterpart is inside MainApplication.java
   Instabug.setPrimaryColor(variables.contentPrimaryBackground);
-  Instabug.setColorTheme(Instabug.colorTheme.light);
+  Instabug.setColorTheme(Instabug.colorTheme.dark);
 
   // Set the language for Instabug ui/screens
   Instabug.setLocale(
@@ -166,7 +167,7 @@ export const instabugLog = (log: string, typeLog: TypeLogs, tag?: string) => {
     new RegExp("(.|[\r\n]){1," + chunckSize.toString() + "}", "g")
   );
   if (chunks) {
-    const prefix = tag ? tag : "";
+    const prefix = tag ?? "";
     const space = prefix.length > 0 && chunks.length > 1 ? " " : "";
 
     chunks.forEach((chunk, i) => {
