@@ -50,7 +50,12 @@ const InstabugLogger: InstabugLoggerType = {
   WARN: Instabug.logWarn
 };
 
-export const initialiseInstabug = () => {
+// eslint-disable-next-line functional/no-let
+let instabugInitialized = false;
+const initialiseInstabug = () => {
+  if (instabugInitialized) {
+    return;
+  }
   // Initialise Instabug for iOS. The Android initialisation is inside MainApplication.java
   Instabug.startWithToken(instabugToken, [Instabug.invocationEvent.none]);
   // it seems NetworkLogger.setEnabled(false) turns off all network interceptions
@@ -75,6 +80,7 @@ export const initialiseInstabug = () => {
       : instabugLocales.en
   );
   setInstabugUserAttribute("appVersion", getAppVersion());
+  instabugInitialized = true;
 };
 
 export const defaultAttachmentTypeConfiguration = {
@@ -95,6 +101,7 @@ export type DefaultReportAttachmentTypeConfiguration = typeof defaultAttachmentT
 export const openInstabugQuestionReport = (
   attachmentTypeConfiguration: DefaultReportAttachmentTypeConfiguration = defaultAttachmentTypeConfiguration
 ) => {
+  initialiseInstabug();
   Instabug.setEnabledAttachmentTypes(
     attachmentTypeConfiguration.screenshot,
     attachmentTypeConfiguration.extraScreenshot,
@@ -108,6 +115,7 @@ export const openInstabugQuestionReport = (
 };
 
 export const openInstabugReplies = () => {
+  initialiseInstabug();
   Replies.show();
 };
 
@@ -148,6 +156,9 @@ const numberMargin = 15;
  * @param tag a tag that can be used to identify the log
  */
 export const instabugLog = (log: string, typeLog: TypeLogs, tag?: string) => {
+  if (!instabugInitialized) {
+    return;
+  }
   const chunckSize =
     maxInstabugLogLength - (tag ? tag.length : 0) - numberMargin;
 
