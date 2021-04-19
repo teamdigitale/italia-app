@@ -1061,6 +1061,7 @@ wallet:
     info2Bold: compatibili con il tuo metodo, anche se non sei loro cliente.
     provider: Gestore
     maxFee: Costo di transazione
+    loadingPsps: Caricamento gestori in corso...
     onUpdateWalletPspFailure: Operazione fallita, riprova
     contextualHelpTitle: Scelta del gestore
     contextualHelpContent: !include pick_psp.md

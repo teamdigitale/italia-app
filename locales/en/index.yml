@@ -1035,6 +1035,7 @@ wallet:
     info2Bold: compatible with your method, even if you are not their client.
     provider: Provider
     maxFee: Maximum fee
+    loadingPsps: Loading providers in progress...
     onUpdateWalletPspFailure: Operation failed, please retry
     contextualHelpTitle: Select a provider
     contextualHelpContent: !include pick_psp.md
