@@ -79,14 +79,6 @@ class PickPspScreen extends React.Component<Props> {
     this.onLoadAllPsp();
   }
 
-  onRetry() {
-    const idWallet = this.props.navigation
-      .getParam("wallet")
-      .idWallet.toString();
-    const idPayment = this.props.navigation.getParam("idPayment");
-    console.log(idWallet, idPayment);
-  }
-
   private headerItem = (
     <View style={styles.padded}>
       <View style={styles.header}>
