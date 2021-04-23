@@ -1,10 +1,4 @@
-import {
-  fromNullable,
-  fromPredicate,
-  none,
-  Option,
-  some
-} from "fp-ts/lib/Option";
+import { fromNullable, none, Option, some } from "fp-ts/lib/Option";
 import { BugReporting } from "instabug-reactnative";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import { Container } from "native-base";
@@ -23,8 +17,6 @@ import {
   defaultAttachmentTypeConfiguration
 } from "../../boot/configureInstabug";
 import I18n from "../../i18n";
-import customVariables from "../../theme/variables";
-import { setStatusBarColorAndBackground } from "../../utils/statusBar";
 import { handleItemOnPress } from "../../utils/url";
 import ContextualHelpModal from "../ContextualHelpModal";
 import { SearchType } from "../search/SearchButton";
@@ -78,10 +70,6 @@ interface State {
   markdownContentLoaded: Option<boolean>;
   contextualHelpModalAnimation: ModalBaseProps["animationType"];
 }
-
-const maybeDark = fromPredicate(
-  (isDark: boolean | undefined = undefined) => isDark === true
-);
 
 const ANDROID_OPEN_REPORT_DELAY = 50 as Millisecond;
 
@@ -191,9 +179,6 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
   };
 
   private showHelp = () => {
-    maybeDark(this.props.dark).map(_ =>
-      setStatusBarColorAndBackground("dark-content", customVariables.colorWhite)
-    );
     this.setState({
       isHelpVisible: true,
       markdownContentLoaded: fromNullable(
@@ -203,12 +188,6 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
   };
 
   private hideHelp = () => {
-    maybeDark(this.props.dark).map(_ =>
-      setStatusBarColorAndBackground(
-        "light-content",
-        customVariables.brandDarkGray
-      )
-    );
     this.handleOnContextualHelpDismissed();
     this.setState({ isHelpVisible: false });
   };

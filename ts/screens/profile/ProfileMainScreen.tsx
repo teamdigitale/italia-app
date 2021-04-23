@@ -52,7 +52,6 @@ import customVariables from "../../theme/variables";
 import { getAppVersion } from "../../utils/appVersion";
 import { clipboardSetStringWithFeedback } from "../../utils/clipboard";
 import { isDevEnv } from "../../utils/environment";
-import { setStatusBarColorAndBackground } from "../../utils/statusBar";
 
 type OwnProps = Readonly<{
   navigation: NavigationScreenProp<NavigationState>;
@@ -119,16 +118,6 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
       tapsOnAppVersion: 0
     };
     this.handleClearCachePress = this.handleClearCachePress.bind(this);
-  }
-
-  public componentDidMount() {
-    // eslint-disable-next-line functional/immutable-data
-    this.navListener = this.props.navigation.addListener("didFocus", () => {
-      setStatusBarColorAndBackground(
-        "light-content",
-        customVariables.brandDarkGray
-      );
-    }); // eslint-disable-line
   }
 
   public componentWillUnmount() {

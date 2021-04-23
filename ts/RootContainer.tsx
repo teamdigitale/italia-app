@@ -1,12 +1,6 @@
 import { Root } from "native-base";
 import * as React from "react";
-import {
-  AppState,
-  BackHandler,
-  Linking,
-  Platform,
-  StatusBar
-} from "react-native";
+import { AppState, BackHandler, Linking, Platform } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
 import { initialiseInstabug } from "./boot/configureInstabug";
@@ -141,7 +135,6 @@ class RootContainer extends React.PureComponent<Props> {
 
     return (
       <Root>
-        <StatusBar barStyle={"dark-content"} />
         {Platform.OS === "android" && <FlagSecureComponent />}
         <Navigation />
         {shouldDisplayVersionInfoOverlay && <VersionInfoOverlay />}

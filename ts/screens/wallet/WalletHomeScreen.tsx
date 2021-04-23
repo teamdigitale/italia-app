@@ -87,7 +87,6 @@ import { Transaction, Wallet } from "../../types/pagopa";
 import { isUpdateNeeded } from "../../utils/appVersion";
 import { isStrictSome } from "../../utils/pot";
 import { showToast } from "../../utils/showToast";
-import { setStatusBarColorAndBackground } from "../../utils/statusBar";
 import { cgnDetails } from "../../features/bonus/cgn/store/actions/details";
 import CgnCardInWalletContainer from "../../features/bonus/cgn/components/CgnCardInWalletComponent";
 import {
@@ -255,14 +254,6 @@ class WalletHomeScreen extends React.PureComponent<Props, State> {
     }
 
     // FIXME restore loadTransactions see https://www.pivotaltracker.com/story/show/176051000
-
-    // eslint-disable-next-line functional/immutable-data
-    this.navListener = this.props.navigation.addListener("didFocus", () => {
-      setStatusBarColorAndBackground(
-        "light-content",
-        customVariables.brandDarkGray
-      );
-    }); // eslint-disable-line
     BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
 
     // Dispatch the action associated to the saga responsible to remind a user

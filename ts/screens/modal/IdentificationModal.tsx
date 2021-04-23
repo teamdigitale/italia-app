@@ -2,7 +2,7 @@ import { fromNullable } from "fp-ts/lib/Option";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import { Content, Text, View } from "native-base";
 import * as React from "react";
-import { Alert, Modal, StatusBar, StyleSheet } from "react-native";
+import { Alert, Modal, StyleSheet } from "react-native";
 import TouchID, { AuthenticationError } from "react-native-touch-id";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -33,7 +33,6 @@ import {
 } from "../../store/reducers/identification";
 import { isFingerprintEnabledSelector } from "../../store/reducers/persistedPreferences";
 import { GlobalState } from "../../store/reducers/types";
-import variables from "../../theme/variables";
 import customVariables from "../../theme/variables";
 import { setAccessibilityFocus } from "../../utils/accessibility";
 import { authenticateConfig } from "../../utils/biometric";
@@ -452,14 +451,11 @@ class IdentificationModal extends React.PureComponent<Props, State> {
           accessibilityEvents={{ avoidNavigationEventsUsage: true }}
           accessibilityLabel={I18n.t("identification.title")}
           primary={!isValidatingTask}
+          headerBackgroundColor={customVariables.contentPrimaryBackground}
           contextualHelpMarkdown={contextualHelpMarkdown}
           faqCategories={["unlock", "onboarding_pin", "onboarding_fingerprint"]}
           appLogo={true}
         >
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={variables.contentPrimaryBackground}
-          />
           <Content primary={!isValidatingTask}>
             {renderHeader()}
             {this.renderErrorDescription()}

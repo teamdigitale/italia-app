@@ -41,7 +41,6 @@ import { GlobalState } from "../../store/reducers/types";
 import { makeFontStyleObject } from "../../theme/fonts";
 import customVariables from "../../theme/variables";
 import { HEADER_HEIGHT, MESSAGE_ICON_HEIGHT } from "../../utils/constants";
-import { setStatusBarColorAndBackground } from "../../utils/statusBar";
 import SectionStatusComponent from "../../components/SectionStatusComponent";
 import { IOStyles } from "../../components/core/variables/IOStyles";
 
@@ -128,13 +127,6 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
 
   public componentDidMount() {
     this.onRefreshMessages();
-    // eslint-disable-next-line functional/immutable-data
-    this.navListener = this.props.navigation.addListener("didFocus", () => {
-      setStatusBarColorAndBackground(
-        "dark-content",
-        customVariables.colorWhite
-      );
-    }); // eslint-disable-line
   }
 
   public componentWillUnmount() {

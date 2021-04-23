@@ -122,7 +122,7 @@ class TransactionDetailsScreen extends React.Component<Props, State> {
     if (
       whereAmIFrom(this.props.nav).fold(
         false,
-        r => r === "WALLET_HOME" || r === "WALLET_CARD_TRANSACTION"
+        r => r === "WALLET_HOME" || r === "WALLET_CARD_TRANSACTIONS"
       )
     ) {
       return this.props.navigation.goBack();

@@ -2,10 +2,13 @@
 
 import { index } from "fp-ts/lib/Array";
 import { fromNullable, none, Option } from "fp-ts/lib/Option";
-import { NavigationRoute } from "react-navigation";
+import { NavigationRoute, NavigationState } from "react-navigation";
 import { NavigationHistoryState } from "../store/reducers/navigationHistory";
 
-// TODO: Need to be fixed https://www.pivotaltracker.com/story/show/170819360
+/**
+ * TODO: Need to be fixed https://www.pivotaltracker.com/story/show/170819360
+ * @deprecated
+ */
 export function getCurrentRouteName(navNode: any): string | undefined {
   if (!navNode) {
     return undefined;
@@ -28,6 +31,20 @@ export function getCurrentRouteName(navNode: any): string | undefined {
   }
   return undefined;
 }
+
+export const getActiveRoute = (
+  route: NavigationState
+): NavigationRoute | undefined => {
+  if (!route) {
+    return undefined;
+  }
+
+  const { routes, index } = route;
+
+  return routes?.length && index < routes.length
+    ? (getActiveRoute(routes[index] as NavigationState) as NavigationRoute)
+    : (route as NavigationRoute);
+};
 
 export function getCurrentRouteKey(navNode: any): string | undefined {
   if (!navNode) {
