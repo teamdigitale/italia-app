@@ -10927,6 +10927,11 @@ react-native-webview@10.4.0:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
+react-native-zendesk-v2@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-zendesk-v2/-/react-native-zendesk-v2-0.2.2.tgz#e64f4e2e5b4d78d76c4f6611faa9ecca5f2c059b"
+  integrity sha512-B/SzNvD02QfgIHWgyE0SQ7eRDxMsGpecvgdUOP/VAJTd/ElWws0mdg1WKAuqPCaVdNYMMSNdKwSI2VLzoP1SSg==
+
 react-native@0.63.2:
   version "0.63.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.2.tgz#eaebf3430577b37fbd66ef228a86b3408259ef8e"
