@@ -10,7 +10,6 @@ import FiscalCodeScreen from "../screens/profile/FiscalCodeScreen";
 import LanguagesPreferencesScreen from "../screens/profile/LanguagesPreferencesScreen";
 import PreferencesScreen from "../screens/profile/PreferencesScreen";
 import PrivacyMainScreen from "../screens/profile/PrivacyMainScreen";
-import ProfileMainScreen from "../screens/profile/ProfileMainScreen";
 import MarkdownPlayground from "../screens/profile/playgrounds/MarkdownPlayground";
 import WebPlayground from "../screens/profile/WebPlayground";
 import { Showroom } from "../screens/showroom/Showroom";
@@ -18,6 +17,7 @@ import RemoveAccountInfo from "../screens/profile/RemoveAccountInfoScreen";
 import RemoveAccountDetails from "../screens/profile/RemoveAccountDetailsScreen";
 import RemoveAccountSuccess from "../screens/profile/RemoveAccountSuccessScreen";
 import LogoutScreen from "../components/screens/LogoutScreen";
+import ZendeskScreen from "../zendDesk/ZendeskScreen";
 import ROUTES from "./routes";
 
 /**
@@ -26,7 +26,7 @@ import ROUTES from "./routes";
 const ProfileNavigator = createStackNavigator(
   {
     [ROUTES.PROFILE_MAIN]: {
-      screen: ProfileMainScreen
+      screen: ZendeskScreen
     },
     [ROUTES.PROFILE_PRIVACY_MAIN]: {
       screen: PrivacyMainScreen
