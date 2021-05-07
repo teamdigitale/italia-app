@@ -4,6 +4,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.robinpowered.react.ScreenBrightness.ScreenBrightnessPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import com.saranshmalik.rnzendeskchat.RNZendeskChatPackage;
 import com.sha256lib.Sha256Package;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -69,6 +70,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNZendeskChatPackage(),
             new ClipboardPackage(),
             new ReanimatedPackage(),
             new CookieManagerPackage(),

@@ -10,6 +10,8 @@ import { makeFontStyleObject } from "../components/core/fonts";
 import { Label } from "../components/core/typography/Label";
 import { GlobalState } from "../store/reducers/types";
 import { profileSelector } from "../store/reducers/profile";
+import { EdgeBorderComponent } from "../components/screens/EdgeBorderComponent";
+import { isStringNullyOrEmpty } from "../utils/strings";
 
 /**
  * considerazioni
@@ -25,19 +27,31 @@ const styles = StyleSheet.create({
     width: "90%"
   }
 });
-const zendeskDefaultConfig = {
+type ZendeskConfig = {
+  appId: string;
+  clientId: string;
+  url: string;
+  token: string;
+};
+type ZendeskNameEmail = {
+  name: string;
+  email: string;
+};
+const zendeskDefaultConfig: ZendeskConfig = {
+  key: "6e2c01f7-cebc-4c77-b878-3ed3c749a835",
   appId: "8547479b47fdacd0e8f74a4fb076a41014dee620d1d890b3",
   clientId: "mobile_sdk_client_518ee6a8160220698f97",
-  url: "https://pagopa.zendesk.com"
+  url: "https://pagopa.zendesk.com",
+  token: ""
 };
 const IBANInputStyle = makeFontStyleObject("Regular", false, "RobotoMono");
 
 const ZendeskScreen = (props: Props) => {
-  const [zenddeskConfig, setZenneskConfig] = React.useState(
+  const [zendeskConfig, setZendeskConfig] = React.useState<ZendeskConfig>(
     zendeskDefaultConfig
   );
 
-  const [nameAndEmail, setNameAndEmail] = React.useState({
+  const [nameAndEmail, setNameAndEmail] = React.useState<ZendeskNameEmail>({
     name: pot.getOrElse(
       pot.map(props.profile, p => p.name),
       ""
@@ -48,36 +62,58 @@ const ZendeskScreen = (props: Props) => {
     )
   });
 
+  const updateZendeskConfig = <C extends ZendeskConfig, K extends keyof C>(
+    prop: K,
+    value: C[K]
+  ) => setZendeskConfig({ ...zendeskConfig, [prop]: value });
+
+  const updateZendeskNameEmail = <
+    C extends ZendeskNameEmail,
+    K extends keyof C
+  >(
+    prop: K,
+    value: C[K]
+  ) => setNameAndEmail({ ...nameAndEmail, [prop]: value });
+
   const initZenDesk = () => {
     ZendDesk.init({
-      key: "6e2c01f7-cebc-4c77-b878-3ed3c749a835",
-      appId: zenddeskConfig.appId,
-      url: zenddeskConfig.url,
-      clientId: zenddeskConfig.clientId
+      key: zendeskConfig.key,
+      appId: zendeskConfig.appId,
+      url: zendeskConfig.url,
+      clientId: zendeskConfig.clientId
     });
   };
 
+  const identifyUserWithToken = () => {
+    ZendDesk.setUserIdentity({ token: zendeskConfig.token });
+  };
+
   const startChat = (name: string, email: string) => {
+    initZenDesk();
     ZendDesk.startChat({
+      botName: "test botName",
       name,
       email,
       tags: ["tag1", "tag2"],
+      color: "#ff0000",
       department: "Your department"
     });
   };
 
-  const showHelpCenter = () => {
-    const zenDeskAny = ZendDesk as any;
-    zenDeskAny.showHelpCenter({
-      withChat: true, // add this if you want to use chat instead of ticket creation
-      disableTicketCreation: true // add this if you want to just show help center and not add ticket creation
+  const showHelpCenter = (name: string, email: string) => {
+    initZenDesk();
+    ZendDesk.showHelpCenter({
+      name,
+      email,
+      withChat: true,
+      color: "#ff0000",
+      disableTicketCreation: false
     });
   };
 
   const identifyWithNameAndEmail = (name: string, email: string) => {
-    // some methods have not type definition
-    const zenDeskAny = ZendDesk as any;
-    zenDeskAny.setUserIdentity({
+    initZenDesk();
+    ZendDesk.setUserIdentity({
       name,
       email
     });
@@ -91,9 +127,11 @@ const ZendeskScreen = (props: Props) => {
           <Item error={false}>
             <Input
               multiline={true}
-              value={zenddeskConfig.appId}
+              value={zendeskConfig.appId}
               style={IBANInputStyle}
-              onChangeText={text => {}}
+              onChangeText={text =>
+                updateZendeskConfig("appId", text.toLocaleLowerCase())
+              }
             />
           </Item>
           <View spacer={true} />
@@ -102,9 +140,11 @@ const ZendeskScreen = (props: Props) => {
           <Item error={false}>
             <Input
               multiline={true}
-              value={zenddeskConfig.clientId}
+              value={zendeskConfig.clientId}
               style={IBANInputStyle}
-              onChangeText={text => {}}
+              onChangeText={text =>
+                updateZendeskConfig("clientId", text.toLocaleLowerCase())
+              }
             />
           </Item>
           <View spacer={true} />
@@ -113,13 +153,20 @@ const ZendeskScreen = (props: Props) => {
           <Item error={false}>
             <Input
               multiline={true}
-              value={zenddeskConfig.url}
+              value={zendeskConfig.url}
               style={IBANInputStyle}
-              onChangeText={text => {}}
+              onChangeText={text =>
+                updateZendeskConfig("url", text.toLocaleLowerCase())
+              }
             />
           </Item>
           <View spacer={true} />
-
+          <Label weight={"Regular"}>
+            {
+              "init MUST be done before all other actions. This action is idempotent"
+            }
+          </Label>
+          <View spacer={true} />
           <ButtonDefaultOpacity
             style={styles.buttonStyle}
             bordered={false}
@@ -127,8 +174,33 @@ const ZendeskScreen = (props: Props) => {
           >
             <Text>{"init Zendesk"}</Text>
           </ButtonDefaultOpacity>
+          <View spacer={true} />
+          <Item />
+          <View spacer={true} />
+
+          <Label weight={"Regular"}>{"Token"}</Label>
+          <Item error={false}>
+            <Input
+              multiline={true}
+              value={zendeskConfig.token}
+              style={IBANInputStyle}
+              onChangeText={text =>
+                updateZendeskConfig("token", text.toLocaleLowerCase())
+              }
+            />
+          </Item>
+          <View spacer={true} />
+          <ButtonDefaultOpacity
+            style={styles.buttonStyle}
+            bordered={false}
+            disabled={isStringNullyOrEmpty(zendeskConfig.token)}
+            onPress={identifyUserWithToken}
+          >
+            <Text>{"identify with token"}</Text>
+          </ButtonDefaultOpacity>
 
           <View spacer={true} />
+          <Item />
           <View spacer={true} />
 
           <Label weight={"Regular"}>{"Name"}</Label>
@@ -137,7 +209,7 @@ const ZendeskScreen = (props: Props) => {
               multiline={true}
               value={nameAndEmail.name}
               style={IBANInputStyle}
-              onChangeText={text => {}}
+              onChangeText={text => updateZendeskNameEmail("name", text)}
             />
           </Item>
           <View spacer={true} />
@@ -148,7 +220,9 @@ const ZendeskScreen = (props: Props) => {
               multiline={true}
               value={nameAndEmail.email}
               style={IBANInputStyle}
-              onChangeText={text => {}}
+              onChangeText={text =>
+                updateZendeskNameEmail("email", text.toLocaleLowerCase())
+              }
             />
           </Item>
           <View spacer={true} />
@@ -163,6 +237,9 @@ const ZendeskScreen = (props: Props) => {
           </ButtonDefaultOpacity>
 
           <View spacer={true} />
+          <Item />
+          <View spacer={true} />
+
           <ButtonDefaultOpacity
             style={styles.buttonStyle}
             bordered={false}
@@ -172,14 +249,20 @@ const ZendeskScreen = (props: Props) => {
           </ButtonDefaultOpacity>
 
           <View spacer={true} />
+          <Item />
+          <View spacer={true} />
+
           <ButtonDefaultOpacity
             style={styles.buttonStyle}
             bordered={false}
-            onPress={() => showHelpCenter()}
+            onPress={() =>
+              showHelpCenter(nameAndEmail.name, nameAndEmail.email)
+            }
           >
-            <Text>{"showHelpCenter"}</Text>
+            <Text>{"show help center"}</Text>
           </ButtonDefaultOpacity>
         </View>
+        <EdgeBorderComponent />
       </Content>
     </BaseScreenComponent>
   );

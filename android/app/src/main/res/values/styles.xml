@@ -15,4 +15,11 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+  <style  name="ZendeskTheme"  parent="Theme.MaterialComponents.Light">
+    <item  name="colorPrimary">@color/primary</item>
+    <item  name="colorPrimaryDark">@color/primary</item>
+    <item  name="colorAccent">@color/primary</item>
+
+  </style>
+
 </resources>

@@ -4,7 +4,7 @@ import * as _ from "lodash";
 import { PatternString } from "italia-ts-commons/lib/strings";
 import { CreditCard } from "../types/pagopa";
 
-const MIN_PAN_DIGITS = 15;
+const MIN_PAN_DIGITS = 14;
 const MAX_PAN_DIGITS = 19;
 
 /**
