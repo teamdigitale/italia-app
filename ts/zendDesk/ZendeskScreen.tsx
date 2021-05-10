@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   }
 });
 type ZendeskConfig = {
+  key: string;
   appId: string;
   clientId: string;
   url: string;
