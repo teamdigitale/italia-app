@@ -1591,7 +1591,7 @@ identification:
       sensorErrorDescription: Fingerprint not recognized. Touch the sensor again.
       fallbackLabel: Use the unlock code
   fail:
-    wrongCode: Wrong code
+    wrongCode: Try again
     remainingAttempts: You have {{attempts}} attempts left.
     remainingAttemptSingle: You have {{attempts}} attempt left.
     tooManyAttempts: Too many attempts.
