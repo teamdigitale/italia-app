@@ -17,6 +17,7 @@ import { Action } from "../../actions/types";
 import { clearCache } from "../../actions/profile";
 import { GlobalState } from "../types";
 import { addCreditCardOutcomeCode } from "../../actions/wallet/outcomeCode";
+import { getLookUpId } from "../../../utils/pmLookUpId";
 
 export type CreditCardInsertion = {
   startDate: Date;
@@ -34,6 +35,7 @@ export type CreditCardInsertion = {
   payNavigationUrls?: ReadonlyArray<string>;
   onboardingComplete: boolean;
   outcomeCode?: string;
+  lookupId?: string;
 };
 
 // The state is modeled as a stack on which the last element is added at the head
@@ -103,7 +105,8 @@ const reducer = (
           blurredPan: c.pan.slice(-4),
           expireMonth: c.expireMonth,
           expireYear: c.expireYear,
-          onboardingComplete: false
+          onboardingComplete: false,
+          lookupId: getLookUpId()
         };
         return trimState([requestedAttempt, ...newState]);
       });

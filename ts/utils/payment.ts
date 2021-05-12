@@ -30,10 +30,7 @@ import {
   OutcomeCodes,
   OutcomeCodesKey
 } from "../types/outcomeCode";
-import {
-  formatDateAsReminder,
-  getTranslatedShortNumericMonthYear
-} from "./dates";
+import { getTranslatedShortNumericMonthYear } from "./dates";
 import { getFullLocale, getLocalePrimaryWithFallback } from "./locale";
 import { maybeInnerProperty } from "./options";
 import { formatNumberCentsToAmount } from "./stringBuilder";
@@ -178,48 +175,8 @@ export const getPaymentHistoryDetails = (
   payment: PaymentHistory,
   profile: InitializedProfile
 ): string => {
-  const separator = " / ";
-  const profileDetails = getProfileDetailsLog(profile, separator);
-  const paymentDetails = `- payment start time: ${formatDateAsReminder(
-    new Date(payment.started_at)
-  )}${separator}- payment data: ${JSON.stringify(payment.data, null, 4)}`;
-  const codiceAvviso = `- codice avviso: ${getCodiceAvviso(payment.data)}`;
-  const webViewCloseReason = `- chiusura webview: ${
-    payment.webViewCloseReason ?? "n/a"
-  }`;
-  const success = `- pagamento concluso con successo: ${
-    payment.success === true ? "si" : "no"
-  }`;
-  const outcomeCode = `- codice di uscita: ${payment.outcomeCode ?? "n/a"}`;
-  const navigationUrls = `- navigazione webview: ${(
-    payment.payNavigationUrls ?? []
-  ).join(", ")}`;
-  const ccp = fromNullable(payment.verified_data)
-    .map(pv => `- ccp: ${pv.codiceContestoPagamento}`)
-    .getOrElse("ccp: n/a");
-  const failureDetails = fromNullable(payment.failure)
-    .map(
-      pf => `- errore: ${pf} (descrizione errore: ${getErrorDescription(pf)})`
-    )
-    .getOrElse("errore: n/a");
-  return profileDetails.concat(
-    separator,
-    codiceAvviso,
-    separator,
-    paymentDetails,
-    separator,
-    ccp,
-    separator,
-    success,
-    separator,
-    webViewCloseReason,
-    separator,
-    outcomeCode,
-    separator,
-    navigationUrls,
-    separator,
-    failureDetails
-  );
+  const profileDetails = getProfileDetailsLog(profile, " / ");
+  return JSON.stringify({ payment, profileDetails });
 };
 
 // return the transaction fee it transaction is defined and its fee property too

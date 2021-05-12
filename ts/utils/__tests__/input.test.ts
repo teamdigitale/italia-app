@@ -15,6 +15,7 @@ import { testableAddCardScreen } from "../../screens/wallet/AddCardScreen";
 
 describe("CreditCardPan", () => {
   const validPANs: ReadonlyArray<string> = [
+    "12341234123412",
     "123412341234123",
     "1234123412341234",
     "************1234",
@@ -34,7 +35,7 @@ describe("CreditCardPan", () => {
   const invalidPANs: ReadonlyArray<string> = [
     "1234 1234 1234 1234",
     "123412341234123_123",
-    "12341234123412",
+    "1234123412341",
     "12341234123412341234"
   ];
 

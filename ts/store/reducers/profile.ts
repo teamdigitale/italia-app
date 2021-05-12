@@ -10,6 +10,7 @@ import { createSelector } from "reselect";
 import { getType } from "typesafe-actions";
 import { EmailAddress } from "../../../definitions/backend/EmailAddress";
 import { InitializedProfile } from "../../../definitions/backend/InitializedProfile";
+import { capitalize } from "../../utils/strings";
 import {
   profileLoadFailure,
   profileLoadRequest,
@@ -71,7 +72,7 @@ export const profileNameSelector = createSelector(
   profileSelector,
   (profile: ProfileState): string | undefined =>
     pot.getOrElse(
-      pot.map(profile, p => p.name),
+      pot.map(profile, p => capitalize(p.name)),
       undefined
     )
 );
@@ -83,7 +84,7 @@ export const profileNameSurnameSelector = createSelector(
   profileSelector,
   (profile: ProfileState): string | undefined =>
     pot.getOrElse(
-      pot.map(profile, p => `${p.name} ${p.family_name}`),
+      pot.map(profile, p => capitalize(`${p.name} ${p.family_name}`)),
       undefined
     )
 );

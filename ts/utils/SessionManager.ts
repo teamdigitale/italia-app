@@ -104,7 +104,7 @@ export class SessionManager<T> {
 
   /**
    * Returns a new function, with the same params of the provided function but
-   * the first one, the token, that gets provided by the interal logic.
+   * the first one, the token, that gets provided by the internal logic.
    */
   public withRefresh<R>(
     f: Function1<T, Promise<t.Validation<IResponseType<401, any> | R>>>

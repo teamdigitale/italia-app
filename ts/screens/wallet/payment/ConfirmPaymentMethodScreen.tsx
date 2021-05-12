@@ -62,6 +62,7 @@ import { outcomeCodesSelector } from "../../../store/reducers/wallet/outcomeCode
 import { isPaymentOutcomeCodeSuccessfully } from "../../../utils/payment";
 import { fetchTransactionsRequestWithExpBackoff } from "../../../store/actions/wallet/transactions";
 import { OutcomeCodesKey } from "../../../types/outcomeCode";
+import { getLookUpIdPO } from "../../../utils/pmLookUpId";
 
 export type NavigationParams = Readonly<{
   rptId: RptId;
@@ -213,6 +214,13 @@ const ConfirmPaymentMethodScreen: React.FC<Props> = (props: Props) => {
     ]);
   };
 
+  const formData = props.payStartWebviewPayload
+    .map<Record<string, string | number>>(payload => ({
+      ...payload,
+      ...getLookUpIdPO()
+    }))
+    .getOrElse({});
+
   return (
     <BaseScreenComponent
       goBack={props.onCancel}
@@ -310,7 +318,7 @@ const ConfirmPaymentMethodScreen: React.FC<Props> = (props: Props) => {
       {props.payStartWebviewPayload.isSome() && (
         <PayWebViewModal
           postUri={urlPrefix + payUrlSuffix}
-          formData={props.payStartWebviewPayload.value}
+          formData={formData}
           finishPathName={webViewExitPathName}
           onFinish={handlePaymentOutcome}
           outcomeQueryparamName={webViewOutcomeParamName}
