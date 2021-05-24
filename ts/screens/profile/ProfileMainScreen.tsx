@@ -329,12 +329,19 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
         <NavigationEvents onWillFocus={this.scrollToTop} />
         <View spacer={true} />
         <List withContentLateralPadding={true}>
+          {/* Data */}
+          <ListItemComponent
+            title={I18n.t("profile.main.data.title")}
+            subTitle={I18n.t("profile.main.data.description")}
+            onPress={() => navigation.navigate(ROUTES.PROFILE_DATA)}
+            isFirstItem
+          />
+
           {/* Preferences */}
           <ListItemComponent
             title={I18n.t("profile.main.preferences.title")}
             subTitle={I18n.t("profile.main.preferences.description")}
             onPress={() => navigation.navigate(ROUTES.PROFILE_PREFERENCES_HOME)}
-            isFirstItem={true}
           />
 
           {/* Privacy */}
@@ -355,10 +362,6 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
               )
             }
             isLastItem={true}
-          />
-
-          <SectionHeaderComponent
-            sectionHeader={I18n.t("profile.main.accountSectionHeader")}
           />
 
           {/* Ask for verification and reset unlock code */}

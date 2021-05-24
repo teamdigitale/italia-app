@@ -253,7 +253,7 @@ profile:
     spid: PROFILO SPID
   unknown: SCONOSCIUTO
   logout:
-    menulabel: Vuoi davvero uscire?
+    menulabel: Esci da IO
     alertMessage: Al prossimo accesso sarà necessario autenticarti con CIE o SPID.
     loading: Logout in corso...
     exit: Esci
@@ -283,9 +283,15 @@ profile:
       alert: Vuoi davvero eliminare la cache?
       clear: Elimina cache
       cleared: La cache è stata eliminata.
+    data:
+      title: I tuoi dati
+      description: Rivedi le tue informazioni
     preferences:
       title: Preferenze
       description: Gestisci le preferenze dell'applicazione
+    security:
+      title: Sicurezza
+      description: Gestisci accesso biometrico e codice di sblocco
     privacy:
       title: Privacy e condizioni d'uso
       description: I tuoi diritti e obblighi nell’uso di IO
@@ -358,16 +364,25 @@ profile:
       alertConfirmTitle: Vuoi usare l'ambiente di test pagoPA?
       alertConfirmMessage: Se abiliti l'ambiente di test pagoPA non vedrai più lo storico delle tue transazioni e i tuoi metodi di pagamento salvati, e potrai usare solo metodi di pagamento espressamente creati per questo scopo. Se non ti è chiaro cosa questo significa non abilitare questa funzione.
       alertMessage: È necessario il riavvio dell'applicazione affinché le modifiche abbiano effetto.
-    accountSectionHeader: Account
     appVersion: Versione App
     backendVersion: Versione Backend
     debugMode: Modalità debug
     showroom: UI Showroom
+  data:
+    title: I tuoi dati
+    subtitle: Rivedi le tue informazioni.
+    list:
+      email: Indirizzo email
+      need_validate: Da validare
+    email:
+      contextualHelpTitle: Come gestire la tua mail
+      contextualHelpContent: !include profile/profile_data_email_address.md
+      forward:
+        contextualHelpTitle: Come gestire l'inoltro dei messaggi
+        contextualHelpContent: !include profile/profile_data_email_forward.md
   preferences:
     title: Preferenze
-    subtitle:
-      Queste impostazioni verranno utilizzate da tutti i servizi della Pubblica
-      Amministrazione.
+    subtitle: Queste impostazioni ti permettono di personalizzare l’esperienza di app IO. 
     contextualHelpTitle: Le tue preferenze
     contextualHelpContent: !include profile/profile_preferences_home.md
     list:
@@ -375,9 +390,7 @@ profile:
       biometric_recognition_status:
         enabled: Abilitato
         disabled: Disabilitato
-      email: Indirizzo email
       spid_email: Email SPID
-      need_validate: Da validare
       mobile_phone: Numero di telefono SPID
       wip: In elaborazione
       language: Lingua
@@ -402,12 +415,6 @@ profile:
     spid_email:
       contextualHelpTitle: Questa preferenza è impostata nel tuo profilo SPID
       contextualHelpContent: !include profile/profile_preferences_spid_email.md
-    email:
-      contextualHelpTitle: Come gestire la tua mail
-      contextualHelpContent: !include profile/profile_preferences_email_address.md
-      forward:
-        contextualHelpTitle: Come gestire l'inoltro dei messaggi
-        contextualHelpContent: !include profile/profile_preferences_email_forward.md
     calendar:
       contextualHelpTitle: Cos'è il tuo calendario preferito
       contextualHelpContent: !include profile/profile_preferences_calendar.md

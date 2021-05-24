@@ -17,6 +17,7 @@ import { Showroom } from "../screens/showroom/Showroom";
 import RemoveAccountInfo from "../screens/profile/RemoveAccountInfoScreen";
 import RemoveAccountDetails from "../screens/profile/RemoveAccountDetailsScreen";
 import RemoveAccountSuccess from "../screens/profile/RemoveAccountSuccessScreen";
+import ProfileDataScreen from "../screens/profile/ProfileDataScreen";
 import LogoutScreen from "../components/screens/LogoutScreen";
 import ROUTES from "./routes";
 
@@ -36,6 +37,9 @@ const ProfileNavigator = createStackNavigator(
     },
     [ROUTES.PROFILE_PREFERENCES_HOME]: {
       screen: PreferencesScreen
+    },
+    [ROUTES.PROFILE_DATA]: {
+      screen: ProfileDataScreen
     },
     [ROUTES.PROFILE_PREFERENCES_BIOMETRIC_RECOGNITION]: {
       screen: BiometricRecognitionScreen

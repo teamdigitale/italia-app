@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
 });
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
-  title: "profile.preferences.email.contextualHelpTitle",
-  body: "profile.preferences.email.contextualHelpContent"
+  title: "profile.data.email.contextualHelpTitle",
+  body: "profile.data.email.contextualHelpContent"
 };
 
 export class EmailReadScreen extends React.PureComponent<Props> {
@@ -148,7 +148,7 @@ export class EmailReadScreen extends React.PureComponent<Props> {
     return (
       <TopScreenComponent
         goBack={this.handleGoBack}
-        headerTitle={I18n.t("profile.preferences.list.email")}
+        headerTitle={I18n.t("profile.data.list.email")}
         contextualHelpMarkdown={contextualHelpMarkdown}
       >
         <ScreenContent
