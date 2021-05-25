@@ -34,8 +34,6 @@ const ProfileDataScreen: React.FC<Props> = ({
   navigateToEmailInsertScreen,
   hasProfileEmail
 }): JSX.Element => {
-  const textNotAvailable = I18n.t("global.remoteStates.notAvailable");
-
   const onPressEmail = () => {
     if (hasProfileEmail) {
       navigateToEmailReadScreen();
@@ -56,9 +54,12 @@ const ProfileDataScreen: React.FC<Props> = ({
         subtitle={I18n.t("profile.data.subtitle")}
       >
         <List withContentLateralPadding>
+          {/* Edit email */}
           <ListItemComponent
             title={I18n.t("profile.data.list.email")}
-            subTitle={optionEmail.getOrElse(textNotAvailable)}
+            subTitle={optionEmail.getOrElse(
+              I18n.t("global.remoteStates.notAvailable")
+            )}
             titleBadge={
               !isEmailValidated
                 ? I18n.t("profile.data.list.need_validate")

@@ -9,9 +9,6 @@ import * as React from "react";
 import { Alert } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-
-import { TranslationKeys } from "../../../locales/locales";
-import { ContextualHelp } from "../../components/ContextualHelp";
 import { withLightModalContext } from "../../components/helpers/withLightModalContext";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
@@ -19,7 +16,6 @@ import ListItemComponent from "../../components/screens/ListItemComponent";
 import ScreenContent from "../../components/screens/ScreenContent";
 import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import { LightModalContextInterface } from "../../components/ui/LightModal";
-import Markdown from "../../components/ui/Markdown";
 import I18n from "../../i18n";
 import {
   navigateToCalendarPreferenceScreen,
@@ -128,29 +124,31 @@ class PreferencesScreen extends React.Component<Props> {
   };
 
   public render() {
-    const maybeSpidEmail = this.props.optionSpidEmail;
-    const maybePhoneNumber = this.props.optionMobilePhone;
+    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN
+    // const maybeSpidEmail = this.props.optionSpidEmail;
+    // const maybePhoneNumber = this.props.optionMobilePhone;
 
     const language = this.props.preferredLanguage.fold(
       translateLocale(getLocalePrimaryWithFallback()),
       l => translateLocale(l)
     );
 
-    const showModal = (title: TranslationKeys, body: TranslationKeys) => {
-      this.props.showModal(
-        <ContextualHelp
-          onClose={this.props.hideModal}
-          title={I18n.t(title)}
-          body={() => <Markdown>{I18n.t(body)}</Markdown>}
-        />
-      );
-    };
+    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN
+    // const showModal = (title: TranslationKeys, body: TranslationKeys) => {
+    //   this.props.showModal(
+    //     <ContextualHelp
+    //       onClose={this.props.hideModal}
+    //       title={I18n.t(title)}
+    //       body={() => <Markdown>{I18n.t(body)}</Markdown>}
+    //     />
+    //   );
+    // };
 
-    const showSpidEmailModal = () =>
-      showModal(
-        "profile.preferences.spid_email.contextualHelpTitle",
-        "profile.preferences.spid_email.contextualHelpContent"
-      );
+    // const showSpidEmailModal = () =>
+    //   showModal(
+    //     "profile.preferences.spid_email.contextualHelpTitle",
+    //     "profile.preferences.spid_email.contextualHelpContent"
+    //   );
 
     return (
       <TopScreenComponent
@@ -183,6 +181,7 @@ class PreferencesScreen extends React.Component<Props> {
               onPress={this.props.navigateToEmailForwardingPreferenceScreen}
             />
 
+            {/*    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN */}
             {/* {
               // Check if spid email exists
               maybeSpidEmail.isSome() && (
@@ -192,9 +191,9 @@ class PreferencesScreen extends React.Component<Props> {
                   onPress={showSpidEmailModal}
                 />
               )
-            } */}
+            }
 
-            {/* {
+            {
               // Check if mobile phone exists
               maybePhoneNumber.isSome() && (
                 <ListItemComponent

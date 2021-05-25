@@ -54,7 +54,7 @@ const SecurityScreen: FC<Props> = ({
         subtitle={I18n.t("profile.security.subtitle")}
       >
         <List withContentLateralPadding>
-          {/* Enable/disable fingerprint */}
+          {/* Enable/disable biometric authentication */}
           {isFingerprintAvailable && (
             <ListItemComponent
               title={I18n.t("profile.security.list.biometric_recognition")}
@@ -75,7 +75,6 @@ const SecurityScreen: FC<Props> = ({
             title={I18n.t("identification.unlockCode.reset.button_short")}
             subTitle={I18n.t("identification.unlockCode.reset.subtitle")}
             onPress={requestIdentificationAndResetPin}
-            hideIcon
           />
         </List>
       </ScreenContent>
