@@ -366,7 +366,6 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
                 "profile.main.appInfo.contextualHelpContent"
               )
             }
-            isLastItem={true}
           />
 
           {/* Logout/Exit */}
