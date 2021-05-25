@@ -377,19 +377,20 @@ profile:
     email:
       contextualHelpTitle: Come gestire la tua mail
       contextualHelpContent: !include profile/profile_data_email_address.md
-      forward:
-        contextualHelpTitle: Come gestire l'inoltro dei messaggi
-        contextualHelpContent: !include profile/profile_data_email_forward.md
+  security:
+    title: Sicurezza
+    subtitle: Gestisci le modalità di autenticazione in app.
+    list:
+      biometric_recognition: Riconoscimento biometrico
+      biometric_recognition_status:
+        enabled: Abilitato
+        disabled: Disabilitato
   preferences:
     title: Preferenze
     subtitle: Queste impostazioni ti permettono di personalizzare l’esperienza di app IO. 
     contextualHelpTitle: Le tue preferenze
     contextualHelpContent: !include profile/profile_preferences_home.md
     list:
-      biometric_recognition: Riconoscimento biometrico
-      biometric_recognition_status:
-        enabled: Abilitato
-        disabled: Disabilitato
       spid_email: Email SPID
       mobile_phone: Numero di telefono SPID
       wip: In elaborazione
@@ -415,6 +416,10 @@ profile:
     spid_email:
       contextualHelpTitle: Questa preferenza è impostata nel tuo profilo SPID
       contextualHelpContent: !include profile/profile_preferences_spid_email.md
+    email:
+      forward:
+        contextualHelpTitle: Come gestire l'inoltro dei messaggi
+        contextualHelpContent: !include profile/profile_preferences_email_forward.md
     calendar:
       contextualHelpTitle: Cos'è il tuo calendario preferito
       contextualHelpContent: !include profile/profile_preferences_calendar.md
@@ -1561,7 +1566,7 @@ biometric_recognition:
   title: Riconoscimento biometrico
   subTitle: Attiva o disattiva il riconoscimento biometrico
   contextualHelpTitle: Come funziona il riconoscimento biometrico
-  contextualHelpContent: !include profile/profile_preferences_biometric_recognition.md
+  contextualHelpContent: !include profile/profile_security_biometric_recognition.md
   switchLabel: Attiva il riconoscimento biometrico
   enroll_cta: Il riconoscimento biometrico è presente su questo dispositivo, ma non è configurato. Vai nel menu impostazioni di questo dispositivo e configuralo per abilitare questa feature.
   enroll_btnLabel: Vai alle impostazioni

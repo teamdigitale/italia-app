@@ -21,11 +21,9 @@ import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import { LightModalContextInterface } from "../../components/ui/LightModal";
 import Markdown from "../../components/ui/Markdown";
 import I18n from "../../i18n";
-import { getFingerprintSettings } from "../../sagas/startup/checkAcknowledgedFingerprintSaga";
 import {
   navigateToCalendarPreferenceScreen,
   navigateToEmailForwardingPreferenceScreen,
-  navigateToFingerprintPreferenceScreen,
   navigateToLanguagePreferenceScreen
 } from "../../store/actions/navigation";
 import { Dispatch, ReduxProps } from "../../store/actions/types";
@@ -59,14 +57,6 @@ type Props = OwnProps &
   ReduxProps &
   LightModalContextInterface;
 
-type State = {
-  isFingerprintAvailable: boolean;
-};
-
-const INITIAL_STATE: State = {
-  isFingerprintAvailable: false
-};
-
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
   body: "profile.preferences.contextualHelpContent"
@@ -85,23 +75,9 @@ function translateLocale(locale: string): string {
     .getOrElse(locale);
 }
 
-class PreferencesScreen extends React.Component<Props, State> {
+class PreferencesScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = INITIAL_STATE;
-  }
-
-  public componentDidMount() {
-    getFingerprintSettings().then(
-      biometryTypeOrUnsupportedReason => {
-        this.setState({
-          isFingerprintAvailable:
-            biometryTypeOrUnsupportedReason !== "UNAVAILABLE" &&
-            biometryTypeOrUnsupportedReason !== "NOT_ENROLLED"
-        });
-      },
-      _ => undefined
-    );
   }
 
   private checkPermissionThenGoCalendar = () => {
@@ -152,8 +128,6 @@ class PreferencesScreen extends React.Component<Props, State> {
   };
 
   public render() {
-    const { isFingerprintAvailable } = this.state;
-
     const maybeSpidEmail = this.props.optionSpidEmail;
     const maybePhoneNumber = this.props.optionMobilePhone;
 
@@ -188,24 +162,8 @@ class PreferencesScreen extends React.Component<Props, State> {
         <ScreenContent
           title={I18n.t("profile.preferences.title")}
           subtitle={I18n.t("profile.preferences.subtitle")}
-          icon={require("../../../img/icons/gears.png")}
         >
           <List withContentLateralPadding={true}>
-            {/* {isFingerprintAvailable && (
-              <ListItemComponent
-                title={I18n.t("profile.preferences.list.biometric_recognition")}
-                onPress={this.props.navigateToFingerprintPreferenceScreen}
-                subTitle={
-                  this.props.isFingerprintEnabled
-                    ? I18n.t(
-                        "profile.preferences.list.biometric_recognition_status.enabled"
-                      )
-                    : I18n.t(
-                        "profile.preferences.list.biometric_recognition_status.disabled"
-                      )
-                }
-              />
-            )} */}
             <ListItemComponent
               onPress={this.checkPermissionThenGoCalendar}
               title={I18n.t(
@@ -270,15 +228,12 @@ function mapStateToProps(state: GlobalState) {
     isEmailEnabled: isEmailEnabledSelector(state),
     isInboxEnabled: isInboxEnabledSelector(state),
     isCustomEmailChannelEnabled: isCustomEmailChannelEnabledSelector(state),
-    isFingerprintEnabled: state.persistedPreferences.isFingerprintEnabled,
     preferredCalendar: state.persistedPreferences.preferredCalendar,
     optionMobilePhone: profileMobilePhoneSelector(state)
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  navigateToFingerprintPreferenceScreen: () =>
-    dispatch(navigateToFingerprintPreferenceScreen()),
   navigateToEmailForwardingPreferenceScreen: () =>
     dispatch(navigateToEmailForwardingPreferenceScreen()),
   navigateToCalendarPreferenceScreen: () =>

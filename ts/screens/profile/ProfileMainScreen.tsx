@@ -24,14 +24,12 @@ import { AlertModal } from "../../components/ui/AlertModal";
 import { LightModalContextInterface } from "../../components/ui/LightModal";
 import Markdown from "../../components/ui/Markdown";
 import Switch from "../../components/ui/Switch";
-import { isPlaygroundsEnabled, shufflePinPadOnPayment } from "../../config";
+import { isPlaygroundsEnabled } from "../../config";
 import I18n from "../../i18n";
 import ROUTES from "../../navigation/routes";
 import { sessionExpired } from "../../store/actions/authentication";
 import { setDebugModeEnabled } from "../../store/actions/debug";
-import { identificationRequest } from "../../store/actions/identification";
 import { preferencesPagoPaTestEnvironmentSetEnabled } from "../../store/actions/persistedPreferences";
-import { updatePin } from "../../store/actions/pinset";
 import { clearCache } from "../../store/actions/profile";
 import { Dispatch } from "../../store/actions/types";
 import {
@@ -344,6 +342,13 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
             onPress={() => navigation.navigate(ROUTES.PROFILE_PREFERENCES_HOME)}
           />
 
+          {/* Security */}
+          <ListItemComponent
+            title={I18n.t("profile.main.security.title")}
+            subTitle={I18n.t("profile.main.security.description")}
+            onPress={() => navigation.navigate(ROUTES.PROFILE_SECURITY)}
+          />
+
           {/* Privacy */}
           <ListItemComponent
             title={I18n.t("profile.main.privacy.title")}
@@ -362,14 +367,6 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
               )
             }
             isLastItem={true}
-          />
-
-          {/* Ask for verification and reset unlock code */}
-          <ListItemComponent
-            title={I18n.t("identification.unlockCode.reset.button_short")}
-            subTitle={I18n.t("identification.unlockCode.reset.subtitle")}
-            onPress={this.props.requestIdentificationAndResetPin}
-            hideIcon={true}
           />
 
           {/* Logout/Exit */}
@@ -530,22 +527,6 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   logout: () => dispatch(navigateToLogout()),
-  requestIdentificationAndResetPin: () => {
-    const onSuccess = () => dispatch(updatePin());
-
-    return dispatch(
-      identificationRequest(
-        true,
-        false,
-        undefined,
-        undefined,
-        {
-          onSuccess
-        },
-        shufflePinPadOnPayment
-      )
-    );
-  },
   clearCache: () => dispatch(clearCache()),
   setDebugModeEnabled: (enabled: boolean) =>
     dispatch(setDebugModeEnabled(enabled)),

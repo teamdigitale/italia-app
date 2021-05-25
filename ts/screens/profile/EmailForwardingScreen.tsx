@@ -76,8 +76,8 @@ function renderListItem(
 }
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
-  title: "profile.data.email.forward.contextualHelpTitle",
-  body: "profile.data.email.forward.contextualHelpContent"
+  title: "profile.preferences.email.forward.contextualHelpTitle",
+  body: "profile.preferences.email.forward.contextualHelpContent"
 };
 
 class EmailForwardingScreen extends React.Component<Props, State> {

@@ -19,6 +19,7 @@ import RemoveAccountDetails from "../screens/profile/RemoveAccountDetailsScreen"
 import RemoveAccountSuccess from "../screens/profile/RemoveAccountSuccessScreen";
 import ProfileDataScreen from "../screens/profile/ProfileDataScreen";
 import LogoutScreen from "../components/screens/LogoutScreen";
+import SecurityScreen from "../screens/profile/SecurityScreen";
 import ROUTES from "./routes";
 
 /**
@@ -41,7 +42,10 @@ const ProfileNavigator = createStackNavigator(
     [ROUTES.PROFILE_DATA]: {
       screen: ProfileDataScreen
     },
-    [ROUTES.PROFILE_PREFERENCES_BIOMETRIC_RECOGNITION]: {
+    [ROUTES.PROFILE_SECURITY]: {
+      screen: SecurityScreen
+    },
+    [ROUTES.PROFILE_SECURITY_BIOMETRIC_RECOGNITION]: {
       screen: BiometricRecognitionScreen
     },
     [ROUTES.PROFILE_PREFERENCES_EMAIL_FORWARDING]: {
