@@ -1,7 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { List } from "native-base";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import TouchID, { AuthenticationError } from "react-native-touch-id";
 import I18n from "../../i18n";
 import { GlobalState } from "../../store/reducers/types";
 import { getFingerprintSettings } from "../../sagas/startup/checkAcknowledgedFingerprintSaga";
@@ -13,6 +15,11 @@ import { navigateToFingerprintSecurityScreen } from "../../store/actions/navigat
 import { updatePin } from "../../store/actions/pinset";
 import { identificationRequest } from "../../store/actions/identification";
 import { shufflePinPadOnPayment } from "../../config";
+import { authenticateConfig } from "../../utils/biometric";
+import { showToast } from "../../utils/showToast";
+import { preferenceFingerprintIsEnabledSaveSuccess } from "../../store/actions/persistedPreferences";
+import { openAppSecuritySettings } from "../../utils/appSettings";
+import Switch from "../../components/ui/Switch";
 
 // FIXME: ADD CORRECT FAQ TITLE AND DESCRIPTION
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
@@ -25,15 +32,15 @@ type Props = ReturnType<typeof mapDispatchToProps> &
 
 const SecurityScreen: FC<Props> = ({
   isFingerprintEnabled,
-  navigateToFingerprintSecurityScreen,
-  requestIdentificationAndResetPin
+  requestIdentificationAndResetPin,
+  setFingerprintPreference
 }): JSX.Element => {
-  const [isFingerprintAvailable, setisFingerprintAvailable] = useState(false);
+  const [isFingerprintAvailable, setIsFingerprintAvailable] = useState(false);
 
   useEffect(() => {
     getFingerprintSettings().then(
       biometryTypeOrUnsupportedReason => {
-        setisFingerprintAvailable(
+        setIsFingerprintAvailable(
           biometryTypeOrUnsupportedReason !== "UNAVAILABLE" &&
             biometryTypeOrUnsupportedReason !== "NOT_ENROLLED"
         );
@@ -41,6 +48,45 @@ const SecurityScreen: FC<Props> = ({
       _ => undefined
     );
   }, []);
+
+  const onPressBiometricRecognition = () => {
+    if (!isFingerprintAvailable) {
+      Alert.alert(
+        I18n.t("profile.security.list.biometric_recognition.popup.title"),
+        I18n.t("profile.security.list.biometric_recognition.popup.description"),
+        [
+          {
+            text: I18n.t("global.buttons.cancel"),
+            style: "cancel"
+          },
+          {
+            text: I18n.t("global.buttons.settings"),
+            onPress: openAppSecuritySettings
+          }
+        ],
+        { cancelable: true }
+      );
+    }
+  };
+
+  const setBiometricPreference = (biometricPreference: boolean): void => {
+    if (biometricPreference) {
+      // if user asks to enable biometric then call enable action directly
+      setFingerprintPreference(biometricPreference);
+      return;
+    }
+    // if user asks to disable biometric recnognition is required to proceed
+    TouchID.authenticate(
+      I18n.t("identification.biometric.popup.title"),
+      authenticateConfig
+    )
+      .then(() => setFingerprintPreference(biometricPreference))
+      .catch((_: AuthenticationError) =>
+        // this toast will be show either if recognition fails (mismatch or user aborts)
+        // or if meanwhile user disables biometric recognition in OS settings
+        showToast(I18n.t("biometric_recognition.needed_to_disable"), "danger")
+      );
+  };
 
   return (
     <TopScreenComponent
@@ -54,27 +100,23 @@ const SecurityScreen: FC<Props> = ({
         subtitle={I18n.t("profile.security.subtitle")}
       >
         <List withContentLateralPadding>
-          {/* Enable/disable biometric authentication */}
-          {isFingerprintAvailable && (
-            <ListItemComponent
-              title={I18n.t("profile.security.list.biometric_recognition")}
-              onPress={navigateToFingerprintSecurityScreen}
-              subTitle={
-                isFingerprintEnabled
-                  ? I18n.t(
-                      "profile.security.list.biometric_recognition_status.enabled"
-                    )
-                  : I18n.t(
-                      "profile.security.list.biometric_recognition_status.disabled"
-                    )
-              }
-            />
-          )}
           {/* Ask for verification and reset unlock code */}
           <ListItemComponent
             title={I18n.t("identification.unlockCode.reset.button_short")}
             subTitle={I18n.t("identification.unlockCode.reset.subtitle")}
             onPress={requestIdentificationAndResetPin}
+          />
+          {/* Enable/disable biometric authentication */}
+          <ListItemComponent
+            title={I18n.t("profile.security.list.biometric_recognition.title")}
+            subTitle={I18n.t(
+              "profile.security.list.biometric_recognition.subtitle"
+            )}
+            onPress={onPressBiometricRecognition}
+            onSwitchValueChanged={setBiometricPreference}
+            switchValue={isFingerprintEnabled}
+            switchDisabled={!isFingerprintAvailable}
+            isLongPressEnabled
           />
         </List>
       </ScreenContent>
@@ -83,8 +125,6 @@ const SecurityScreen: FC<Props> = ({
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  navigateToFingerprintSecurityScreen: () =>
-    dispatch(navigateToFingerprintSecurityScreen()),
   requestIdentificationAndResetPin: () => {
     const onSuccess = () => dispatch(updatePin());
 
@@ -100,7 +140,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         shufflePinPadOnPayment
       )
     );
-  }
+  },
+  setFingerprintPreference: (fingerprintPreference: boolean) =>
+    dispatch(
+      preferenceFingerprintIsEnabledSaveSuccess({
+        isFingerprintEnabled: fingerprintPreference
+      })
+    )
 });
 
 const mapStateToProps = (state: GlobalState) => ({

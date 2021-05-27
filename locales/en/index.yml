@@ -134,6 +134,7 @@ global:
     share: Share
     delete: Delete
     cancel: Cancel
+    settings: Settings
     ok: OK
     ok2: Ok
     continue: Continue
@@ -381,10 +382,12 @@ profile:
     title: Security
     subtitle: Manage in-app authentication methods.
     list:       
-      biometric_recognition: Biometric recognition
-      biometric_recognition_status:
-        enabled: Enabled
-        disabled: Disabled
+      biometric_recognition:
+        title: Biometric recognition
+        subtitle: Use your fingerprint or your face
+        popup:
+          title: Allow access to the biometric sensor
+          description: Tap 'Settings' and allow IO to use the biometric sensor of your device.
   preferences:
     title: Preferences
     subtitle: These settings allow you to customize the IO app experience.

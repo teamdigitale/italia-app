@@ -145,6 +145,9 @@ export default class ListItemComponent extends React.Component<Props> {
                   value={this.props.switchValue}
                   onValueChange={this.props.onSwitchValueChanged}
                   disabled={this.props.switchDisabled}
+                  accessible
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: this.props.switchValue }}
                 />
               ) : (
                 <IconFont

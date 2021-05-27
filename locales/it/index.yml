@@ -134,6 +134,7 @@ global:
     share: Condividi
     delete: Elimina
     cancel: Annulla
+    settings: Impostazioni
     ok: OK
     ok2: Ok
     continue: Continua
@@ -380,11 +381,13 @@ profile:
   security:
     title: Sicurezza
     subtitle: Gestisci le modalità di autenticazione in app.
-    list:
-      biometric_recognition: Riconoscimento biometrico
-      biometric_recognition_status:
-        enabled: Abilitato
-        disabled: Disabilitato
+    list:       
+      biometric_recognition:
+        title: Riconoscimento biometrico
+        subtitle: Usa la tua impronta o il tuo volto
+        popup:
+          title: Consenti l’accesso al sensore biometrico
+          description: Tocca ‘Impostazioni’ e consenti ad IO di utilizzare il sensore biometrico del tuo dispositivo.
   preferences:
     title: Preferenze
     subtitle: Queste impostazioni ti permettono di personalizzare l’esperienza di app IO. 
