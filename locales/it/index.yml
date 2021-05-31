@@ -2201,18 +2201,18 @@ bonus:
         transactionsCountOverview:
           title: "Le tue transazioni"
           of: "su"
-          closedPeriodKOBody: "Non hai raggiunto le {{transactions}} transazioni necessarie per ottenere un rimborso: avresti ricevuto € {{amount}}. Provaci nel prossimo periodo!"
+          closedPeriodKOBody: "Non hai raggiunto le {{transactions}} transazioni necessarie per ottenere il Cashback. Avevi accumulato € {{amount}}."
           currentPeriodKOBody:
             one: "Devi aver fatto almeno"
             two: " {{transactions}} transazioni"
             three: " per sbloccare il Cashback che hai accumulato!"
           currentPeriodUnlockBody: "Complimenti {{name}}! Hai superato la soglia di {{transactions}} transazioni e sbloccato il Cashback!"
           currentPeriodMaxAmount: "Complimenti {{name}}! Hai raggiunto l’importo massimo previsto!"
-          currentPeriodSuperCashback: "In questo momento avresti diritto al Super Cashback di {{superCashbackAmount}} €! Continua così per rimanere in classifica."
-          gracePeriodBody: "Questo periodo del Cashback si è chiuso il {{date}}. Stiamo aspettando di ricevere le ultime transazioni, per calcolare i rimborsi. Entro il {{endGracePeriodDate}} potrai vedere il calcolo definitivo."
-          closedPeriodOKBody: "Complimenti {{name}}! \nHai diritto a € {{amount}} di Cashback"
+          currentPeriodSuperCashback: "In questo momento avresti diritto al Super Cashback di €{{superCashbackAmount}}! Continua così per rimanere in classifica."
+          gracePeriodBody: "Questo periodo del Cashback si è chiuso il {{date}}. Stiamo aspettando di ricevere le ultime transazioni, per calcolare i rimborsi. Riceverai un messaggio quando l'operazione verrà completata."
+          closedPeriodOKBody: "Complimenti {{name}}! \nHai diritto a un rimborso di €{{amount}}"
           closedPeriodMaxAmount: "è il massimo del rimborso possibile!"
-          moneyTransfer: "Entro il {{date}} riceverai il bonifico sull’IBAN che ci hai indicato."
+          moneyTransfer: "Riceverai un messaggio quando verrà effettuato il bonifico all'IBAN da te scelto."
           inactivePeriodBody: "Potrai iniziare a collezionare transazioni valide a partire dal {{date}}"
           label:
             one: "1 transazione valida"

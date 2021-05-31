@@ -2171,18 +2171,18 @@ bonus:
         transactionsCountOverview:
           title: "Your transactions"
           of: "out of"
-          closedPeriodKOBody: "You have not reached the {{transactions}} transactions necessary to get a refund: you would have received € {{amount}}. Try again during the next phase!"
+          closedPeriodKOBody: "You have not reached the {{transactions}} transactions required to get Cashback: you had earned € {{amount}}."
           currentPeriodKOBody:
             one: "You must have reached at least"
             two: " {{transactions}} transactions"
             three: " to unlock the cashback collected so far!"
           currentPeriodUnlockBody: "Congratulations {{name}}! You have reached the threshold of {{transactions}} transactions and unlocked your Cashback!"
           currentPeriodMaxAmount: "Congratulations {{name}}! You have reached the maximum amount expected!"
-          currentPeriodSuperCashback: "Right now you would be eligible for {{superCashbackAmount}} € Super Cashback! Keep up the good work to stay on the leaderboard."
-          gracePeriodBody: "This Cashback period ended on {{date}}. We are waiting to receive the latest transactions to calculate refunds. By {{endGracePeriodDate}} you will be able to see the final calculation."
-          closedPeriodOKBody: "Congratulations {{name}}! \nYou are entitled to € {{amount}} of Cashback"
+          currentPeriodSuperCashback: "Right now you would be eligible for €{{superCashbackAmount}} Super Cashback! Keep up the good work to stay on the leaderboard."
+          gracePeriodBody: "This Cashback phase ended on {{date}}. We are waiting to receive the latest transactions to calculate refunds. You will receive a message when the process is completed."
+          closedPeriodOKBody: "Congratulations {{name}}! \nYou are entitled to a refund of €{{amount}}"
           closedPeriodMaxAmount: "it's the highest refund possible!"
-          moneyTransfer: "By {{date}} you will receive the transfer on the IBAN you entered."
+          moneyTransfer: "You'll receive a message when the money is transferred to the designated IBAN."
           inactivePeriodBody: "You will be able to start collecting valid transactions starting from {{date}}"
           label:
             one: "1 valid transaction"
