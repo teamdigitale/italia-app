@@ -255,6 +255,7 @@ profile:
   unknown: SCONOSCIUTO
   logout:
     menulabel: Esci da IO
+    alertTitle: Vuoi davvero uscire?
     alertMessage: Al prossimo accesso sarà necessario autenticarti con CIE o SPID.
     loading: Logout in corso...
     exit: Esci

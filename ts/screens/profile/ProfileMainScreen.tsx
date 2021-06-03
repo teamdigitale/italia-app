@@ -206,7 +206,7 @@ class ProfileMainScreen extends React.PureComponent<Props, State> {
 
   private onLogoutPress = () => {
     Alert.alert(
-      I18n.t("profile.logout.menulabel"),
+      I18n.t("profile.logout.alertTitle"),
       I18n.t("profile.logout.alertMessage"),
       [
         {

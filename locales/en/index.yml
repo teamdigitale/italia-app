@@ -254,7 +254,8 @@ profile:
     spid: SPID PROFILE
   unknown: UNKNOWN
   logout:
-    menulabel: Exit from IO
+    menulabel: Logout from IO
+    alertTitle: Do you want to logout?
     alertMessage: If you want to login again, you'll need to authenticate using CIE or SPID.
     loading: Logout in progress...
     exit: Exit
