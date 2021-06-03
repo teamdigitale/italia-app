@@ -92,7 +92,7 @@ const SecurityScreen: FC<Props> = ({
   return (
     <TopScreenComponent
       contextualHelpMarkdown={contextualHelpMarkdown}
-      faqCategories={[]}
+      faqCategories={["profile", "privacy", "authentication_SPID"]}
       goBack
     >
       <ScreenContent
