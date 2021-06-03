@@ -13,12 +13,12 @@ import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import ScreenContent from "../../components/screens/ScreenContent";
 import ListItemComponent from "../../components/screens/ListItemComponent";
+import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
 import {
   navigateToEmailInsertScreen,
   navigateToEmailReadScreen
 } from "../../store/actions/navigation";
 
-// FIXME: ADD CORRECT FAQ TITLE AND DESCRIPTION
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
   body: "profile.preferences.contextualHelpContent"
@@ -45,7 +45,6 @@ const ProfileDataScreen: React.FC<Props> = ({
   return (
     <TopScreenComponent
       contextualHelpMarkdown={contextualHelpMarkdown}
-      // FIXME: ADD FAQ CATEGORIES
       faqCategories={[]}
       goBack
     >
@@ -67,6 +66,7 @@ const ProfileDataScreen: React.FC<Props> = ({
             }
             onPress={onPressEmail}
           />
+          <EdgeBorderComponent />
         </List>
       </ScreenContent>
     </TopScreenComponent>

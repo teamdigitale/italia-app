@@ -318,9 +318,7 @@ class ScanQrCodeScreen extends React.Component<Props, State> {
                       onPress={openAppSettings}
                       style={styles.notAuthorizedBtn}
                     >
-                      <Text>
-                        {I18n.t("biometric_recognition.enroll_btnLabel")}
-                      </Text>
+                      <Text>{I18n.t("global.buttons.settings")}</Text>
                     </ButtonDefaultOpacity>
                   </View>
                 }

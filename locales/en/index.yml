@@ -254,7 +254,7 @@ profile:
     spid: SPID PROFILE
   unknown: UNKNOWN
   logout:
-    menulabel: Logout from IO
+    menulabel: Exit from IO
     alertMessage: If you want to login again, you'll need to authenticate using CIE or SPID.
     loading: Logout in progress...
     exit: Exit
@@ -385,6 +385,7 @@ profile:
       biometric_recognition:
         title: Biometric recognition
         subtitle: Use your fingerprint or your face
+        needed_to_disable: Recognition required to disable
         popup:
           title: Allow access to the biometric sensor
           description: Tap 'Settings' and allow IO to use the biometric sensor of your device.
@@ -1538,14 +1539,8 @@ notifications:
     errorTitle: Push notifications
     errorMessage: Registration with the push notifications service generated an error
 biometric_recognition:
-  title: Biometric recognition
-  subTitle: Enable or disable biometric recognition
   contextualHelpTitle: How works biometric recognition
   contextualHelpContent: !include profile/profile_security_biometric_recognition.md
-  switchLabel: Enable biometric recognition
-  enroll_cta: Biometric recognition is available on this device, but it is not enrolled. Please go to settings menu and enroll it to enable this feature in this app.
-  enroll_btnLabel: Go to settings
-  needed_to_disable: Recognition required to disable
 send_email_messages:
   title: Forward messages by email
   subtitle: Do you want IO to forward messages contents by email to

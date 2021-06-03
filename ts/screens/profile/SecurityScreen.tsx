@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import { Alert } from "react-native";
 import { List } from "native-base";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -11,17 +10,14 @@ import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import ScreenContent from "../../components/screens/ScreenContent";
 import ListItemComponent from "../../components/screens/ListItemComponent";
-import { navigateToFingerprintSecurityScreen } from "../../store/actions/navigation";
+import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
 import { updatePin } from "../../store/actions/pinset";
 import { identificationRequest } from "../../store/actions/identification";
 import { shufflePinPadOnPayment } from "../../config";
 import { authenticateConfig } from "../../utils/biometric";
 import { showToast } from "../../utils/showToast";
 import { preferenceFingerprintIsEnabledSaveSuccess } from "../../store/actions/persistedPreferences";
-import { openAppSecuritySettings } from "../../utils/appSettings";
-import Switch from "../../components/ui/Switch";
 
-// FIXME: ADD CORRECT FAQ TITLE AND DESCRIPTION
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
   body: "profile.preferences.contextualHelpContent"
@@ -49,25 +45,25 @@ const SecurityScreen: FC<Props> = ({
     );
   }, []);
 
-  const onPressBiometricRecognition = () => {
-    if (!isFingerprintAvailable) {
-      Alert.alert(
-        I18n.t("profile.security.list.biometric_recognition.popup.title"),
-        I18n.t("profile.security.list.biometric_recognition.popup.description"),
-        [
-          {
-            text: I18n.t("global.buttons.cancel"),
-            style: "cancel"
-          },
-          {
-            text: I18n.t("global.buttons.settings"),
-            onPress: openAppSecuritySettings
-          }
-        ],
-        { cancelable: true }
-      );
-    }
-  };
+  // FIXME: on IOS add this function onPress ListItemComponent if user refused
+  // biometric permission on the first time the app is opened
+  // const onPressBiometricRecognition = () => {
+  //   Alert.alert(
+  //     I18n.t("profile.security.list.biometric_recognition.popup.title"),
+  //     I18n.t("profile.security.list.biometric_recognition.popup.description"),
+  //     [
+  //       {
+  //         text: I18n.t("global.buttons.cancel"),
+  //         style: "cancel"
+  //       },
+  //       {
+  //         text: I18n.t("global.buttons.settings"),
+  //         onPress: openAppSecuritySettings
+  //       }
+  //     ],
+  //     { cancelable: true }
+  //   );
+  // };
 
   const setBiometricPreference = (biometricPreference: boolean): void => {
     if (biometricPreference) {
@@ -84,14 +80,18 @@ const SecurityScreen: FC<Props> = ({
       .catch((_: AuthenticationError) =>
         // this toast will be show either if recognition fails (mismatch or user aborts)
         // or if meanwhile user disables biometric recognition in OS settings
-        showToast(I18n.t("biometric_recognition.needed_to_disable"), "danger")
+        showToast(
+          I18n.t(
+            "profile.security.list.biometric_recognition.needed_to_disable"
+          ),
+          "danger"
+        )
       );
   };
 
   return (
     <TopScreenComponent
       contextualHelpMarkdown={contextualHelpMarkdown}
-      // FIXME: ADD FAQ CATEGORIES
       faqCategories={[]}
       goBack
     >
@@ -107,17 +107,22 @@ const SecurityScreen: FC<Props> = ({
             onPress={requestIdentificationAndResetPin}
           />
           {/* Enable/disable biometric authentication */}
-          <ListItemComponent
-            title={I18n.t("profile.security.list.biometric_recognition.title")}
-            subTitle={I18n.t(
-              "profile.security.list.biometric_recognition.subtitle"
-            )}
-            onPress={onPressBiometricRecognition}
-            onSwitchValueChanged={setBiometricPreference}
-            switchValue={isFingerprintEnabled}
-            switchDisabled={!isFingerprintAvailable}
-            isLongPressEnabled
-          />
+          {/* FIXME: on IOS disabled switch and onPress add onPressBiometricRecognition function 
+          if user refused biometric permission on the first time the app is opened */}
+          {isFingerprintAvailable && (
+            <ListItemComponent
+              title={I18n.t(
+                "profile.security.list.biometric_recognition.title"
+              )}
+              subTitle={I18n.t(
+                "profile.security.list.biometric_recognition.subtitle"
+              )}
+              onSwitchValueChanged={setBiometricPreference}
+              switchValue={isFingerprintEnabled}
+              isLongPressEnabled
+            />
+          )}
+          <EdgeBorderComponent />
         </List>
       </ScreenContent>
     </TopScreenComponent>

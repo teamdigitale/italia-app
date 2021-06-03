@@ -385,6 +385,7 @@ profile:
       biometric_recognition:
         title: Riconoscimento biometrico
         subtitle: Usa la tua impronta o il tuo volto
+        needed_to_disable: Riconoscimento richiesto per disabilitare
         popup:
           title: Consenti l’accesso al sensore biometrico
           description: Tocca ‘Impostazioni’ e consenti ad IO di utilizzare il sensore biometrico del tuo dispositivo.
@@ -1566,14 +1567,8 @@ notifications:
       La registrazione verso il servizio di notifiche push ha generato
       un errore
 biometric_recognition:
-  title: Riconoscimento biometrico
-  subTitle: Attiva o disattiva il riconoscimento biometrico
   contextualHelpTitle: Come funziona il riconoscimento biometrico
   contextualHelpContent: !include profile/profile_security_biometric_recognition.md
-  switchLabel: Attiva il riconoscimento biometrico
-  enroll_cta: Il riconoscimento biometrico è presente su questo dispositivo, ma non è configurato. Vai nel menu impostazioni di questo dispositivo e configuralo per abilitare questa feature.
-  enroll_btnLabel: Vai alle impostazioni
-  needed_to_disable: Riconoscimento richiesto per disabilitare
 send_email_messages:
   title: Inoltro dei messaggi via email
   subtitle: Vuoi che IO inoltri il contenuto dei messaggi anche a
