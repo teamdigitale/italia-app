@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { connect } from "react-redux";
+import PushNotification from "react-native-push-notification";
 import { initialiseInstabug } from "./boot/configureInstabug";
 import configurePushNotifications from "./boot/configurePushNotification";
 import FlagSecureComponent from "./components/FlagSecure";
@@ -36,6 +37,7 @@ import { setLocale } from "./i18n";
 import RootModal from "./screens/modal/RootModal";
 import { preferredLanguageSelector } from "./store/reducers/persistedPreferences";
 import { BetaTestingOverlay } from "./components/BetaTestingOverlay";
+import { RTron } from "./boot/configureStoreAndPersistor";
 
 type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
@@ -75,7 +77,28 @@ class RootContainer extends React.PureComponent<Props> {
     this.props.setDeepLink(action, true);
   };
 
+  private addLocalNoticationCustomCommand() {
+    RTron?.onCustomCommand({
+      title: "simulate EUCodiv PN",
+      description:
+        "create a local push notification to simulate a message with EUCovidContent",
+      command: "simulate EUCodiv PN",
+      handler: () => {
+        const now = new Date();
+        const messageId = "00000000000000000000000001";
+        PushNotification.localNotificationSchedule({
+          title: messageId,
+          message: "test eucodiv message",
+          date: new Date(now.getTime() + 10 * 1000),
+          tag: "TESTEUCOVIDTAG",
+          messageId
+        });
+      }
+    });
+  }
+
   public componentDidMount() {
+    this.addLocalNoticationCustomCommand();
     initialiseInstabug();
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 

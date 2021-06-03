@@ -17,6 +17,7 @@ import {
   updateNotificationsPendingMessage
 } from "../store/actions/notifications";
 import { isDevEnv } from "../utils/environment";
+import { RTron } from "./configureStoreAndPersistor";
 
 /**
  * Helper type used to validate the notification payload.
@@ -31,9 +32,6 @@ const NotificationPayload = t.partial({
 
 function configurePushNotifications() {
   // if isDevEnv, disable push notification to avoid crash for missing firebase settings
-  if (isDevEnv) {
-    return;
-  }
 
   // Create the default channel used for notifications, the callback return false if the channel already exists
   PushNotification.createChannel(
@@ -62,15 +60,13 @@ function configurePushNotifications() {
       if (debugRemotePushNotification) {
         Alert.alert("Notification", JSON.stringify(notification));
       }
-
       const maybeMessageId = fromEither(
-        NotificationPayload.decode(notification)
+        NotificationPayload.decode({ message_id: (notification as any).title })
       ).chain(payload =>
         fromNullable(payload.message_id).alt(
           fromNullable(payload.data).mapNullable(_ => _.message_id)
         )
       );
-
       maybeMessageId.map(messageId => {
         // We just received a push notification about a new message
         if (notification.foreground) {
