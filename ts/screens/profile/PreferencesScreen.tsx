@@ -9,13 +9,11 @@ import * as React from "react";
 import { Alert } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-import { withLightModalContext } from "../../components/helpers/withLightModalContext";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
 import ListItemComponent from "../../components/screens/ListItemComponent";
 import ScreenContent from "../../components/screens/ScreenContent";
 import TopScreenComponent from "../../components/screens/TopScreenComponent";
-import { LightModalContextInterface } from "../../components/ui/LightModal";
 import I18n from "../../i18n";
 import {
   navigateToCalendarPreferenceScreen,
@@ -29,9 +27,7 @@ import {
 } from "../../store/reducers/persistedPreferences";
 import {
   isEmailEnabledSelector,
-  isInboxEnabledSelector,
-  profileMobilePhoneSelector,
-  profileSpidEmailSelector
+  isInboxEnabledSelector
 } from "../../store/reducers/profile";
 import { GlobalState } from "../../store/reducers/types";
 import { openAppSettings } from "../../utils/appSettings";
@@ -50,8 +46,7 @@ type OwnProps = Readonly<{
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  ReduxProps &
-  LightModalContextInterface;
+  ReduxProps;
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -124,31 +119,10 @@ class PreferencesScreen extends React.Component<Props> {
   };
 
   public render() {
-    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN
-    // const maybeSpidEmail = this.props.optionSpidEmail;
-    // const maybePhoneNumber = this.props.optionMobilePhone;
-
     const language = this.props.preferredLanguage.fold(
       translateLocale(getLocalePrimaryWithFallback()),
       l => translateLocale(l)
     );
-
-    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN
-    // const showModal = (title: TranslationKeys, body: TranslationKeys) => {
-    //   this.props.showModal(
-    //     <ContextualHelp
-    //       onClose={this.props.hideModal}
-    //       title={I18n.t(title)}
-    //       body={() => <Markdown>{I18n.t(body)}</Markdown>}
-    //     />
-    //   );
-    // };
-
-    // const showSpidEmailModal = () =>
-    //   showModal(
-    //     "profile.preferences.spid_email.contextualHelpTitle",
-    //     "profile.preferences.spid_email.contextualHelpContent"
-    //   );
 
     return (
       <TopScreenComponent
@@ -181,29 +155,6 @@ class PreferencesScreen extends React.Component<Props> {
               onPress={this.props.navigateToEmailForwardingPreferenceScreen}
             />
 
-            {/*    // FIXME: MOVE LOGIC INTO PROFILE DATA SCREEN */}
-            {/* {
-              // Check if spid email exists
-              maybeSpidEmail.isSome() && (
-                <ListItemComponent
-                  title={I18n.t("profile.preferences.list.spid_email")}
-                  subTitle={maybeSpidEmail.value}
-                  onPress={showSpidEmailModal}
-                />
-              )
-            }
-
-            {
-              // Check if mobile phone exists
-              maybePhoneNumber.isSome() && (
-                <ListItemComponent
-                  title={I18n.t("profile.preferences.list.mobile_phone")}
-                  subTitle={maybePhoneNumber.value}
-                  onPress={showSpidEmailModal}
-                />
-              )
-            } */}
-
             <ListItemComponent
               title={I18n.t("profile.preferences.list.language")}
               subTitle={language}
@@ -222,12 +173,10 @@ function mapStateToProps(state: GlobalState) {
   return {
     preferredLanguage: preferredLanguageSelector(state),
     languages: fromNullable(state.preferences.languages),
-    optionSpidEmail: profileSpidEmailSelector(state),
     isEmailEnabled: isEmailEnabledSelector(state),
     isInboxEnabled: isInboxEnabledSelector(state),
     isCustomEmailChannelEnabled: isCustomEmailChannelEnabledSelector(state),
-    preferredCalendar: state.persistedPreferences.preferredCalendar,
-    optionMobilePhone: profileMobilePhoneSelector(state)
+    preferredCalendar: state.persistedPreferences.preferredCalendar
   };
 }
 
@@ -240,7 +189,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(navigateToLanguagePreferenceScreen())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withLightModalContext(PreferencesScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(PreferencesScreen);

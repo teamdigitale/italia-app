@@ -1,0 +1,1 @@
+IO inherits the email address from your SPID attributes. You can change it in your identity provider's SPID profile, but you may be prompted to log in again on IO.
