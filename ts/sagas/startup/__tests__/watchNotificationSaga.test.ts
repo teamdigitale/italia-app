@@ -1,5 +1,5 @@
 import { testSaga } from "redux-saga-test-plan";
-import { navigateToMessageDetailScreenAction } from "../../../store/actions/navigation";
+import { navigateToMessageRouterScreen } from "../../../store/actions/navigation";
 import { clearNotificationPendingMessage } from "../../../store/actions/notifications";
 import {
   PendingMessageState,
@@ -24,7 +24,7 @@ describe("watchNotificationSaga", () => {
       .put(clearNotificationPendingMessage())
       .next()
       .put(
-        navigateToMessageDetailScreenAction({
+        navigateToMessageRouterScreen({
           messageId: mockedPendingMessageState.id
         })
       )

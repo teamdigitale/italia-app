@@ -1,45 +1,30 @@
-import { call, put } from "redux-saga/effects";
-import { ActionType } from "typesafe-actions";
+import * as pot from "italia-ts-commons/lib/pot";
 import { fromNullable } from "fp-ts/lib/Option";
-import { euCovidCertificateGet } from "../../store/actions";
-import { BackendEuCovidCertClient } from "../../api/backendEuCovidCert";
-import { SagaCallReturnType } from "../../../../types/utils";
-import {
-  EUCovidCertificateResponse,
-  EUCovidCertificateResponseFailure
-} from "../../types/EUCovidCertificateResponse";
-import { getGenericError, getNetworkError } from "../../../../utils/errors";
+import { call, put, select } from "redux-saga/effects";
+import { ActionType } from "typesafe-actions";
 import { Certificate } from "../../../../../definitions/eu_covid_cert/Certificate";
+import { mixpanelTrack } from "../../../../mixpanel";
+import { SagaCallReturnType } from "../../../../types/utils";
+import { getGenericError, getNetworkError } from "../../../../utils/errors";
+import { readablePrivacyReport } from "../../../../utils/reporters";
+import { BackendEuCovidCertClient } from "../../api/backendEuCovidCert";
+import { euCovidCertificateGet } from "../../store/actions";
 import {
   EUCovidCertificate,
   EUCovidCertificateAuthCode
 } from "../../types/EUCovidCertificate";
-import { mixpanelTrack } from "../../../../mixpanel";
-import { readablePrivacyReport } from "../../../../utils/reporters";
+import {
+  EUCovidCertificateResponse,
+  EUCovidCertificateResponseFailure
+} from "../../types/EUCovidCertificateResponse";
+import { profileSelector } from "../../../../store/reducers/profile";
+import { PreferredLanguageEnum } from "../../../../../definitions/backend/PreferredLanguage";
 
-const mapKinds = new Map<number, EUCovidCertificateResponseFailure["kind"]>([
-  [400, "wrongFormat"],
-  [401, "genericError"],
-  [403, "notFound"],
-  [410, "notOperational"],
-  [500, "genericError"],
-  [504, "temporarilyNotAvailable"]
-]);
-
-// convert a failure response to the logical app representation of it
-const convertFailure = (status: number): EUCovidCertificateResponseFailure => {
-  const kind = mapKinds.get(status);
-  return fromNullable(kind).foldL(
-    () => {
-      // track the conversion failure
-      void mixpanelTrack("EUCOVIDCERT_CONVERT_FAILURE_ERROR", {
-        status
-      });
-      // fallback to generic error
-      return { kind: "genericError" };
-    },
-    k => ({ kind: k })
-  );
+const mapKinds: Record<number, EUCovidCertificateResponseFailure["kind"]> = {
+  400: "wrongFormat",
+  403: "notFound",
+  410: "notOperational",
+  504: "temporarilyNotAvailable"
 };
 
 // convert a success response to the logical app representation of it
@@ -52,19 +37,26 @@ const convertSuccess = (
       case "valid":
         return {
           kind: "valid",
-          id: certificate.id as EUCovidCertificate["id"],
+          id: certificate.uvci as EUCovidCertificate["id"],
           qrCode: {
             mimeType: certificate.qr_code.mime_type,
             content: certificate.qr_code.content
           },
-          markdownPreview: certificate.info,
+          markdownInfo: certificate.info,
           markdownDetails: certificate.detail
         };
       case "revoked":
         return {
           kind: "revoked",
-          id: certificate.id as EUCovidCertificate["id"],
-          revokedOn: certificate.revoked_on
+          id: certificate.uvci as EUCovidCertificate["id"],
+          revokedOn: certificate.revoked_on,
+          markdownInfo: certificate.info
+        };
+      case "expired":
+        return {
+          kind: "expired",
+          id: certificate.uvci as EUCovidCertificate["id"],
+          markdownInfo: certificate.info
         };
       default:
         return undefined;
@@ -76,7 +68,7 @@ const convertSuccess = (
       void mixpanelTrack("EUCOVIDCERT_CONVERT_SUCCESS_ERROR", {
         status: certificate.status
       });
-      return { kind: "genericError", authCode };
+      return { kind: "wrongFormat", authCode };
     },
     value => ({ kind: "success", value, authCode })
   );
@@ -92,10 +84,23 @@ export function* handleGetEuCovidCertificate(
   action: ActionType<typeof euCovidCertificateGet.request>
 ) {
   const authCode = action.payload;
+
+  const profile: ReturnType<typeof profileSelector> = yield select(
+    profileSelector
+  );
+
   try {
     const getCertificateResult: SagaCallReturnType<typeof getCertificate> = yield call(
       getCertificate,
-      { getCertificateParams: { auth_code: authCode } }
+      {
+        getCertificateParams: {
+          auth_code: authCode,
+          preferred_languages: pot.getOrElse(
+            pot.mapNullable(profile, p => p.preferred_languages),
+            [PreferredLanguageEnum.it_IT]
+          )
+        }
+      }
     );
     if (getCertificateResult.isRight()) {
       if (getCertificateResult.value.status === 200) {
@@ -105,16 +110,30 @@ export function* handleGetEuCovidCertificate(
             convertSuccess(getCertificateResult.value.value, authCode)
           )
         );
-      } else {
-        // handled failure
+        return;
+      }
+      if (mapKinds[getCertificateResult.value.status] !== undefined) {
         yield put(
           euCovidCertificateGet.success({
-            ...convertFailure(getCertificateResult.value.status),
+            kind: mapKinds[getCertificateResult.value.status],
             authCode
           })
         );
+        return;
       }
+      // not handled error codes
+      yield put(
+        euCovidCertificateGet.failure({
+          ...getGenericError(
+            new Error(
+              `response status code ${getCertificateResult.value.status}`
+            )
+          ),
+          authCode
+        })
+      );
     } else {
+      // cannot decode response
       yield put(
         euCovidCertificateGet.failure({
           ...getGenericError(

@@ -213,11 +213,12 @@ export default class MessageDetailComponent extends React.PureComponent<
             </React.Fragment>
           )}
         </Content>
-        {DeviceInfo.hasNotch() &&
-        <React.Fragment>
-          <View spacer={true} large={true} />
-          <View spacer={true} small={true} />
-        </React.Fragment>}
+        {DeviceInfo.hasNotch() && (
+          <React.Fragment>
+            <View spacer={true} large={true} />
+            <View spacer={true} small={true} />
+          </React.Fragment>
+        )}
         {this.maybeMedicalData.fold(
           <MessageDetailCTABar
             message={message}

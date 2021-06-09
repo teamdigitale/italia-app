@@ -23,13 +23,6 @@ type EUCovidCertificateResponseWrongFormat = {
 };
 
 /**
- * A generic error response was received (500, others, generic error)
- */
-type EUCovidCertificateResponseGenericError = {
-  kind: "genericError";
-};
-
-/**
  * The EU Covid certificate service is not operational (410)
  */
 type EUCovidCertificateResponseNotOperational = {
@@ -46,7 +39,6 @@ type EUCovidCertificateResponseTemporarilyNotAvailable = {
 export type EUCovidCertificateResponseFailure =
   | EUCovidCertificateResponseNotFound
   | EUCovidCertificateResponseWrongFormat
-  | EUCovidCertificateResponseGenericError
   | EUCovidCertificateResponseNotOperational
   | EUCovidCertificateResponseTemporarilyNotAvailable;
 

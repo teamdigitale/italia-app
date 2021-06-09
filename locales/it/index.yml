@@ -74,6 +74,7 @@ global:
     collapsed: Paragrafo chiuso
     active: Stato attivo
     inactive: Stato non attivo
+    linkHint: Attivando questo elemento verrai reindirizzato sul browser del dispositivo
     activityIndicator:
       label: Caricamento in corso
       hint: Attendi il caricamento del contenuto
@@ -153,6 +154,7 @@ global:
     show: "Mostra"
     update: "Aggiorna"
     findOutMore: "Scopri di più"
+    details: "Dettagli"
   navigator:
     messages: messaggi
     wallet: portafoglio
@@ -2273,7 +2275,7 @@ bonus:
           issuerId: "ID transazione Issuer"
           maxCashbackWarning: "Per ogni transazione puoi ottenere un Cashback massimo di € {{amount}}."
           maxCashbackForPeriodWarning: "Hai già raggiunto il rimborso massimo previsto per questo periodo."
-          canceledOperationWarning: "Questa transazione è uno storno, ovvero annulla una transazione che era stata riconosciuta in precedenza."
+          canceledOperationWarning: "Questa transazione è uno storno, ovvero annulla una transazione che era stata effettuata in precedenza."
           canceled: "Storno"
       paymentMethods:
         add:
@@ -2467,33 +2469,55 @@ bonus:
           other: "{{seconds}} secondi"
 features:
   euCovidCertificate:
+    save:
+      noPermission: "Sembra che l'app non abbia i permessi per salvare immagini. Controlla le impostazioni del tuo dispositivo."
+      ok: "L'immagine è stata salvata nella galleria del tuo dispositivo"
+      bottomSheet:
+        title: "Salva il certificato"
+        subTitle: "Potrai mostrare il QR code del certificato senza aprire app IO, anche in assenza di connessione."
+        saveAsImage:
+          title: "Salva come immagine nella galleria"
+          subTitle: "Troverai il QR code fra le immagini presenti sul tuo dispositivo"
+    listItem:
+      cta: "Visualizza"
     common:
       title: "Certificazione verde COVID-19"
-      subtitle: "EU Digital Covid Certificate"
+      subtitle: "EU Digital COVID Certificate"
+      learnMore: "Per saperne di più"
+      authorizationCode: "Codice di autorizzazione"
+      messageIdentifier: "Identificativo del messaggio"
     loading:
       title: "Stiamo caricando i dati del tuo certificato dalla Piattaforma Nazionale del Ministero della Salute"
       subtitle: "Attendi per favore"
     valid:
-      placeholder: "TMP"
+      accessibility:
+        qrCode: "QR Code"
+        hint: "Visualizza il QR Code a tutto schermo"
+      markdownDetails:
+        headerTitle: "Dettagli del certificato"
+        save: "Salva i dettagli"
     revoked:
-      title: "TMP"
-      subtitle: "TMP"
+      title: "Questo certificato \nnon è più valido"
+    expired:
+      title: "Questo certifcato è scaduto"
     ko:
       genericError:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "Non è stato possibile recuperare i dati del tuo certificato: riprova"
+        subtitle: "Potrebbe essere dovuto ad un problema temporaneo."
       notFound:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "Sembra che il certificato non \nesista: contatta l’assistenza"
+        subtitle: "Dati utili per ricevere assistenza:"
+        cta: "Contatta l'assistenza"
       notOperational:
-        title: "TMP"
+        title: "La Certificazione verde COVID-19 non è attualmente operativa"
         subtitle: "TMP"
       temporarilyNotAvailable:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "Il servizio è temporaneamente non disponibile"
+        subtitle: "Ti preghiamo di riprovare più tardi"
       wrongFormat:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "Non è possibile recuperare questo \ncertificato: contatta l’assistenza"
+        subtitle: "Dati utili per ricevere assistenza:"
+        cta: "Contatta l'assistenza"
 webView:
   error:
     missingParams: Non sono presenti le informazioni necessarie per accedere a questa pagina

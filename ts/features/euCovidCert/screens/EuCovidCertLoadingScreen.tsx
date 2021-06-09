@@ -15,6 +15,7 @@ type Props = ReturnType<typeof mapDispatchToProps> &
 const euActivityIndicator = (
   <ActivityIndicator
     color={"black"}
+    size={"large"}
     accessible={false}
     importantForAccessibility={"no-hide-descendants"}
     accessibilityElementsHidden={true}

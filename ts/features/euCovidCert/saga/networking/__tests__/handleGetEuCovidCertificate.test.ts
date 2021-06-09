@@ -1,6 +1,7 @@
 import { Either, left, right } from "fp-ts/lib/Either";
 import { expectSaga } from "redux-saga-test-plan";
 import { ActionType } from "typesafe-actions";
+import { Certificate } from "../../../../../../definitions/eu_covid_cert/Certificate";
 import { handleGetEuCovidCertificate } from "../handleGetEuCovidCertificate";
 import { appReducer } from "../../../../../store/reducers";
 import { euCovidCertificateGet } from "../../../store/actions";
@@ -8,7 +9,6 @@ import {
   EUCovidCertificate,
   EUCovidCertificateAuthCode
 } from "../../../types/EUCovidCertificate";
-import { Certificate } from "../../../../../../definitions/eu_covid_cert/Certificate";
 import {
   RevokedCertificate,
   StatusEnum
@@ -19,16 +19,26 @@ import {
 } from "../../../../../../definitions/eu_covid_cert/ValidCertificate";
 import { Mime_typeEnum } from "../../../../../../definitions/eu_covid_cert/QRCode";
 import { getGenericError } from "../../../../../utils/errors";
+import {
+  ExpiredCertificate,
+  StatusEnum as ExpiredStatus
+} from "../../../../../../definitions/eu_covid_cert/ExpiredCertificate";
 
 const revokedCertificate: RevokedCertificate = {
-  id: "revokedCertificateId",
+  uvci: "revokedCertificateId",
   status: StatusEnum.revoked,
-  revoke_reason: "the revoked reason",
+  info: "the revoked reason",
   revoked_on: new Date()
 };
 
+const expiredCertificate: ExpiredCertificate = {
+  uvci: "expiredCertificateId",
+  status: ExpiredStatus.expired,
+  info: "the expired reason"
+};
+
 const validCertificate: ValidCertificate = {
-  id: "validCertificateId",
+  uvci: "validCertificateId",
   status: ValidStatus.valid,
   info: "## info markdown",
   detail: "## detail markdown",
@@ -53,8 +63,20 @@ const cases: ReadonlyArray<[
       kind: "success",
       value: {
         kind: "revoked",
-        id: revokedCertificate.id as EUCovidCertificate["id"],
+        id: revokedCertificate.uvci as EUCovidCertificate["id"],
         revokedOn: revokedCertificate.revoked_on
+      },
+      authCode
+    })
+  ],
+  [
+    right({ status: 200, value: expiredCertificate }),
+    euCovidCertificateGet.success({
+      kind: "success",
+      value: {
+        kind: "expired",
+        id: expiredCertificate.uvci as EUCovidCertificate["id"],
+        markdownInfo: expiredCertificate.info
       },
       authCode
     })
@@ -65,12 +87,12 @@ const cases: ReadonlyArray<[
       kind: "success",
       value: {
         kind: "valid",
-        id: validCertificate.id as EUCovidCertificate["id"],
+        id: validCertificate.uvci as EUCovidCertificate["id"],
         qrCode: {
           mimeType: validCertificate.qr_code.mime_type,
           content: validCertificate.qr_code.content
         },
-        markdownPreview: validCertificate.info,
+        markdownInfo: validCertificate.info,
         markdownDetails: validCertificate.detail
       },
       authCode
@@ -81,15 +103,21 @@ const cases: ReadonlyArray<[
       status: 200,
       value: ({ kind: "strangeKind" } as unknown) as Certificate
     }), // should not never happen
-    euCovidCertificateGet.success({ kind: "genericError", authCode })
+    euCovidCertificateGet.success({ kind: "wrongFormat", authCode })
   ],
   [
     right({ status: 401 }),
-    euCovidCertificateGet.success({ kind: "genericError", authCode })
+    euCovidCertificateGet.failure({
+      ...getGenericError(new Error(`response status code 401`)),
+      authCode
+    })
   ],
   [
     right({ status: 600 }), // unexpected code
-    euCovidCertificateGet.success({ kind: "genericError", authCode })
+    euCovidCertificateGet.failure({
+      ...getGenericError(new Error(`response status code 600`)),
+      authCode
+    })
   ],
   [
     right({ status: 400 }),
@@ -105,7 +133,10 @@ const cases: ReadonlyArray<[
   ],
   [
     right({ status: 500 }),
-    euCovidCertificateGet.success({ kind: "genericError", authCode })
+    euCovidCertificateGet.failure({
+      ...getGenericError(new Error(`response status code 500`)),
+      authCode
+    })
   ],
   [
     right({ status: 504 }),

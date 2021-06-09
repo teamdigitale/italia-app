@@ -74,6 +74,7 @@ global:
     collapsed: Collapsed paragraph
     active: State active
     inactive: State inactive
+    linkHint: Activating this item you will be redirected to the web browser of your device
     activityIndicator:
       label: Loading
       hint: Wait for the content load
@@ -153,6 +154,7 @@ global:
     show: "Show"
     update: "Update"
     findOutMore: "Find out more"
+    details: "Details"
   navigator:
     messages: messages
     wallet: wallet
@@ -2243,7 +2245,7 @@ bonus:
           issuerId: "Issuer transaction ID"
           maxCashbackWarning: "For each transaction you can get a maximum cashback of € {{amount}}."
           maxCashbackForPeriodWarning: "You have already reached the maximum refund for this phase."
-          canceledOperationWarning: "This transaction is a write-off, meaning it invalidates a transaction that had been previously recognized."
+          canceledOperationWarning: "This transaction is a write-off, meaning it cancels a transaction that was previously made."
           canceled: "Write-off"
       paymentMethods:
         add:
@@ -2437,33 +2439,55 @@ bonus:
           other: "{{seconds}} seconds"
 features:
   euCovidCertificate:
+    save:
+      noPermission: "It seems that the app does not have permissions to save images. Please check your device settings."
+      ok: "Image saved in your device gallery"
+      bottomSheet:
+        title: "Save the certificate"
+        subTitle: "You will be able to show the QR code of the certificate without opening IO app, even when you're offline."
+        saveAsImage:
+          title: "Save as an image in the gallery"
+          subTitle: "You will find the QR code in your device gallery"
+    listItem:
+      cta: "View"
     common:
       title: "Certificazione verde COVID-19"
-      subtitle: "EU Digital Covid Certificate"
+      subtitle: "EU Digital COVID Certificate"
+      learnMore: "Learn more"
+      authorizationCode: "Authorization code"
+      messageIdentifier: "Message identifier"
     loading:
       title: "We are loading your certificate data from the National Platform of the Ministry of Health"
       subtitle: "Please wait"
     valid:
-      placeholder: "TMP"
+      accessibility:
+        qrCode: "QR Code"
+        hint: "Display the QR Code in full screen"
+      markdownDetails:
+        headerTitle: "Certificate Details"
+        save: "Save details"
     revoked:
-      title: "TMP"
-      subtitle: "TMP"
+      title: "This certificate is no longer valid"
+    expired:
+      title: "This certificate has expired"
     ko:
       genericError:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "Your certificate data could not be retrieved: please try again"
+        subtitle: "This could be due to a temporary problem."
       notFound:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "It seems that the certificate does not \nexist: contact support"
+        subtitle: "Details to receive support:"
+        cta: "Contact support"
       notOperational:
-        title: "TMP"
+        title: "The EU Digital COVID Certificate is not currently operational"
         subtitle: "TMP"
       temporarilyNotAvailable:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "The service is temporarily unavailable"
+        subtitle: "Please try again later"
       wrongFormat:
-        title: "TMP"
-        subtitle: "TMP"
+        title: "This certificate cannot be retrieved"
+        subtitle: "Details to receive support:"
+        cta: "Contact support"
 webView:
   error:
     missingParams: Not all information necessary to access this page are available

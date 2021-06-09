@@ -3,6 +3,7 @@ import { left, right } from "fp-ts/lib/Either";
 import * as t from "io-ts";
 import { testSaga } from "redux-saga-test-plan";
 
+import { NonEmptyString } from "italia-ts-commons/lib/strings";
 import { CreatedMessageWithContentAndAttachments } from "../../../../definitions/backend/CreatedMessageWithContentAndAttachments";
 import { loadMessage as loadMessageAction } from "../../../store/actions/messages";
 import { fetchMessage, loadMessage } from "../messages";
@@ -18,7 +19,7 @@ const testMessageWithContent1: CreatedMessageWithContentAndAttachments = {
     markdown: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget fringilla neque, laoreet volutpat elit. Nunc leo nisi, dignissim eget lobortis non, faucibus in augue." as any,
     subject: "Lorem ipsum..." as any
   },
-  sender_service_id: testServiceId1
+  sender_service_id: testServiceId1 as NonEmptyString
 };
 
 describe("messages", () => {

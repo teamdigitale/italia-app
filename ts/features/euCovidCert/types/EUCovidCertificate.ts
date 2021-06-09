@@ -3,7 +3,7 @@ import { IUnitTag } from "italia-ts-commons/lib/units";
 /**
  * The unique ID of a EU Covid Certificate
  */
-type EUCovidCertificateId = string & IUnitTag<"EUCovidCertificateId">;
+export type EUCovidCertificateId = string & IUnitTag<"EUCovidCertificateId">;
 
 /**
  * The auth code used to request the EU Covid Certificate, received via message
@@ -11,8 +11,8 @@ type EUCovidCertificateId = string & IUnitTag<"EUCovidCertificateId">;
 export type EUCovidCertificateAuthCode = string &
   IUnitTag<"EUCovidCertificateAuthCode">;
 
-type WithEUCovidCertificateId<T> = T & {
-  id: EUCovidCertificateId;
+type WithEUCovidCertificateId = {
+  id?: EUCovidCertificateId;
 };
 
 type QRCode = {
@@ -20,23 +20,28 @@ type QRCode = {
   content: string;
 };
 
-type ValidCertificate = {
+export type ValidCertificate = WithEUCovidCertificateId & {
   kind: "valid";
   qrCode: QRCode;
-  markdownPreview?: string;
+  markdownInfo?: string;
   markdownDetails?: string;
 };
 
-type RevokedCertificate = {
+export type RevokedCertificate = WithEUCovidCertificateId & {
   kind: "revoked";
-  // TODO: markdown containing information about the certificate revocation, should be linked with the API data when updated
-  revokeInfo?: string;
+  markdownInfo?: string;
   revokedOn?: Date;
+};
+
+type ExpiredCertificate = WithEUCovidCertificateId & {
+  kind: "expired";
+  markdownInfo?: string;
 };
 
 /**
  * This type represents the EU Covid Certificate with the different states & data
  */
-export type EUCovidCertificate = WithEUCovidCertificateId<
-  ValidCertificate | RevokedCertificate
->;
+export type EUCovidCertificate =
+  | ValidCertificate
+  | RevokedCertificate
+  | ExpiredCertificate;

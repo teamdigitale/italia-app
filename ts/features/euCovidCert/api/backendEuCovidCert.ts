@@ -19,7 +19,7 @@ const getCertificate: GetCertificateT = {
   url: () => "/api/v1/eucovidcert/certificate",
   headers: composeHeaderProducers(tokenHeaderProducer, ApiHeaderJson),
   query: _ => ({}),
-  body: p => JSON.stringify(p.getCertificateParams),
+  body: p => JSON.stringify({ accessData: p.getCertificateParams }),
   response_decoder: getCertificateDefaultDecoder()
 };
 

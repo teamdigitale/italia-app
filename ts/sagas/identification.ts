@@ -23,10 +23,11 @@ import {
   identificationSuccess
 } from "../store/actions/identification";
 import {
-  navigateToMessageDetailScreenAction,
+  navigateToMessageRouterScreen,
   navigateToOnboardingPinScreenAction
 } from "../store/actions/navigation";
 import { clearNotificationPendingMessage } from "../store/actions/notifications";
+import { updatePin } from "../store/actions/pinset";
 import {
   paymentDeletePayment,
   runDeleteActivePaymentSaga
@@ -43,7 +44,6 @@ import { isPaymentOngoingSelector } from "../store/reducers/wallet/payment";
 import { PinString } from "../types/PinString";
 import { SagaCallReturnType } from "../types/utils";
 import { deletePin } from "../utils/keychain";
-import { updatePin } from "../store/actions/pinset";
 
 type ResultAction =
   | ActionType<typeof identificationCancel>
@@ -178,8 +178,8 @@ function* startAndHandleIdentificationResult(
       // Remove the pending message from the notification state
       yield put(clearNotificationPendingMessage());
 
-      // Navigate to message details screen
-      yield put(navigateToMessageDetailScreenAction({ messageId }));
+      // Navigate to message router screen
+      yield put(navigateToMessageRouterScreen({ messageId }));
     }
   }
 }

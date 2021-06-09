@@ -21,7 +21,6 @@ export type BottomSheetProps = {
  * @param title
  * @param snapPoint
  * @param onClose
- * @param footer TODO: temp param
  */
 export const bottomSheetContent = async (
   content: React.ReactNode,

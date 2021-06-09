@@ -3,6 +3,7 @@ import * as pot from "italia-ts-commons/lib/pot";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import { Alert } from "react-native";
 import { NavigationActions, NavigationState } from "react-navigation";
+import { channel } from "redux-saga";
 import {
   call,
   cancel,
@@ -17,7 +18,9 @@ import {
   takeLatest
 } from "redux-saga/effects";
 import { ActionType, getType } from "typesafe-actions";
-import { channel } from "redux-saga";
+import { UserDataProcessingChoiceEnum } from "../../definitions/backend/UserDataProcessingChoice";
+import { UserDataProcessingStatusEnum } from "../../definitions/backend/UserDataProcessingStatus";
+import { SpidIdp } from "../../definitions/content/SpidIdp";
 import { BackendClient } from "../api/backend";
 import { setInstabugProfileAttributes } from "../boot/configureInstabug";
 import {
@@ -30,7 +33,10 @@ import {
   pagoPaApiUrlPrefixTest
 } from "../config";
 import { watchBonusSaga } from "../features/bonus/bonusVacanze/store/sagas/bonusSaga";
+import { watchBonusBpdSaga } from "../features/bonus/bpd/saga";
+import { watchBonusCgnSaga } from "../features/bonus/cgn/saga";
 import { watchEUCovidCertificateSaga } from "../features/euCovidCert/saga";
+import I18n from "../i18n";
 import AppNavigator from "../navigation/AppNavigator";
 import { startApplicationInitialization } from "../store/actions/application";
 import { sessionExpired } from "../store/actions/authentication";
@@ -38,7 +44,7 @@ import { previousInstallationDataDeleteSuccess } from "../store/actions/installa
 import { loadMessageWithRelations } from "../store/actions/messages";
 import {
   navigateToMainNavigatorAction,
-  navigateToMessageDetailScreenAction,
+  navigateToMessageRouterScreen,
   navigateToPrivacyScreen
 } from "../store/actions/navigation";
 import { navigationHistoryPush } from "../store/actions/navigationHistory";
@@ -51,8 +57,6 @@ import {
   sessionInfoSelector,
   sessionTokenSelector
 } from "../store/reducers/authentication";
-import { UserDataProcessingChoiceEnum } from "../../definitions/backend/UserDataProcessingChoice";
-import { UserDataProcessingStatusEnum } from "../../definitions/backend/UserDataProcessingStatus";
 import { IdentificationResult } from "../store/reducers/identification";
 import { navigationStateSelector } from "../store/reducers/navigation";
 import { pendingMessageStateSelector } from "../store/reducers/notifications/pendingMessage";
@@ -61,10 +65,6 @@ import { profileSelector } from "../store/reducers/profile";
 import { PinString } from "../types/PinString";
 import { SagaCallReturnType } from "../types/utils";
 import { deletePin, getPin } from "../utils/keychain";
-import { watchBonusBpdSaga } from "../features/bonus/bpd/saga";
-import I18n from "../i18n";
-import { watchBonusCgnSaga } from "../features/bonus/cgn/saga";
-import { SpidIdp } from "../../definitions/content/SpidIdp";
 import {
   startAndReturnIdentificationResult,
   watchIdentification
@@ -456,8 +456,8 @@ export function* initializeApplicationSaga(): Generator<Effect, void, any> {
     // Remove the pending message from the notification state
     yield put(clearNotificationPendingMessage());
 
-    // Navigate to message details screen
-    yield put(navigateToMessageDetailScreenAction({ messageId }));
+    // Navigate to message router screen
+    yield put(navigateToMessageRouterScreen({ messageId }));
     // Push the MAIN navigator in the history to handle the back button
     const navigationState: NavigationState = yield select(
       navigationStateSelector

@@ -10,7 +10,7 @@ import { Municipality } from "../../definitions/content/Municipality";
 import IconFont from "../components/ui/IconFont";
 import I18n from "../i18n";
 import customVariables from "../theme/variables";
-import { getBrightness, setBrightness } from "../utils/brightness";
+import { useMaxBrightness } from "../utils/brightness";
 import FiscalCodeComponent from "./FiscalCodeComponent";
 import AppHeader from "./ui/AppHeader";
 
@@ -29,8 +29,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const HIGH_BRIGHTNESS = 1.0; // Target screen brightness for a very bright screen
-
 const FiscalCodeLandscapeOverlay: React.FunctionComponent<Props> = (
   props: Props
 ) => {
@@ -48,7 +46,7 @@ const FiscalCodeLandscapeOverlay: React.FunctionComponent<Props> = (
 
   const scrollToEnd = () => {
     if (props.showBackSide && ScrollViewRef.current) {
-      // dalay the scroll to end command to wait until the ingress animation is completed
+      // delay the scroll to end command to wait until the ingress animation is completed
       // eslint-disable-next-line
       scrollTimeout = setTimeout(() => {
         if (ScrollViewRef.current) {
@@ -71,44 +69,7 @@ const FiscalCodeLandscapeOverlay: React.FunctionComponent<Props> = (
     };
   }, []);
 
-  // Brightness effect manager
-  React.useEffect(() => {
-    // eslint-disable-next-line functional/no-let
-    let myBrightness: number | undefined;
-
-    const myBrightF = async () => {
-      myBrightness = await getBrightness()
-        .fold(
-          () => undefined,
-          _ => _
-        )
-        .run();
-    };
-
-    const mySetBrightF = async () => {
-      await myBrightF();
-      if (myBrightness) {
-        await setBrightness(HIGH_BRIGHTNESS).run();
-      }
-    };
-
-    const finishedSet = mySetBrightF();
-
-    return () => {
-      const restoreDeviceBrightnessF = async () => {
-        await finishedSet;
-        if (myBrightness) {
-          await setBrightness(myBrightness)
-            .fold(
-              () => undefined,
-              _ => _
-            )
-            .run();
-        }
-      };
-      void restoreDeviceBrightnessF();
-    };
-  }, []);
+  useMaxBrightness();
 
   return (
     <Container style={{ backgroundColor: customVariables.brandDarkGray }}>

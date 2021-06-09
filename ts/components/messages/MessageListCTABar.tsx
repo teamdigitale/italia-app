@@ -22,11 +22,14 @@ import {
   paymentExpirationInfo
 } from "../../utils/messages";
 import ExtractedCTABar from "../cta/ExtractedCTABar";
+import { ViewEUCovidButton } from "../../features/euCovidCert/components/ViewEUCovidButton";
+import { euCovidCertificateEnabled } from "../../config";
 import CalendarEventButton from "./CalendarEventButton";
 import CalendarIconComponent from "./CalendarIconComponent";
 
 type OwnProps = {
   message: CreatedMessageWithContent;
+  onEUCovidCTAPress?: () => void;
   service?: ServicePublic;
   payment?: PaidReason;
   disabled?: boolean;
@@ -94,6 +97,15 @@ class MessageListCTABar extends React.PureComponent<Props> {
     }
   }
 
+  private renderEUCovidViewCTA() {
+    return (
+      euCovidCertificateEnabled &&
+      this.props.message.content.eu_covid_cert && (
+        <ViewEUCovidButton onPress={this.props.onEUCovidCTAPress} />
+      )
+    );
+  }
+
   private renderCalendarIcon = () => {
     const { dueDate } = this;
 
@@ -133,10 +145,10 @@ class MessageListCTABar extends React.PureComponent<Props> {
   public render() {
     const calendarIcon = this.renderCalendarIcon();
     const calendarEventButton = this.renderCalendarEventButton();
+    const euCovidCertCTA = this.renderEUCovidViewCTA();
     const maybeCTA = getCTA(this.props.message, this.props.serviceMetadata);
     const isPaymentStillValid =
       !this.isPaymentExpirable || !this.isPaymentExpired;
-    // payment CTA has priority to nested CTA
     const nestedCTA =
       !this.hasPaymentData && maybeCTA.isSome() ? (
         <ExtractedCTABar
@@ -147,7 +159,14 @@ class MessageListCTABar extends React.PureComponent<Props> {
           service={this.props.service}
         />
       ) : null;
+    /**
+     * cta priority
+     * 1. eu covid
+     * 2. nested CTA (cta included in message content front-matter)
+     * 3. calendar
+     */
     const content =
+      euCovidCertCTA ||
       nestedCTA ||
       (isPaymentStillValid && (calendarIcon || calendarEventButton) && (
         <>

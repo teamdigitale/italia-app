@@ -44,7 +44,9 @@ function* handleTestLogin({
     if (testLoginResponse.isRight()) {
       if (testLoginResponse.value.status === 200) {
         yield put(
-          loginSuccess(testLoginResponse.value.value.token as SessionToken)
+          loginSuccess(
+            (testLoginResponse.value.value.token as string) as SessionToken
+          )
         );
         return;
       }

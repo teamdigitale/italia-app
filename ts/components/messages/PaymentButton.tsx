@@ -9,7 +9,7 @@ import { ServicePublic } from "../../../definitions/backend/ServicePublic";
 import I18n from "../../i18n";
 import TransactionSummaryScreen from "../../screens/wallet/payment/TransactionSummaryScreen";
 import {
-  navigateToMessageDetailScreenAction,
+  navigateToMessageRouterScreen,
   navigateToPaymentTransactionSummaryScreen,
   navigateToWalletHome
 } from "../../store/actions/navigation";
@@ -179,9 +179,7 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => ({
   navigateToMessageDetail: () =>
-    dispatch(
-      navigateToMessageDetailScreenAction({ messageId: ownProps.message.id })
-    ),
+    dispatch(navigateToMessageRouterScreen({ messageId: ownProps.message.id })),
   refreshService: (serviceId: string) =>
     dispatch(loadServiceDetail.request(serviceId)),
   paymentInitializeState: () => dispatch(paymentInitializeState()),

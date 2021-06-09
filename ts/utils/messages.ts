@@ -57,6 +57,7 @@ export function messageNeedsCTABar(
   message: CreatedMessageWithContentAndAttachments
 ): boolean {
   return (
+    message.content.eu_covid_cert !== undefined || // eucovid data
     messageNeedsDueDateCTA(message) ||
     messageNeedsPaymentCTA(message) ||
     getCTA(message).isSome()

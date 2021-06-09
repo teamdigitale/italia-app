@@ -4,6 +4,7 @@ import * as pot from "italia-ts-commons/lib/pot";
 import {
   FiscalCode,
   IPatternStringTag,
+  NonEmptyString,
   WithinRangeString
 } from "italia-ts-commons/lib/strings";
 import { Tuple2 } from "italia-ts-commons/lib/tuples";
@@ -130,7 +131,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
         created_at: setDate(-1, 12),
         fiscal_code: fiscalCode,
         id: "01DTH3SAA23QJ436BDHDXJ4H5Y",
-        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
         time_to_live: 3600 as TimeToLiveSeconds
       },
       isRead: true,
@@ -152,7 +153,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
           created_at: setDate(-1, 12),
           fiscal_code: fiscalCode,
           id: "01DTH3SAA23QJ436BDHDXJ4H5Y",
-          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
           time_to_live: 3600 as TimeToLiveSeconds
         }
       }
@@ -162,7 +163,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
         created_at: setDate(0, 3),
         fiscal_code: fiscalCode,
         id: "01DQQGBXWSCNNY44CH2QZ95J7A",
-        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
         time_to_live: 3600 as TimeToLiveSeconds
       },
       isRead: false,
@@ -187,7 +188,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
           created_at: setDate(0, 3),
           fiscal_code: fiscalCode,
           id: "01DQQGBXWSCNNY44CH2QZ95J7A",
-          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
           time_to_live: 3600 as TimeToLiveSeconds
         }
       }
@@ -197,7 +198,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
         created_at: setDate(1, 12),
         fiscal_code: fiscalCode,
         id: "01DQQGBXWSCNNY44CH2QZ95PIO",
-        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+        sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
         time_to_live: 3600 as TimeToLiveSeconds
       },
       isRead: false,
@@ -222,7 +223,7 @@ const messagesState: pot.Pot<ReadonlyArray<MessagesStateAndStatus>, string> = {
           created_at: setDate(1, 12),
           fiscal_code: fiscalCode,
           id: "01DQQGBXWSCNNY44CH2QZ95PIO",
-          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ",
+          sender_service_id: "01DP8VSP2HYYMXSMHN7CV1GNHJ" as NonEmptyString,
           time_to_live: 3600 as TimeToLiveSeconds
         }
       }

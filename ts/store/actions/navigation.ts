@@ -123,6 +123,14 @@ export const navigateToMessageDetailScreenAction = (
     params
   });
 
+export const navigateToMessageRouterScreen = (
+  params: InferNavigationParams<typeof MessageDetailScreen>
+) =>
+  NavigationActions.navigate({
+    routeName: ROUTES.MESSAGE_ROUTER,
+    params
+  });
+
 /**
  * Service
  */

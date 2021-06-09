@@ -113,6 +113,7 @@ class MessageListItem extends React.PureComponent<Props> {
         {!hasPrescriptionData(message) && messageNeedsCTABar(message) && (
           <React.Fragment>
             <MessageListCTABar
+              onEUCovidCTAPress={this.handlePress}
               message={message}
               service={service}
               payment={payment}
