@@ -135,6 +135,7 @@ global:
     share: Condividi
     delete: Elimina
     cancel: Annulla
+    settings: Impostazioni
     ok: OK
     ok2: Ok
     continue: Continua
@@ -255,7 +256,8 @@ profile:
     spid: PROFILO SPID
   unknown: SCONOSCIUTO
   logout:
-    menulabel: Vuoi davvero uscire?
+    menulabel: Esci da IO
+    alertTitle: Vuoi davvero uscire?
     alertMessage: Al prossimo accesso sarà necessario autenticarti con CIE o SPID.
     loading: Logout in corso...
     exit: Esci
@@ -285,9 +287,15 @@ profile:
       alert: Vuoi davvero eliminare la cache?
       clear: Elimina cache
       cleared: La cache è stata eliminata.
+    data:
+      title: I tuoi dati
+      description: Rivedi le tue informazioni
     preferences:
       title: Preferenze
       description: Gestisci le preferenze dell'applicazione
+    security:
+      title: Sicurezza
+      description: Gestisci accesso biometrico e codice di sblocco
     privacy:
       title: Privacy e condizioni d'uso
       description: I tuoi diritti e obblighi nell’uso di IO
@@ -360,27 +368,43 @@ profile:
       alertConfirmTitle: Vuoi usare l'ambiente di test pagoPA?
       alertConfirmMessage: Se abiliti l'ambiente di test pagoPA non vedrai più lo storico delle tue transazioni e i tuoi metodi di pagamento salvati, e potrai usare solo metodi di pagamento espressamente creati per questo scopo. Se non ti è chiaro cosa questo significa non abilitare questa funzione.
       alertMessage: È necessario il riavvio dell'applicazione affinché le modifiche abbiano effetto.
-    accountSectionHeader: Account
     appVersion: Versione App
     backendVersion: Versione Backend
     debugMode: Modalità debug
     showroom: UI Showroom
+  data:
+    title: I tuoi dati
+    subtitle: Qui trovi i tuoi dati anagrafici e di contatto utilizzati da app IO
+    list:
+      email: Indirizzo email
+      need_validate: Da validare
+      nameSurname: Nome e cognome
+      spid:
+        headerTitle: Dati SPID
+        email: Email SPID
+    email:
+      contextualHelpTitle: Come gestire la tua mail
+      contextualHelpContent: !include profile/profile_data_email_address.md
+    spid_email:
+      contextualHelpTitle: Questo dato è impostato nel tuo profilo SPID
+      contextualHelpContent: !include profile/profile_data_spid_email.md
+  security:
+    title: Sicurezza
+    subtitle: Gestisci le modalità di autenticazione in app.
+    list:       
+      biometric_recognition:
+        title: Riconoscimento biometrico
+        subtitle: Usa la tua impronta o il tuo volto
+        needed_to_disable: Riconoscimento richiesto per disabilitare
+        popup:
+          title: Consenti l’accesso al sensore biometrico
+          description: Tocca ‘Impostazioni’ e consenti ad IO di utilizzare il sensore biometrico del tuo dispositivo.
   preferences:
     title: Preferenze
-    subtitle:
-      Queste impostazioni verranno utilizzate da tutti i servizi della Pubblica
-      Amministrazione.
+    subtitle: Queste impostazioni ti permettono di personalizzare l’esperienza di app IO. 
     contextualHelpTitle: Le tue preferenze
     contextualHelpContent: !include profile/profile_preferences_home.md
     list:
-      biometric_recognition: Riconoscimento biometrico
-      biometric_recognition_status:
-        enabled: Abilitato
-        disabled: Disabilitato
-      email: Indirizzo email
-      spid_email: Email SPID
-      need_validate: Da validare
-      mobile_phone: Numero di telefono SPID
       wip: In elaborazione
       language: Lingua
       digitalDomicile: Domicilio digitale
@@ -401,12 +425,7 @@ profile:
     language:
       contextualHelpTitle: Come gestire la lingua su IO
       contextualHelpContent: !include profile/profile_preferences_language.md
-    spid_email:
-      contextualHelpTitle: Questa preferenza è impostata nel tuo profilo SPID
-      contextualHelpContent: !include profile/profile_preferences_spid_email.md
     email:
-      contextualHelpTitle: Come gestire la tua mail
-      contextualHelpContent: !include profile/profile_preferences_email_address.md
       forward:
         contextualHelpTitle: Come gestire l'inoltro dei messaggi
         contextualHelpContent: !include profile/profile_preferences_email_forward.md
@@ -1553,14 +1572,8 @@ notifications:
       La registrazione verso il servizio di notifiche push ha generato
       un errore
 biometric_recognition:
-  title: Riconoscimento biometrico
-  subTitle: Attiva o disattiva il riconoscimento biometrico
   contextualHelpTitle: Come funziona il riconoscimento biometrico
-  contextualHelpContent: !include profile/profile_preferences_biometric_recognition.md
-  switchLabel: Attiva il riconoscimento biometrico
-  enroll_cta: Il riconoscimento biometrico è presente su questo dispositivo, ma non è configurato. Vai nel menu impostazioni di questo dispositivo e configuralo per abilitare questa feature.
-  enroll_btnLabel: Vai alle impostazioni
-  needed_to_disable: Riconoscimento richiesto per disabilitare
+  contextualHelpContent: !include profile/profile_security_biometric_recognition.md
 send_email_messages:
   title: Inoltro dei messaggi via email
   subtitle: Vuoi che IO inoltri il contenuto dei messaggi anche a

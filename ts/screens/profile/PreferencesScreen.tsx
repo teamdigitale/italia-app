@@ -9,25 +9,15 @@ import * as React from "react";
 import { Alert } from "react-native";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { connect } from "react-redux";
-
-import { TranslationKeys } from "../../../locales/locales";
-import { ContextualHelp } from "../../components/ContextualHelp";
-import { withLightModalContext } from "../../components/helpers/withLightModalContext";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
 import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
 import ListItemComponent from "../../components/screens/ListItemComponent";
 import ScreenContent from "../../components/screens/ScreenContent";
 import TopScreenComponent from "../../components/screens/TopScreenComponent";
-import { LightModalContextInterface } from "../../components/ui/LightModal";
-import Markdown from "../../components/ui/Markdown";
 import I18n from "../../i18n";
-import { getFingerprintSettings } from "../../sagas/startup/checkAcknowledgedFingerprintSaga";
 import {
   navigateToCalendarPreferenceScreen,
   navigateToEmailForwardingPreferenceScreen,
-  navigateToEmailInsertScreen,
-  navigateToEmailReadScreen,
-  navigateToFingerprintPreferenceScreen,
   navigateToLanguagePreferenceScreen
 } from "../../store/actions/navigation";
 import { Dispatch, ReduxProps } from "../../store/actions/types";
@@ -36,13 +26,8 @@ import {
   preferredLanguageSelector
 } from "../../store/reducers/persistedPreferences";
 import {
-  hasProfileEmailSelector,
   isEmailEnabledSelector,
-  isInboxEnabledSelector,
-  isProfileEmailValidatedSelector,
-  profileEmailSelector,
-  profileMobilePhoneSelector,
-  profileSpidEmailSelector
+  isInboxEnabledSelector
 } from "../../store/reducers/profile";
 import { GlobalState } from "../../store/reducers/types";
 import { openAppSettings } from "../../utils/appSettings";
@@ -61,16 +46,7 @@ type OwnProps = Readonly<{
 type Props = OwnProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
-  ReduxProps &
-  LightModalContextInterface;
-
-type State = {
-  isFingerprintAvailable: boolean;
-};
-
-const INITIAL_STATE: State = {
-  isFingerprintAvailable: false
-};
+  ReduxProps;
 
 const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "profile.preferences.contextualHelpTitle",
@@ -90,32 +66,10 @@ function translateLocale(locale: string): string {
     .getOrElse(locale);
 }
 
-class PreferencesScreen extends React.Component<Props, State> {
+class PreferencesScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = INITIAL_STATE;
   }
-
-  public componentDidMount() {
-    getFingerprintSettings().then(
-      biometryTypeOrUnsupportedReason => {
-        this.setState({
-          isFingerprintAvailable:
-            biometryTypeOrUnsupportedReason !== "UNAVAILABLE" &&
-            biometryTypeOrUnsupportedReason !== "NOT_ENROLLED"
-        });
-      },
-      _ => undefined
-    );
-  }
-
-  private handleEmailOnPress = () => {
-    if (this.props.hasProfileEmail) {
-      this.props.navigateToEmailReadScreen();
-      return;
-    }
-    this.props.navigateToEmailInsertScreen();
-  };
 
   private checkPermissionThenGoCalendar = () => {
     void checkAndRequestPermission()
@@ -165,62 +119,22 @@ class PreferencesScreen extends React.Component<Props, State> {
   };
 
   public render() {
-    const { isFingerprintAvailable } = this.state;
-
-    const notAvailable = I18n.t("global.remoteStates.notAvailable");
-    const maybeEmail = this.props.optionEmail;
-    const maybeSpidEmail = this.props.optionSpidEmail;
-    const maybePhoneNumber = this.props.optionMobilePhone;
-
     const language = this.props.preferredLanguage.fold(
       translateLocale(getLocalePrimaryWithFallback()),
       l => translateLocale(l)
     );
 
-    const showModal = (title: TranslationKeys, body: TranslationKeys) => {
-      this.props.showModal(
-        <ContextualHelp
-          onClose={this.props.hideModal}
-          title={I18n.t(title)}
-          body={() => <Markdown>{I18n.t(body)}</Markdown>}
-        />
-      );
-    };
-
-    const showSpidEmailModal = () =>
-      showModal(
-        "profile.preferences.spid_email.contextualHelpTitle",
-        "profile.preferences.spid_email.contextualHelpContent"
-      );
-
     return (
       <TopScreenComponent
         contextualHelpMarkdown={contextualHelpMarkdown}
         faqCategories={["profile", "privacy", "authentication_SPID"]}
-        headerTitle={I18n.t("profile.preferences.title")}
         goBack={true}
       >
         <ScreenContent
           title={I18n.t("profile.preferences.title")}
           subtitle={I18n.t("profile.preferences.subtitle")}
-          icon={require("../../../img/icons/gears.png")}
         >
           <List withContentLateralPadding={true}>
-            {isFingerprintAvailable && (
-              <ListItemComponent
-                title={I18n.t("profile.preferences.list.biometric_recognition")}
-                onPress={this.props.navigateToFingerprintPreferenceScreen}
-                subTitle={
-                  this.props.isFingerprintEnabled
-                    ? I18n.t(
-                        "profile.preferences.list.biometric_recognition_status.enabled"
-                      )
-                    : I18n.t(
-                        "profile.preferences.list.biometric_recognition_status.disabled"
-                      )
-                }
-              />
-            )}
             <ListItemComponent
               onPress={this.checkPermissionThenGoCalendar}
               title={I18n.t(
@@ -236,43 +150,10 @@ class PreferencesScreen extends React.Component<Props, State> {
             />
 
             <ListItemComponent
-              title={I18n.t("profile.preferences.list.email")}
-              subTitle={maybeEmail.getOrElse(notAvailable)}
-              titleBadge={
-                !this.props.isEmailValidated
-                  ? I18n.t("profile.preferences.list.need_validate")
-                  : undefined
-              }
-              onPress={this.handleEmailOnPress}
-            />
-
-            <ListItemComponent
               title={I18n.t("send_email_messages.title")}
               subTitle={this.getEmailForwardPreferencesSubtitle()}
               onPress={this.props.navigateToEmailForwardingPreferenceScreen}
             />
-
-            {
-              // Check if spid email exists
-              maybeSpidEmail.isSome() && (
-                <ListItemComponent
-                  title={I18n.t("profile.preferences.list.spid_email")}
-                  subTitle={maybeSpidEmail.value}
-                  onPress={showSpidEmailModal}
-                />
-              )
-            }
-
-            {
-              // Check if mobile phone exists
-              maybePhoneNumber.isSome() && (
-                <ListItemComponent
-                  title={I18n.t("profile.preferences.list.mobile_phone")}
-                  subTitle={maybePhoneNumber.value}
-                  onPress={showSpidEmailModal}
-                />
-              )
-            }
 
             <ListItemComponent
               title={I18n.t("profile.preferences.list.language")}
@@ -292,33 +173,20 @@ function mapStateToProps(state: GlobalState) {
   return {
     preferredLanguage: preferredLanguageSelector(state),
     languages: fromNullable(state.preferences.languages),
-    optionEmail: profileEmailSelector(state),
-    optionSpidEmail: profileSpidEmailSelector(state),
-    isEmailValidated: isProfileEmailValidatedSelector(state),
     isEmailEnabled: isEmailEnabledSelector(state),
     isInboxEnabled: isInboxEnabledSelector(state),
     isCustomEmailChannelEnabled: isCustomEmailChannelEnabledSelector(state),
-    isFingerprintEnabled: state.persistedPreferences.isFingerprintEnabled,
-    preferredCalendar: state.persistedPreferences.preferredCalendar,
-    hasProfileEmail: hasProfileEmailSelector(state),
-    optionMobilePhone: profileMobilePhoneSelector(state)
+    preferredCalendar: state.persistedPreferences.preferredCalendar
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  navigateToFingerprintPreferenceScreen: () =>
-    dispatch(navigateToFingerprintPreferenceScreen()),
   navigateToEmailForwardingPreferenceScreen: () =>
     dispatch(navigateToEmailForwardingPreferenceScreen()),
   navigateToCalendarPreferenceScreen: () =>
     dispatch(navigateToCalendarPreferenceScreen()),
   navigateToLanguagePreferenceScreen: () =>
-    dispatch(navigateToLanguagePreferenceScreen()),
-  navigateToEmailReadScreen: () => dispatch(navigateToEmailReadScreen()),
-  navigateToEmailInsertScreen: () => dispatch(navigateToEmailInsertScreen())
+    dispatch(navigateToLanguagePreferenceScreen())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withLightModalContext(PreferencesScreen));
+export default connect(mapStateToProps, mapDispatchToProps)(PreferencesScreen);

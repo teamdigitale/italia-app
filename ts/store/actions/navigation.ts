@@ -147,11 +147,6 @@ export const navigateToServiceDetailsScreen = (
  * Profile
  */
 
-export const navigateToFingerprintPreferenceScreen = () =>
-  NavigationActions.navigate({
-    routeName: ROUTES.PROFILE_PREFERENCES_BIOMETRIC_RECOGNITION
-  });
-
 export const navigateToEmailForwardingPreferenceScreen = () =>
   NavigationActions.navigate({
     routeName: ROUTES.PROFILE_PREFERENCES_EMAIL_FORWARDING
