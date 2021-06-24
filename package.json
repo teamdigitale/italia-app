@@ -102,7 +102,7 @@
     "react-native-calendar-events": "1.7.1",
     "react-native-camera": "^3.4.0",
     "react-native-config": "1.0.0",
-    "react-native-device-info": "5.6.4",
+    "react-native-device-info": "^8.1.3",
     "react-native-exception-handler": "^2.10.8",
     "react-native-flag-secure-android": "git://github.com/pagopa/react-native-flag-secure-android.git#7afcf2a418b945f976a4f0e7a72e89301253c795",
     "react-native-fs": "^2.16.6",
