@@ -13,7 +13,7 @@ import adapter from "detox/runners/jest/adapter";
 import { Millisecond } from "italia-ts-commons/lib/units";
 import { delayAsync } from "../utils/timer";
 
-const config = require("package.json").detox;
+const config = require("../../package.json").detox;
 
 // Set the default test timeout (in milliseconds)
 jest.setTimeout(5 * 60 * 1000);
@@ -22,7 +22,7 @@ jest.setTimeout(5 * 60 * 1000);
 const WAIT_TIMEOUT_MS = 30 * 1000;
 
 describe("e2e app", () => {
-  const loginButtonId = "landing-button-login";
+  const loginButtonId = "landing-button-login-spid";
   // const idpsGridId = "idps-view";
   const posteIdpButtonId = "idp-posteid-button";
   // const idpWebviewId = "idp-webview";
@@ -72,11 +72,15 @@ describe("e2e app", () => {
     //   .toBeVisible()
     //   .withTimeout(WAIT_TIMEOUT_MS);
     await element(by.id(posteIdpButtonId)).tap();
+    const re = await element(by.text("LOGIN"));
+    console.log("questa!", re);
+    await waitFor(element(by.text("LOGIN"))).toBeVisible();
 
-    await waitFor(element(by.id("back-button")))
-      .toBeVisible()
-      .withTimeout(WAIT_TIMEOUT_MS);
-    await expect(element(by.id("back-button"))).toBeVisible();
+    //await element(by.text("LOGIN")).tap();
+
+    //await waitFor(element(by.id("back-button"))).toBeVisible();
+    //.withTimeout(WAIT_TIMEOUT_MS);
+    //await expect(element(by.id("back-button"))).toBeVisible();
     const waitTime = (5 * 1000) as Millisecond;
     await delayAsync(waitTime); // wait 10s to let webview load
   });
