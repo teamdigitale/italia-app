@@ -853,6 +853,7 @@ wallet:
     noName: Name unavailable
     loading: Loading bank list...
   accessibility:
+    sectionCardLabel: "{{label}}, double tap to refresh the list"
     cardsPreview: Payment methods' preview. Activate to navigate to the the list of payment methods.
     transactionListItem:
       payment:

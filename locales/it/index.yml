@@ -872,6 +872,7 @@ wallet:
     noName: Nome non disponibile
     loading: Carico la lista delle banche...
   accessibility:
+    sectionCardLabel: "{{label}}, tocca due volte per aggiornare la lista"
     cardsPreview: Anteprima dei metodi di pagamento. Attiva per accedere alla lista dei tuoi metodi
     transactionListItem:
       payment:
