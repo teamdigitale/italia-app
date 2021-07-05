@@ -32,6 +32,7 @@ import { PotTransform } from "../store/transforms/potTransform";
 import { NAVIGATION_MIDDLEWARE_LISTENERS_KEY } from "../utils/constants";
 import { isDevEnv } from "../utils/environment";
 import { remoteUndefined } from "../features/bonus/bpd/model/RemoteValue";
+import { reactotronLogger } from "../store/middlewares/analytics";
 import { configureReactotron } from "./configureRectotron";
 
 /**
@@ -320,7 +321,8 @@ function configureStoreAndPersistor(): { store: Store; persistor: Persistor } {
     navigationHistory,
     navigation,
     analytics.actionTracking, // generic tracker for selected redux actions
-    analytics.screenTracking // tracks screen navigation,
+    analytics.screenTracking, // tracks screen navigation,
+    analytics.reactotronLogger
   );
   // add Reactotron enhancer if the app is running in dev mode
 

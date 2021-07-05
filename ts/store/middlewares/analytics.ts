@@ -126,6 +126,8 @@ import {
   paymentOutcomeCode
 } from "../actions/wallet/outcomeCode";
 import { noAnalyticsRoutes } from "../../utils/analytics";
+import { RTron } from "../../boot/configureStoreAndPersistor";
+import { getError } from "../../utils/errors";
 import { trackContentAction } from "./contentAnalytics";
 
 // eslint-disable-next-line complexity
@@ -410,6 +412,18 @@ const trackAction = (mp: NonNullable<typeof mixpanel>) => (
       });
   }
   return Promise.resolve();
+};
+
+export const reactotronLogger = (_: MiddlewareAPI) => (next: Dispatch) => (
+  action: Action
+): Action => {
+  if (
+    action.type.toLowerCase().endsWith("failure") &&
+    (action as any).payload
+  ) {
+    RTron?.log(action.type, getError((action as any).payload).message);
+  }
+  return next(action);
 };
 
 /*
