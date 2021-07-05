@@ -421,7 +421,10 @@ export const reactotronLogger = (_: MiddlewareAPI) => (next: Dispatch) => (
     action.type.toLowerCase().endsWith("failure") &&
     (action as any).payload
   ) {
-    RTron?.log(action.type, getError((action as any).payload).message);
+    RTron?.logImportant?.(
+      action.type,
+      getError((action as any).payload).message
+    );
   }
   return next(action);
 };

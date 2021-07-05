@@ -285,8 +285,7 @@ const logger = createLogger({
 // configure Reactotron if the app is running in dev mode
 export const RTron = isDevEnv ? configureReactotron() : undefined;
 const sagaMiddleware = createSagaMiddleware(
-  // cast to any due to a type lacking
-  RTron ? { sagaMonitor: (RTron as any).createSagaMonitor() } : {}
+  RTron?.createSagaMonitor ? { sagaMonitor: RTron.createSagaMonitor() } : {}
 );
 
 /**
@@ -326,10 +325,9 @@ function configureStoreAndPersistor(): { store: Store; persistor: Persistor } {
   );
   // add Reactotron enhancer if the app is running in dev mode
 
-  const enhancer: StoreEnhancer =
-    RTron && RTron.createEnhancer
-      ? composeEnhancers(middlewares, RTron.createEnhancer())
-      : composeEnhancers(middlewares);
+  const enhancer: StoreEnhancer = RTron?.createEnhancer
+    ? composeEnhancers(middlewares, RTron.createEnhancer())
+    : composeEnhancers(middlewares);
 
   const store: Store = createStore<
     PersistedGlobalState,
