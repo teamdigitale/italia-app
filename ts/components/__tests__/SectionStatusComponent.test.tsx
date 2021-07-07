@@ -71,7 +71,7 @@ describe("Section Status Component test different rendering states", () => {
     const wholeComponent = component.queryByTestId(
       "SectionStatusComponentTouchable"
     );
-    expect(wholeComponent).not.toBeNull();
+    expect(wholeComponent).toBeNull();
     if (wholeComponent) {
       fireEvent.press(wholeComponent);
       expect(openWebUrl).not.toHaveBeenCalled();

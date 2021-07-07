@@ -76,6 +76,7 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   const maybeWebUrl = maybeNotNullyString(
     sectionStatus.web_url && sectionStatus.web_url[locale]
   );
+  const noticeHasLink = maybeWebUrl.isSome();
 
   useEffect(() => {
     setAccessibilityFocus(
@@ -85,48 +86,95 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   }, [sectionStatus]);
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => maybeWebUrl.map(openWebUrl)}
-      testID={"SectionStatusComponentTouchable"}
-    >
-      <View
-        style={[styles.container, { backgroundColor }]}
-        accessible={true}
-        ref={props.statusAppRef}
-        accessibilityLabel={sectionStatus.message[locale]}
-        accessibilityRole="text"
-      >
-        <IconFont
-          testID={"SectionStatusComponentIcon"}
-          name={iconName}
-          size={iconSize}
-          color={color}
-          style={styles.alignCenter}
-        />
-        <Label
-          color={"white"}
-          style={styles.text}
-          weight={"Regular"}
-          testID={"SectionStatusComponentLabel"}
+    <>
+      {noticeHasLink ? (
+        <TouchableWithoutFeedback
+          onPress={() => maybeWebUrl.map(openWebUrl)}
+          testID={"SectionStatusComponentTouchable"}
         >
-          {sectionStatus.message[locale]}
-          {/* ad an extra blank space if web url is present */}
-          {maybeWebUrl.fold("", _ => " ")}
-          {maybeWebUrl.fold(undefined, _ => (
-            <Text
-              testID={"SectionStatusComponentMoreInfo"}
-              style={{
-                color,
-                textDecorationLine: "underline",
-                fontWeight: "bold"
-              }}
+          <View
+            style={[styles.container, { backgroundColor }]}
+            accessible={true}
+            accessibilityLabel={`${
+              sectionStatus.message[locale]
+            } ${maybeWebUrl.fold(
+              "",
+              _ => `, ${I18n.t("global.sectionStatus.moreInfo")}`
+            )}`}
+            accessibilityRole="link"
+            ref={props.statusAppRef}
+          >
+            <IconFont
+              testID={"SectionStatusComponentIcon"}
+              name={iconName}
+              size={iconSize}
+              color={color}
+              style={styles.alignCenter}
+            />
+            <Label
+              color={"white"}
+              style={styles.text}
+              weight={"Regular"}
+              testID={"SectionStatusComponentLabel"}
             >
-              {I18n.t("global.sectionStatus.moreInfo")}
-            </Text>
-          ))}
-        </Label>
-      </View>
-    </TouchableWithoutFeedback>
+              {sectionStatus.message[locale]}
+              {/* ad an extra blank space if web url is present */}
+              {maybeWebUrl.fold("", _ => " ")}
+              {maybeWebUrl.fold(undefined, _ => (
+                <Text
+                  testID={"SectionStatusComponentMoreInfo"}
+                  style={{
+                    color,
+                    textDecorationLine: "underline",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {I18n.t("global.sectionStatus.moreInfo")}
+                </Text>
+              ))}
+            </Label>
+          </View>
+        </TouchableWithoutFeedback>
+      ) : (
+        <View
+          style={[styles.container, { backgroundColor }]}
+          accessible={true}
+          ref={props.statusAppRef}
+          accessibilityLabel={sectionStatus.message[locale]}
+          accessibilityRole="alert"
+        >
+          <IconFont
+            testID={"SectionStatusComponentIcon"}
+            name={iconName}
+            size={iconSize}
+            color={color}
+            style={styles.alignCenter}
+          />
+          <Label
+            color={"white"}
+            style={styles.text}
+            weight={"Regular"}
+            testID={"SectionStatusComponentLabel"}
+          >
+            {sectionStatus.message[locale]}
+            {/* ad an extra blank space if web url is present */}
+            {maybeWebUrl.fold("", _ => " ")}
+            {maybeWebUrl.fold(undefined, _ => (
+              <Text
+                testID={"SectionStatusComponentMoreInfo"}
+                style={{
+                  color,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold"
+                }}
+              >
+                {I18n.t("global.sectionStatus.moreInfo")}
+              </Text>
+            ))}
+          </Label>
+        </View>
+      )}
+    </>
   );
 };
 
