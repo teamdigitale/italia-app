@@ -16,6 +16,7 @@ import { Label } from "./core/typography/Label";
 
 type OwnProps = {
   sectionKey: SectionStatusKey;
+  onSectionRef?: (ref: React.RefObject<View>) => void;
 };
 
 type Props = OwnProps & ReturnType<typeof mapStateToProps>;
@@ -63,7 +64,7 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   if (props.sectionStatus.is_visible !== true) {
     return null;
   }
-
+  const viewRef = React.createRef<View>();
   const sectionStatus = props.sectionStatus;
   const iconName = statusIconMap[sectionStatus.level];
   const backgroundColor = statusColorMap[sectionStatus.level];
@@ -71,12 +72,17 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   const maybeWebUrl = maybeNotNullyString(
     sectionStatus.web_url && sectionStatus.web_url[locale]
   );
+  React.useEffect(() => {
+    if (viewRef.current) {
+      props.onSectionRef?.(viewRef);
+    }
+  }, [viewRef]);
   return (
     <TouchableWithoutFeedback
       onPress={() => maybeWebUrl.map(openWebUrl)}
       testID={"SectionStatusComponentTouchable"}
     >
-      <View style={[styles.container, { backgroundColor }]}>
+      <View style={[styles.container, { backgroundColor }]} ref={viewRef}>
         <IconFont
           testID={"SectionStatusComponentIcon"}
           name={iconName}
