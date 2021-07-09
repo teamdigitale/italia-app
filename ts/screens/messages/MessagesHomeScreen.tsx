@@ -286,10 +286,7 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
         <SectionStatusComponent
           sectionKey={"messages"}
           onSectionRef={v => {
-            // if the section status is displayed, set accessibility focus on it
-            if (this.props.messageSectionStatusActive !== undefined) {
-              setAccessibilityFocus(v, 100 as Millisecond);
-            }
+            setAccessibilityFocus(v, 100 as Millisecond);
           }}
         />
       </View>
