@@ -140,8 +140,9 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
           style={[styles.container, { backgroundColor }]}
           accessible={true}
           ref={props.statusAppRef}
-          accessibilityLabel={sectionStatus.message[locale]}
-          accessibilityRole="alert"
+          accessibilityLabel={`${sectionStatus.message[locale]}, ${I18n.t(
+            "global.accessibility.alert"
+          )}`}
         >
           <IconFont
             testID={"SectionStatusComponentIcon"}

@@ -75,6 +75,7 @@ global:
     active: Stato attivo
     inactive: Stato non attivo
     linkHint: Attivando questo elemento verrai reindirizzato sul browser del dispositivo
+    alert: Avviso
     activityIndicator:
       label: Caricamento in corso
       hint: Attendi il caricamento del contenuto
