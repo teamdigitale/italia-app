@@ -48,9 +48,9 @@ import {
   getEnabledChannelsForService
 } from "../../utils/profile";
 import { showToast } from "../../utils/showToast";
-import { capitalize, maybeNotNullyString } from "../../utils/strings";
 import { handleItemOnPress, ItemAction } from "../../utils/url";
 import ContactPreferencesToggles from "../../components/services/ContactPreferencesToggles";
+import ServiceMetadata from "../../components/services/ServiceMetadata";
 import { H3 } from "../../components/core/typography/H3";
 import { IOStyles } from "../../components/core/variables/IOStyles";
 import { IOColors } from "../../components/core/variables/IOColors";
@@ -140,21 +140,6 @@ function renderInformationRow(
     </View>
   );
 }
-
-const renderRowWithDefinedValue = (
-  data: string | undefined,
-  header: string,
-  linkingPrefix?: string,
-  valueType?: ItemAction
-) =>
-  maybeNotNullyString(data).fold(undefined, value =>
-    renderInformationRow(
-      header,
-      value,
-      `${linkingPrefix || ""}${value}`,
-      valueType
-    )
-  );
 
 // Renders a row in the service information panel as labelled image
 function renderInformationImageRow(
@@ -312,34 +297,27 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
     return undefined;
   };
 
-  private renderContactItems = (potServiceMetadata: ServiceMetadataState) => {
+  private renderServiceMetaData(potServiceMetadata: ServiceMetadataState) {
     if (pot.isSome(potServiceMetadata) && potServiceMetadata.value) {
       const metadata = potServiceMetadata.value;
+      const service = this.service;
+
       return (
-        <React.Fragment>
-          {renderRowWithDefinedValue(
-            metadata.address,
-            I18n.t("services.contactAddress"),
-            undefined,
-            "MAP"
-          )}
-          {renderRowWithDefinedValue(
-            metadata.support_url,
-            I18n.t("services.contactSupport")
-          )}
-          {renderRowWithDefinedValue(
-            metadata.phone,
-            I18n.t("services.contactPhone"),
-            "tel:"
-          )}
-          {renderRowWithDefinedValue(metadata.email, "Email", "mailto:")}
-          {renderRowWithDefinedValue(metadata.pec, "PEC", "mailto:")}
-          {renderRowWithDefinedValue(metadata.web_url, "Web")}
-        </React.Fragment>
+        <ServiceMetadata
+          address={metadata.address}
+          email={metadata.email}
+          fiscalCode={service.organization_fiscal_code}
+          getItemOnPress={handleItemOnPress}
+          pec={metadata.pec}
+          phone={metadata.phone}
+          serviceId={service.service_id}
+          supportUrl={metadata.support_url}
+          webUrl={metadata.web_url}
+        />
       );
     }
-    return undefined;
-  };
+    return null;
+  }
 
   public render() {
     const { service, serviceId } = this;
@@ -381,28 +359,10 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
 
           <View spacer={true} large={true} />
           {this.renderItems(potServiceMetadata)}
-          {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) && (
-            <H4 style={styles.infoHeader}>
-              {I18n.t("services.contactsAndInfo")}
-            </H4>
-          )}
+
           {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) &&
-            renderInformationRow(
-              capitalize(I18n.t("profile.fiscalCode.fiscalCode")),
-              service.organization_fiscal_code,
-              service.organization_fiscal_code,
-              "COPY"
-            )}
-          {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) &&
-            this.renderContactItems(potServiceMetadata)}
-          {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) &&
-            this.props.isDebugModeEnabled &&
-            renderInformationRow(
-              "ID",
-              service.service_id,
-              service.service_id,
-              "COPY"
-            )}
+            this.renderServiceMetaData(potServiceMetadata)}
+
           {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) && (
             <EdgeBorderComponent />
           )}

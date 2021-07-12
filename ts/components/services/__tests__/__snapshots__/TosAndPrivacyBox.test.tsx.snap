@@ -5,6 +5,7 @@ exports[`TosAndPrivacyBox component when both URLs are defined should match the 
   <View
     style={
       Object {
+        "alignItems": "center",
         "flexDirection": "row",
         "paddingVertical": 8,
       }
@@ -20,19 +21,21 @@ exports[`TosAndPrivacyBox component when both URLs are defined should match the 
         Array [
           Object {
             "color": "#475A6D",
-            "fontSize": 12,
+            "fontSize": 18,
           },
           Array [
             Array [
               Object {},
               Object {
-                "marginRight": 3.85,
+                "marginRight": 8,
               },
             ],
             Object {
               "color": "#475A6D",
             },
-            Object {},
+            Object {
+              "fontSize": 18,
+            },
           ],
           Object {
             "fontFamily": "io-icon-font",
