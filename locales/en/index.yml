@@ -76,6 +76,7 @@ global:
     active: State active
     inactive: State inactive
     linkHint: Activating this item you will be redirected to the web browser of your device
+    alert: Alert
     activityIndicator:
       label: Loading
       hint: Wait for the content load

@@ -143,6 +143,8 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
     }
   }
 
+  private statusAppRef = React.createRef<View>();
+
   public render() {
     const { isSearchEnabled } = this.props;
 
@@ -154,6 +156,7 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
         headerTitle={I18n.t("messages.contentTitle")}
         isSearchAvailable={{ enabled: true, searchType: "Messages" }}
         appLogo={true}
+        statusAppRef={this.statusAppRef}
       >
         {!isSearchEnabled && (
           <React.Fragment>
@@ -276,7 +279,10 @@ class MessagesHomeScreen extends React.PureComponent<Props, State> {
             />
           </Tab>
         </AnimatedTabs>
-        <SectionStatusComponent sectionKey={"messages"} />
+        <SectionStatusComponent
+          sectionKey={"messages"}
+          statusAppRef={this.statusAppRef}
+        />
       </View>
     );
   };

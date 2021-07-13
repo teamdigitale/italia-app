@@ -12,7 +12,7 @@ import { connectStyle } from "native-base-shoutem-theme";
 import mapPropsToStyleNames from "native-base/src/utils/mapPropsToStyleNames";
 import * as React from "react";
 import { ComponentProps } from "react";
-import { ColorValue, ModalBaseProps, Platform } from "react-native";
+import { ColorValue, ModalBaseProps, Platform, View } from "react-native";
 import { TranslationKeys } from "../../../locales/locales";
 import {
   defaultAttachmentTypeConfiguration,
@@ -60,6 +60,7 @@ interface OwnProps {
   appLogo?: boolean;
   searchType?: SearchType;
   reportAttachmentTypes?: DefaultReportAttachmentTypeConfiguration;
+  statusAppRef?: React.RefObject<View>;
 
   // As of now, the following prop is propagated through 4 levels
   // to finally display a checkbox in SendSupportRequestOptions
@@ -246,7 +247,8 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
       children,
       faqCategories,
       shouldAskForScreenshotWithInitialValue,
-      titleColor
+      titleColor,
+      statusAppRef
     } = this.props;
 
     const {
@@ -296,6 +298,7 @@ class BaseScreenComponent extends React.PureComponent<Props, State> {
           customRightIcon={customRightIcon}
           customGoBack={customGoBack}
           titleColor={titleColor}
+          statusAppRef={statusAppRef}
         />
         {children}
         {ch && (
