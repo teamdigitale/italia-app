@@ -53,6 +53,7 @@ date:
     - "pm"
 global:
   you: "TU"
+  id: "ID"
   badges:
     blocked: "Bloccato"
     onGoing: "In corso"
@@ -178,6 +179,10 @@ global:
     spidLogin:
       title: Accedi per iniziare a usare l'app
       message: IO funziona solo se hai effettuato l'accesso almeno una volta
+  media:
+    email: "Email"
+    pec: "PEC"
+    phone: "Phone"
 tablet:
   message: L’interfaccia di IO è ottimizzata per smartphone, ma tutte le funzioni compatibili con il tuo dispositivo sono comunque disponibili.
 rooted:
@@ -1663,9 +1668,11 @@ services:
   privacyLink: Informativa sulla privacy
   otherAppsInfo: Puoi usare questo servizio anche
   otherAppWeb: Online su
-  otherAppIos: Con l'app per iOS
-  otherAppAndroid: Con l'app per Android
+  otherAppIos: App iOS
+  otherAppAndroid: App Android
   contactsAndInfo: Contatti ed informazioni
+  visitWebsite: Visita il sito
+  askForAssistance: Richiedi assistenza
   contactAddress: Indirizzo
   contactPhone: Telefono
   contactSupport: Assistenza

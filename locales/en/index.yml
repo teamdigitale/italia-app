@@ -53,6 +53,7 @@ date:
     - "pm"
 global:
   you: "YOU"
+  id: "ID"
   badges:
     blocked: "Blocked"
     onGoing: "Ongoing"
@@ -178,6 +179,10 @@ global:
     spidLogin:
       title: Sign in to start using the app
       message: IO can only work if you have signed in at least once
+  media:
+    email: "Email"
+    pec: "Certified email"
+    phone: "Phone"
 tablet:
   message: The IO interface is optimized for smartphones, but all the functions compatible with your device are still available.
 rooted:
@@ -1634,9 +1639,11 @@ services:
   privacyLink: Privacy information
   otherAppsInfo: You can find this service also
   otherAppWeb: Online on
-  otherAppIos: With the iOS app
-  otherAppAndroid: With the Android app
+  otherAppIos: App iOS
+  otherAppAndroid: App Android
   contactsAndInfo: Contacts and info
+  visitWebsite: Visit our website
+  askForAssistance: Ask for assistance
   contactAddress: Address
   contactPhone: Phone
   contactSupport: Support
