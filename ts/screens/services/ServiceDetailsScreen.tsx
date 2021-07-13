@@ -49,6 +49,7 @@ import {
 } from "../../utils/profile";
 import { showToast } from "../../utils/showToast";
 import { handleItemOnPress, ItemAction } from "../../utils/url";
+import { isIos, isAndroid } from "../../utils/platform";
 import ContactPreferencesToggles from "../../components/services/ContactPreferencesToggles";
 import ServiceMetadata from "../../components/services/ServiceMetadata";
 import { H3 } from "../../components/core/typography/H3";
@@ -243,58 +244,24 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
   };
 
   private renderItems = (potServiceMetadata: ServiceMetadataState) => {
-    if (pot.isSome(potServiceMetadata) && potServiceMetadata.value) {
-      const metadata = potServiceMetadata.value;
+    if (
+      pot.isSome(potServiceMetadata) &&
+      potServiceMetadata.value?.description
+    ) {
       return (
-        <React.Fragment>
-          {metadata.description && (
-            <Markdown
-              animated={true}
-              onLoadEnd={this.onMarkdownEnd}
-              onError={this.onMarkdownEnd}
-            >
-              {metadata.description}
-            </Markdown>
-          )}
-          {metadata.description && <View spacer={true} large={true} />}
-          {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) && (
-            <View>
-              <TosAndPrivacyBox
-                tosUrl={metadata.tos_url}
-                privacyUrl={metadata.privacy_url}
-              />
-
-              {(metadata.app_android ||
-                metadata.app_ios ||
-                metadata.web_url) && (
-                <H4 style={styles.infoHeader}>
-                  {I18n.t("services.otherAppsInfo")}
-                </H4>
-              )}
-              {metadata.web_url &&
-                renderInformationRow(
-                  I18n.t("services.otherAppWeb"),
-                  metadata.web_url,
-                  metadata.web_url
-                )}
-              {metadata.app_ios &&
-                renderInformationImageRow(
-                  I18n.t("services.otherAppIos"),
-                  metadata.app_ios,
-                  iOSStoreBadge
-                )}
-              {metadata.app_android &&
-                renderInformationImageRow(
-                  I18n.t("services.otherAppAndroid"),
-                  metadata.app_android,
-                  playStoreBadge
-                )}
-            </View>
-          )}
-        </React.Fragment>
+        <>
+          <Markdown
+            animated={true}
+            onLoadEnd={this.onMarkdownEnd}
+            onError={this.onMarkdownEnd}
+          >
+            {potServiceMetadata.value.description}
+          </Markdown>
+          <View spacer={true} large={true} />
+        </>
       );
     }
-    return undefined;
+    return null;
   };
 
   private renderServiceMetaData(potServiceMetadata: ServiceMetadataState) {
@@ -303,17 +270,33 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
       const service = this.service;
 
       return (
-        <ServiceMetadata
-          address={metadata.address}
-          email={metadata.email}
-          fiscalCode={service.organization_fiscal_code}
-          getItemOnPress={handleItemOnPress}
-          pec={metadata.pec}
-          phone={metadata.phone}
-          serviceId={service.service_id}
-          supportUrl={metadata.support_url}
-          webUrl={metadata.web_url}
-        />
+        <>
+          <TosAndPrivacyBox
+            tosUrl={metadata.tos_url}
+            privacyUrl={metadata.privacy_url}
+          />
+          <View spacer={true} large={true} />
+
+          <ContactPreferencesToggles
+            serviceId={service.service_id}
+            channels={service.available_notification_channels}
+          />
+          <View spacer={true} large={true} />
+
+          <ServiceMetadata
+            address={metadata.address}
+            androidStoreUrl={isAndroid ? metadata.app_android : undefined}
+            email={metadata.email}
+            fiscalCode={service.organization_fiscal_code}
+            getItemOnPress={handleItemOnPress}
+            iosStoreUrl={isIos ? metadata.app_ios : undefined}
+            pec={metadata.pec}
+            phone={metadata.phone}
+            serviceId={service.service_id}
+            supportUrl={metadata.support_url}
+            webUrl={metadata.web_url}
+          />
+        </>
       );
     }
     return null;
@@ -338,26 +321,8 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
           <Grid>
             <OrganizationHeader service={service} />
           </Grid>
-          <View spacer={true} large={true} />
-          <View style={[IOStyles.row, { alignItems: "center" }]}>
-            <IconFont
-              name={"io-envelope"}
-              color={IOColors.bluegrey}
-              size={18}
-            />
-            <View hspacer small />
-            <H3 weight={"SemiBold"} color={"bluegrey"}>
-              {I18n.t("serviceDetail.contacts.title")}
-            </H3>
-          </View>
-          <View spacer={true} small />
+          <View spacer={true} small={true} />
 
-          <ContactPreferencesToggles
-            serviceId={this.serviceId}
-            channels={this.service.available_notification_channels}
-          />
-
-          <View spacer={true} large={true} />
           {this.renderItems(potServiceMetadata)}
 
           {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) &&
@@ -366,6 +331,7 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
           {canRenderItems(this.state.isMarkdownLoaded, potServiceMetadata) && (
             <EdgeBorderComponent />
           )}
+
           <View spacer={true} extralarge={true} />
         </Content>
         {maybeCTA.isSome() && (

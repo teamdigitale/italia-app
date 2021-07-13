@@ -22,6 +22,7 @@ import {
 } from "../../../types/services/ServicePreferenceResponse";
 import { isStrictSome } from "../../../utils/pot";
 import { showToast } from "../../../utils/showToast";
+import SectionHeader from "../SectionHeader";
 import PreferenceToggleRow from "./PreferenceToggleRow";
 
 type Item = "email" | "push" | "inbox";
@@ -96,6 +97,10 @@ const ContactPreferencesToggle: React.FC<Props> = (props: Props) => {
 
   return (
     <>
+      <SectionHeader
+        iconName="io-envelope"
+        title={"serviceDetail.contacts.title"}
+      />
       <PreferenceToggleRow
         label={I18n.t("services.serviceIsEnabled")}
         onPress={(value: boolean) => onValueChange(value, "inbox")}

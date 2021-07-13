@@ -21,7 +21,6 @@ const TosAndPrivacy: React.FC<Props> = ({ tosUrl, privacyUrl }) => {
     <View>
       <SectionHeader
         iconName={"io-lucchetto"}
-        iconSize={24}
         title={"services.tosAndPrivacy"}
       />
       {tosUrl && <LinkRow text="services.tosLink" href={tosUrl} />}
