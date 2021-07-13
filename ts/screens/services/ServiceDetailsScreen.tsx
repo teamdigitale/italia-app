@@ -1,26 +1,16 @@
 import * as pot from "italia-ts-commons/lib/pot";
-import { Content, Grid, Text, View } from "native-base";
+import { Content, Grid, View } from "native-base";
 import * as React from "react";
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationInjectedProps } from "react-navigation";
 import { connect } from "react-redux";
 import { ServicePublic } from "../../../definitions/backend/ServicePublic";
-import iOSStoreBadge from "../../../img/badges/app-store-badge.png";
-import playStoreBadge from "../../../img/badges/google-play-badge.png";
-import ButtonDefaultOpacity from "../../components/ButtonDefaultOpacity";
 import ExtractedCTABar from "../../components/cta/ExtractedCTABar";
 import OrganizationHeader from "../../components/OrganizationHeader";
 import BaseScreenComponent, {
   ContextualHelpPropsMarkdown
 } from "../../components/screens/BaseScreenComponent";
 import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
-import H4 from "../../components/ui/H4";
-import IconFont from "../../components/ui/IconFont";
 import Markdown from "../../components/ui/Markdown";
 import I18n from "../../i18n";
 import { Dispatch, ReduxProps } from "../../store/actions/types";
@@ -48,13 +38,10 @@ import {
   getEnabledChannelsForService
 } from "../../utils/profile";
 import { showToast } from "../../utils/showToast";
-import { handleItemOnPress, ItemAction } from "../../utils/url";
+import { handleItemOnPress } from "../../utils/url";
 import { isIos, isAndroid } from "../../utils/platform";
 import ContactPreferencesToggles from "../../components/services/ContactPreferencesToggles";
 import ServiceMetadata from "../../components/services/ServiceMetadata";
-import { H3 } from "../../components/core/typography/H3";
-import { IOStyles } from "../../components/core/variables/IOStyles";
-import { IOColors } from "../../components/core/variables/IOColors";
 import TosAndPrivacyBox from "../../components/services/TosAndPrivacyBox";
 import { ServiceId } from "../../../definitions/backend/ServiceId";
 import { currentSelectedService } from "../../store/actions/services";
@@ -118,49 +105,6 @@ const contextualHelpMarkdown: ContextualHelpPropsMarkdown = {
   title: "serviceDetail.headerTitle",
   body: "serviceDetail.contextualHelpContent"
 };
-
-// Renders a row in the service information panel as a primary block button
-function renderInformationRow(
-  label: string,
-  info: string,
-  value: string,
-  valueType?: ItemAction
-) {
-  return (
-    <View style={styles.infoItem}>
-      <Text>{label}</Text>
-      <ButtonDefaultOpacity
-        primary={true}
-        small={true}
-        onPress={handleItemOnPress(value, valueType)}
-      >
-        <Text uppercase={false} ellipsizeMode={"tail"} numberOfLines={1}>
-          {info}
-        </Text>
-      </ButtonDefaultOpacity>
-    </View>
-  );
-}
-
-// Renders a row in the service information panel as labelled image
-function renderInformationImageRow(
-  label: string,
-  url: string,
-  source: ImageSourcePropType
-) {
-  return (
-    <View style={styles.infoItem}>
-      <Text>{label}</Text>
-      <TouchableOpacity onPress={handleItemOnPress(url, "LINK")}>
-        <Image
-          style={styles.badgeLogo}
-          resizeMode={"contain"}
-          source={source}
-        />
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 /**
  * return true if markdown is loaded (description is rendered inside a markdown component)

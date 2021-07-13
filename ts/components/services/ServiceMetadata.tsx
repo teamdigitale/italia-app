@@ -74,7 +74,6 @@ const ServiceMetadata: React.FC<Props> = ({
     {supportUrl && (
       <LinkRow text={"services.askForAssistance"} href={supportUrl} />
     )}
-    {webUrl && <LinkRow text={"services.askForAssistance"} href={webUrl} />}
     {iosStoreUrl && (
       <LinkRow text={"services.otherAppIos"} href={iosStoreUrl} />
     )}
@@ -93,7 +92,7 @@ const ServiceMetadata: React.FC<Props> = ({
       renderInformationRow(
         address,
         "services.contactAddress",
-        getItemOnPress(address, "COPY")
+        getItemOnPress(address, "MAP")
       )}
     {phone &&
       renderInformationRow(
@@ -113,12 +112,11 @@ const ServiceMetadata: React.FC<Props> = ({
         "global.media.pec",
         getItemOnPress(`mailto:${pec}`)
       )}
-    {serviceId &&
-      renderInformationRow(
-        serviceId,
-        "global.id",
-        getItemOnPress(serviceId, "COPY")
-      )}
+    {renderInformationRow(
+      serviceId,
+      "global.id",
+      getItemOnPress(serviceId, "COPY")
+    )}
   </>
 );
 
