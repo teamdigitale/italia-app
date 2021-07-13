@@ -4,8 +4,16 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import { reducer as networkReducer } from "react-native-offline";
 import { combineReducers, Reducer } from "redux";
-import { PersistConfig, persistReducer, purgeStoredState } from "redux-persist";
+import {
+  createMigrate,
+  MigrationManifest,
+  PersistConfig,
+  PersistedState,
+  persistReducer,
+  purgeStoredState
+} from "redux-persist";
 import { isActionOf } from "typesafe-actions";
+import _ from "lodash";
 import bonusReducer from "../../features/bonus/bonusVacanze/store/reducers";
 import { featuresReducer } from "../../features/common/store/reducers";
 import {
@@ -16,6 +24,7 @@ import {
 import { Action } from "../actions/types";
 import createSecureStorage from "../storages/keychain";
 import { DateISO8601Transform } from "../transforms/dateISO8601Tranform";
+import { isDevEnv } from "../../utils/environment";
 import appStateReducer from "./appState";
 import authenticationReducer, { AuthenticationState } from "./authentication";
 import backendInfoReducer from "./backendInfo";
@@ -27,7 +36,10 @@ import contentReducer, {
 import { debugReducer } from "./debug";
 import deepLinkReducer from "./deepLink";
 import emailValidationReducer from "./emailValidation";
-import entitiesReducer, { EntitiesState } from "./entities";
+import entitiesReducer, {
+  EntitiesState,
+  PersistedEntitiesState
+} from "./entities";
 import identificationReducer, { IdentificationState } from "./identification";
 import instabugUnreadMessagesReducer from "./instabug/instabugUnreadMessages";
 import installationReducer from "./installation";
@@ -43,12 +55,13 @@ import preferencesReducer from "./preferences";
 import profileReducer from "./profile";
 import crossSessionsReducer from "./crossSessions";
 import searchReducer from "./search";
-import { GlobalState } from "./types";
+import { GlobalState, PersistedGlobalState } from "./types";
 import userDataProcessingReducer from "./userDataProcessing";
 import userMetadataReducer from "./userMetadata";
 import walletReducer from "./wallet";
 import internalRouteNavigationReducer from "./internalRouteNavigation";
 import backoffErrorReducer from "./backoffError";
+import { getInitialState as getInstallationInitialState } from "./notifications/installation";
 
 // A custom configuration to store the authentication into the Keychain
 export const authenticationPersistConfig: PersistConfig = {
@@ -57,11 +70,26 @@ export const authenticationPersistConfig: PersistConfig = {
   blacklist: ["deepLink"]
 };
 
+const CURRENT_REDUX_ENTITIES_STORE_VERSION = 0;
+const migrations: MigrationManifest = {
+  // version 0
+  // remove "currentSelectedService" section
+  "0": (state: PersistedState): PersistedEntitiesState => {
+    const entities = state as PersistedEntitiesState;
+    return {
+      ...entities,
+      services: { ..._.omit(entities.services, "currentSelectedService") }
+    };
+  }
+};
+
 // A custom configuration to avoid to persist messages section
 export const entitiesPersistConfig: PersistConfig = {
   key: "entities",
   storage: AsyncStorage,
-  blacklist: ["messages"]
+  version: CURRENT_REDUX_ENTITIES_STORE_VERSION,
+  blacklist: ["messages"],
+  migrate: createMigrate(migrations, { debug: isDevEnv })
 };
 
 // A custom configuration to store the fail information of the identification section
