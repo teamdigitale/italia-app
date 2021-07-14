@@ -1639,11 +1639,11 @@ services:
   privacyLink: Privacy information
   otherAppsInfo: You can find this service also
   otherAppWeb: Online on
-  otherAppIos: App iOS
-  otherAppAndroid: App Android
+  otherAppIos: iOS App
+  otherAppAndroid: Android App
   contactsAndInfo: Contacts and info
-  visitWebsite: Visit our website
-  askForAssistance: Ask for assistance
+  visitWebsite: Browse Website
+  askForAssistance: Get support
   contactAddress: Address
   contactPhone: Phone
   contactSupport: Support

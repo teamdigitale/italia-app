@@ -182,7 +182,7 @@ global:
   media:
     email: "Email"
     pec: "PEC"
-    phone: "Phone"
+    phone: "Telefono"
 tablet:
   message: L’interfaccia di IO è ottimizzata per smartphone, ma tutte le funzioni compatibili con il tuo dispositivo sono comunque disponibili.
 rooted:
