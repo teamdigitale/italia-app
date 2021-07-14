@@ -28,6 +28,7 @@ const options = {
   tosUrl: "https://www.fsf.org/",
   privacyUrl: "https://gnupg.org/"
 };
+// header.children.find(node => node
 
 describe("TosAndPrivacyBox component", () => {
   beforeEach(() => {
@@ -36,11 +37,13 @@ describe("TosAndPrivacyBox component", () => {
     MOCK_URL_WILL_FAIL = false;
   });
 
+  it("should have one header", () => {
+    const component = renderComponent({ ...options });
+    expect(component.getByRole("header")).toBeDefined();
+    expect(component.getByText(I18n.t("services.tosAndPrivacy"))).toBeDefined();
+  });
+
   describe("when both URLs are defined", () => {
-    it("should match the snapshot", () => {
-      const component = renderComponent(options);
-      expect(component.toJSON()).toMatchSnapshot();
-    });
     it("should call `openWebUrl` for TOS link", () => {
       const component = renderComponent(options);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

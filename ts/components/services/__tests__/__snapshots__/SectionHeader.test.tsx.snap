@@ -48,6 +48,7 @@ exports[`SectionHeader component should match the snapshot 1`] = `
     
   </Text>
   <Text
+    accessibilityRole="header"
     color="bluegrey"
     font="TitilliumWeb"
     fontStyle={
