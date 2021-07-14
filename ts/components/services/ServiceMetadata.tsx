@@ -126,7 +126,11 @@ const renderInformationRow = (
   onPress: () => void
 ) => (
   <View style={styles.valueRow}>
-    <TouchableDefaultOpacity onPress={onPress} style={styles.valueItem}>
+    <TouchableDefaultOpacity
+      onPress={onPress}
+      style={styles.valueItem}
+      accessibilityRole={"button"}
+    >
       <H4
         style={styles.itemValue}
         ellipsizeMode={"tail"}

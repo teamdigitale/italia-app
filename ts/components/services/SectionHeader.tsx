@@ -35,7 +35,7 @@ const sectionHeader: React.FC<Props> = ({ iconName, title }) => (
       style={styles.icon}
       size={18}
     />
-    <H3 weight={"SemiBold"} color={"bluegrey"}>
+    <H3 weight={"SemiBold"} color={"bluegrey"} accessibilityRole={"header"}>
       {I18n.t(title)}
     </H3>
   </View>
