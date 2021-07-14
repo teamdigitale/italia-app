@@ -86,36 +86,42 @@ const ServiceMetadata: React.FC<Props> = ({
       renderInformationRow(
         fiscalCode,
         "profile.fiscalCode.fiscalCode",
-        getItemOnPress(fiscalCode, "COPY")
+        getItemOnPress(fiscalCode, "COPY"),
+        "clipboard.copyText"
       )}
     {address &&
       renderInformationRow(
         address,
         "services.contactAddress",
-        getItemOnPress(address, "MAP")
+        getItemOnPress(address, "MAP"),
+        "openMaps.openAddressOnMap"
       )}
     {phone &&
       renderInformationRow(
         phone,
         "global.media.phone",
-        getItemOnPress(`tel:${phone}`)
+        getItemOnPress(`tel:${phone}`),
+        "messageDetails.call"
       )}
     {email &&
       renderInformationRow(
         email,
         "global.media.email",
-        getItemOnPress(`mailto:${email}`)
+        getItemOnPress(`mailto:${email}`),
+        "messageDetails.sendEmail"
       )}
     {pec &&
       renderInformationRow(
         pec,
         "global.media.pec",
-        getItemOnPress(`mailto:${pec}`)
+        getItemOnPress(`mailto:${pec}`),
+        "messageDetails.sendEmail"
       )}
     {renderInformationRow(
       serviceId,
       "global.id",
-      getItemOnPress(serviceId, "COPY")
+      getItemOnPress(serviceId, "COPY"),
+      "clipboard.copyText"
     )}
   </>
 );
@@ -123,13 +129,15 @@ const ServiceMetadata: React.FC<Props> = ({
 const renderInformationRow = (
   value: string,
   label: TranslationKeys,
-  onPress: () => void
+  onPress: () => void,
+  hint: TranslationKeys
 ) => (
   <View style={styles.valueRow}>
     <TouchableDefaultOpacity
       onPress={onPress}
       style={styles.valueItem}
       accessibilityRole={"button"}
+      accessibilityHint={I18n.t(hint)}
     >
       <H4
         style={styles.itemValue}

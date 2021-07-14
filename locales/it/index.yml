@@ -1597,6 +1597,7 @@ messageDetails:
   question: "Qualcosa non è chiaro?"
   answer: Se non ti è chiaro il contenuto del messaggio, devi segnalare un errore o vuoi approfondire, puoi contattare direttamente i referenti del servizio indicando il seguente ID del messaggio.
   call: Chiama
+  sendEmail: Manda email
   write: Scrivi
   id: "ID:"
 notifications:
@@ -1767,6 +1768,7 @@ reminders:
   noOtherDeadlines: Non ci sono altre scadenze
 openMaps:
   genericError: Si è verificato un errore durante l'apertura della mappa
+  openAddressOnMap: Apri l'indirizzo sulla mappa
 genericError: Si è verificato un errore
 titleUpdateApp: Aggiorna IO!
 msgErrorUpdateApp: "Si è verificato un errore durante l'apertura dello store delle app"

@@ -1570,6 +1570,7 @@ messageDetails:
   question: "Is something unclear?"
   answer: If something is unclear about the content of the message, you want to report an error, or you want to know more about it, you can contact the service directly by indicating the following message ID.
   call: Call
+  sendEmail: Send email
   write: Write
   id: "ID:"
 notifications:
@@ -1738,6 +1739,7 @@ reminders:
   noOtherDeadlines: There are no more deadline
 openMaps:
   genericError: An error occurred while opening the map
+  openAddressOnMap: Open the address on the map
 genericError: An error occurred
 titleUpdateApp: Update IO!
 msgErrorUpdateApp: "An error occurred while opening the app store"
