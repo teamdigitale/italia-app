@@ -2,16 +2,12 @@ import { fromNullable } from "fp-ts/lib/Option";
 import * as pot from "italia-ts-commons/lib/pot";
 import { Text, View } from "native-base";
 import * as React from "react";
-import {
-  BackHandler,
-  Image,
-  StyleSheet,
-  TouchableWithoutFeedback
-} from "react-native";
+import { BackHandler, Image, StyleSheet } from "react-native";
 import { NavigationEvents, NavigationInjectedProps } from "react-navigation";
 import { connect } from "react-redux";
 import ButtonDefaultOpacity from "../../components/ButtonDefaultOpacity";
 import CopyButtonComponent from "../../components/CopyButtonComponent";
+import { Link } from "../../components/core/typography/Link";
 import { withLightModalContext } from "../../components/helpers/withLightModalContext";
 import { withLoadingSpinner } from "../../components/helpers/withLoadingSpinner";
 import ItemSeparatorComponent from "../../components/ItemSeparatorComponent";
@@ -221,9 +217,9 @@ class TransactionDetailsScreen extends React.Component<Props, State> {
             recipient={transaction.merchant}
             description={cleanTransactionDescription(transaction.description)}
           />
-          <TouchableWithoutFeedback onPress={this.handleOnFullReasonPress}>
-            <Text link={true}>{I18n.t("wallet.transactionFullReason")}</Text>
-          </TouchableWithoutFeedback>
+          <Link onPress={this.handleOnFullReasonPress}>
+            {I18n.t("wallet.transactionFullReason")}
+          </Link>
           {this.state.showFullReason && (
             <Text
               selectable={true}
