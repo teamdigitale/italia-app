@@ -39,7 +39,6 @@ import {
 } from "../../utils/profile";
 import { showToast } from "../../utils/showToast";
 import { handleItemOnPress } from "../../utils/url";
-import { isIos, isAndroid } from "../../utils/platform";
 import ContactPreferencesToggles from "../../components/services/ContactPreferencesToggles";
 import ServiceMetadata from "../../components/services/ServiceMetadata";
 import TosAndPrivacyBox from "../../components/services/TosAndPrivacyBox";
@@ -228,17 +227,11 @@ class ServiceDetailsScreen extends React.Component<Props, State> {
           <View spacer={true} large={true} />
 
           <ServiceMetadata
-            address={metadata.address}
-            androidStoreUrl={isAndroid ? metadata.app_android : undefined}
-            email={metadata.email}
-            fiscalCode={service.organization_fiscal_code}
+            servicesMetadata={metadata}
+            organizationFiscalCode={service.organization_fiscal_code}
             getItemOnPress={handleItemOnPress}
-            iosStoreUrl={isIos ? metadata.app_ios : undefined}
-            pec={metadata.pec}
-            phone={metadata.phone}
             serviceId={service.service_id}
-            supportUrl={metadata.support_url}
-            webUrl={metadata.web_url}
+            isDebugModeEnabled={this.props.isDebugModeEnabled}
           />
         </>
       );

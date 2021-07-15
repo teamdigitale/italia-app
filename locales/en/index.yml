@@ -1669,6 +1669,7 @@ services:
   close: Close
   emptyListMessage: There are no services available at this time, pull down to refresh
 serviceDetail:
+  fiscalCode: "Organization's fiscal code"
   contacts:
     title: "This service can:"
   headerTitle: "Service details"
