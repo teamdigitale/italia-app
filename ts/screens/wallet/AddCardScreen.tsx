@@ -69,6 +69,7 @@ import ButtonDefaultOpacity from "../../components/ButtonDefaultOpacity";
 import { walletAddCoBadgeStart } from "../../features/wallet/onboarding/cobadge/store/actions";
 import { Label } from "../../components/core/typography/Label";
 import { IOColors } from "../../components/core/variables/IOColors";
+import { useLuhnValidation } from "../../utils/hooks/useLuhnValidation";
 
 type NavigationParams = Readonly<{
   inPayment: Option<{
@@ -139,6 +140,11 @@ const primaryButtonPropsFromState = (
     title: I18n.t("global.buttons.continue")
   };
 
+  const { isCardNumberValid, isCvvValid } = useLuhnValidation(
+    state.pan.getOrElse(""),
+    state.securityCode.getOrElse("")
+  );
+
   const card = getCreditCardFromState(state);
 
   return card.fold<BlockButtonProps>(
@@ -150,7 +156,7 @@ const primaryButtonPropsFromState = (
     }),
     c => ({
       ...baseButtonProps,
-      disabled: false,
+      disabled: !isCardNumberValid || !isCvvValid,
       onPress: () => {
         Keyboard.dismiss();
         onNavigate(c);
@@ -248,6 +254,11 @@ const AddCardScreen: React.FC<Props> = props => {
     creditCard.pan
   );
 
+  const { isCardNumberValid, isCvvValid } = useLuhnValidation(
+    creditCard.pan.getOrElse(""),
+    creditCard.securityCode.getOrElse("")
+  );
+
   const updateState = (key: CreditCardStateKeys, value: string) => {
     setCreditCard({
       ...creditCard,
@@ -325,7 +336,7 @@ const AddCardScreen: React.FC<Props> = props => {
             label={I18n.t("wallet.dummyCard.labels.pan")}
             icon={detectedBrand.iconForm}
             iconStyle={styles.creditCardForm}
-            isValid={isValidPan(creditCard.pan)}
+            isValid={isNone(creditCard.pan) ? undefined : isCardNumberValid}
             inputMaskProps={{
               value: creditCard.pan.getOrElse(""),
               placeholder: placeholders.placeholderCard,
@@ -382,7 +393,9 @@ const AddCardScreen: React.FC<Props> = props => {
                     : "wallet.dummyCard.labels.securityCode"
                 )}
                 icon="io-lucchetto"
-                isValid={isValidSecurityCode(creditCard.securityCode)}
+                isValid={
+                  creditCard.securityCode.getOrElse("") ? isCvvValid : undefined
+                }
                 accessibilityLabel={
                   detectedBrand.cvvLength === 4
                     ? accessiblityLabels.securityCode4D

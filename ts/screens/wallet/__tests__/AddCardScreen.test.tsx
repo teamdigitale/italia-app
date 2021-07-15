@@ -24,9 +24,11 @@ jest.mock("react-native-share", () => ({
 }));
 
 const aValidCardHolder = "Mario Rossi";
-const aValidPan = "1234 5678 9123 4568";
+const aValidPan = "4916916025914971";
+const aValidAmexPan = "374623599297410";
 const aValidExpirationDate = "12/99";
 const aValidSecurityCode = "123";
+const aValidAmexSecurityCode = "1234";
 
 const anInvalidCardHolder = "Màriò Ròssì";
 describe("AddCardScreen", () => {
@@ -40,7 +42,7 @@ describe("AddCardScreen", () => {
     expect(continueButton).toBeDisabled();
   });
 
-  it("should show the continue button active if all fields are correctly filled", () => {
+  it("should show the continue button active if all fields are correctly filled with non amex card", () => {
     const component = getComponent();
     const cardHolderInput = component.queryByTestId("cardHolderInput");
     const panInputMask = component.queryByTestId("panInputMask");
@@ -71,6 +73,39 @@ describe("AddCardScreen", () => {
 
     expect(continueButton).not.toBeDisabled();
   });
+
+  it("should show the continue button active if all fields are correctly filled with amex card", () => {
+    const component = getComponent();
+    const cardHolderInput = component.queryByTestId("cardHolderInput");
+    const panInputMask = component.queryByTestId("panInputMask");
+    const expirationDateInput = component.queryByTestId(
+      "expirationDateInputMask"
+    );
+    const securityCodeInput = component.queryByTestId("securityCodeInputMask");
+    const continueButton = component.queryByText(
+      I18n.t("global.buttons.continue")
+    );
+
+    expect(cardHolderInput).not.toBeNull();
+    expect(panInputMask).not.toBeNull();
+    expect(expirationDateInput).not.toBeNull();
+    expect(securityCodeInput).not.toBeNull();
+
+    if (
+      cardHolderInput &&
+      panInputMask &&
+      expirationDateInput &&
+      securityCodeInput
+    ) {
+      fireEvent.changeText(panInputMask, aValidAmexPan);
+      fireEvent.changeText(expirationDateInput, aValidExpirationDate);
+      fireEvent.changeText(securityCodeInput, aValidAmexSecurityCode);
+      fireEvent.changeText(cardHolderInput, aValidCardHolder);
+    }
+
+    expect(continueButton).not.toBeDisabled();
+  });
+
   it("should show the continue button disabled if the cardHolder is invalid", () => {
     const component = getComponent();
     const cardHolderInput = component.queryByTestId("cardHolderInput");
