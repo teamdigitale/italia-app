@@ -106,7 +106,11 @@ const BpdTransactionSummaryComponent: React.FunctionComponent<Props> = (
 
   return (
     <>
-      <TouchableDefaultOpacity style={styles.row} onPress={present}>
+      <TouchableDefaultOpacity
+        style={styles.row}
+        onPress={present}
+        accessibilityRole="link"
+      >
         <IconFont name={"io-notice"} size={24} color={IOColors.blue} />
         <View hspacer={true} small={true} />
         <View>
