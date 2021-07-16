@@ -98,7 +98,6 @@ const SatispayDetailScreen: React.FunctionComponent<Props> = props => {
       <View spacer={true} extralarge={true} />
       <View style={IOStyles.horizontalContentPadding}>
         <PaymentMethodCapabilities paymentMethod={satispay} />
-        <View spacer={true} />
         <SatispayInformation />
         <View spacer={true} large={true} />
         <UnsubscribeButton

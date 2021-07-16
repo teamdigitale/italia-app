@@ -19,6 +19,7 @@ import { openWebUrl } from "../../../utils/url";
 
 const styles = StyleSheet.create({
   row: {
+    paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between"
   },

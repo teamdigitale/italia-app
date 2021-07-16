@@ -40,6 +40,7 @@ type Props = ReturnType<typeof mapDispatchToProps> &
 
 const styles = StyleSheet.create({
   row: {
+    paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between"
   },
@@ -87,7 +88,7 @@ const BpdPaymentMethodCapability: React.FunctionComponent<Props> = props => {
   }).present;
 
   return (
-    <View style={styles.row}>
+    <View style={styles.row} testID={"BpdPaymentMethodCapability"}>
       <View style={styles.left}>
         <H4 weight={"SemiBold"} color={"bluegreyDark"}>
           {I18n.t("bonus.bpd.title")}

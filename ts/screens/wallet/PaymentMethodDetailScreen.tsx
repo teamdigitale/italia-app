@@ -193,7 +193,6 @@ const PaymentMethodDetailScreen: React.FC<Props> = (props: Props) => {
           <View style={IOStyles.horizontalContentPadding}>
             <View spacer={true} extralarge={true} />
             <PaymentMethodCapabilities paymentMethod={pm} />
-            <View spacer={true} />
             <ItemSeparatorComponent noPadded={true} />
             <View spacer={true} large={true} />
             <FavoritePaymentMethodSwitch

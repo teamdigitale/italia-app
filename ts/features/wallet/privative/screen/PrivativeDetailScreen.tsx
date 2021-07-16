@@ -100,7 +100,6 @@ const PrivativeDetailScreen: React.FunctionComponent<Props> = props => {
       <View spacer={true} extralarge={true} />
       <View style={IOStyles.horizontalContentPadding}>
         <PaymentMethodCapabilities paymentMethod={privative} />
-        <View spacer={true} />
         <View spacer={true} large={true} />
         <UnsubscribeButton
           onPress={() =>

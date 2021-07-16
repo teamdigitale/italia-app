@@ -101,7 +101,6 @@ const BPayDetailScreen: React.FunctionComponent<Props> = props => {
       <View spacer={true} extralarge={true} />
       <View style={IOStyles.horizontalContentPadding}>
         <PaymentMethodCapabilities paymentMethod={bPay} />
-        <View spacer={true} />
         <View spacer={true} large={true} />
         <UnsubscribeButton
           onPress={() =>
