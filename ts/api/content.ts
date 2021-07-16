@@ -143,6 +143,7 @@ const getIdpsT: GetIdpsListT = {
   headers: () => ({}),
   response_decoder: basicResponseDecoder(SpidIdps)
 };
+
 /**
  * A client for the static content
  */

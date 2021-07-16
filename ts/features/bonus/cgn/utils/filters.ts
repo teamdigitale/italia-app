@@ -16,6 +16,20 @@ export type Category = {
   nameKey: TranslationKeys;
 };
 
+export const categoryIconMap: Map<CategoryType, string> = new Map<
+  CategoryType,
+  string
+>([
+  ["theater", "io-theater"],
+  ["mobility", "io-car"],
+  ["museum", "io-museums"],
+  ["telco", "io-phone-vibration"],
+  ["sport", "io-sports"],
+  ["health", "io-wellness"],
+  ["travel", "io-travel"],
+  ["books", "io-books"]
+]);
+
 export const categories: ReadonlyArray<Category> = [
   {
     type: "theater",
@@ -63,17 +77,6 @@ export type OrderType = {
   label: TranslationKeys;
   value: string;
 };
-
-// export const orders: ReadonlyArray<OrderType> = [
-//   {
-//     label: "bonus.cgn.merchantsList.filter.order.byDistance",
-//     value: "distance"
-//   },
-//   {
-//     label: "bonus.cgn.merchantsList.filter.order.byName",
-//     value: "alphabetical"
-//   }
-// ];
 
 export const orders: Record<string, OrderType> = {
   distance: {

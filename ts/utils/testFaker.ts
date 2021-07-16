@@ -17,8 +17,8 @@ import {
 } from "../types/pagopa";
 // import { applicationChangeState } from "../store/actions/application";
 import {
-  loginSuccess,
   idpSelected,
+  loginSuccess,
   sessionInformationLoadSuccess
 } from "../store/actions/authentication";
 import { SessionToken } from "../types/SessionToken";

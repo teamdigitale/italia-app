@@ -61,10 +61,24 @@ Created on **06/08/2020**
 Created on **12/08/2020**
 
 #### Reason:
+
 - Use TouchableHighlight instead of TouchableNativeFeedback on Android sdk < 19 to avoid crash.
 
 ### react-native-push-notification+7.3.1
+
 Created on **10/05/2021**
 
 #### Reason:
-- Add backwards compatibility to the legacy GCM format (this patch will be removed in a next version) for Android notification.
+
+- Add backwards compatibility to the legacy GCM format (this patch will be removed in a next version) for Android
+  notification.
+
+### react-native-maps+0.28.0
+
+Created on **27/05/2021**
+
+#### Reason:
+
+- NativeEvent for the onPress handler on a map is missing attributes used to distinguish what user is pressing (eg. "
+  marker-press") 
+
