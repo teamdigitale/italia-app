@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Text } from "native-base";
+import { NavigationScreenProp, NavigationState } from "react-navigation";
 import { GlobalState } from "../store/reducers/types";
 import {
   SectionStatusKey,
@@ -19,6 +20,8 @@ import { Label } from "./core/typography/Label";
 
 type OwnProps = {
   sectionKey: SectionStatusKey;
+  onSectionRef?: (ref: React.RefObject<View>) => void;
+  navigationProps?: NavigationScreenProp<NavigationState>;
 };
 
 type Props = OwnProps & ReturnType<typeof mapStateToProps>;
@@ -67,6 +70,7 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
     return null;
   }
 
+  const viewRef = React.createRef<View>();
   const sectionStatus = props.sectionStatus;
   const iconName = statusIconMap[sectionStatus.level];
   const backgroundColor = statusColorMap[sectionStatus.level];
@@ -74,12 +78,30 @@ const SectionStatusComponent: React.FC<Props> = (props: Props) => {
   const maybeWebUrl = maybeNotNullyString(
     sectionStatus.web_url && sectionStatus.web_url[locale]
   );
+
+  const handleOnSectionRef = () => {
+    if (viewRef.current) {
+      props.onSectionRef?.(viewRef);
+    }
+  };
+
+  React.useEffect(() => {
+    handleOnSectionRef();
+
+    const unsubscribe = props.navigationProps?.addListener(
+      "didFocus",
+      handleOnSectionRef
+    );
+
+    return () => unsubscribe?.remove();
+  }, [viewRef]);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => maybeWebUrl.map(openWebUrl)}
       testID={"SectionStatusComponentTouchable"}
     >
-      <View style={[styles.container, { backgroundColor }]}>
+      <View style={[styles.container, { backgroundColor }]} ref={viewRef}>
         <IconFont
           testID={"SectionStatusComponentIcon"}
           name={iconName}

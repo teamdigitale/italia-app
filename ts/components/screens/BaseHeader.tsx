@@ -109,13 +109,13 @@ class BaseHeaderComponent extends React.PureComponent<Props, State> {
   // set accessibility focus when component is mounted
   // it should be used paired with avoidNavigationEvents === true (navigation context not available)
   public componentDidMount() {
-    this.setState({isMounted: true});
+    this.setState({ isMounted: true });
     void AccessibilityInfo.isScreenReaderEnabled()
       .then(isScreenReaderActive => {
         if (this.state.isMounted) {
           this.setState({ isScreenReaderActive });
         }
-        
+
         if (
           isScreenReaderActive &&
           fromNullable(this.props.accessibilityEvents).fold(
