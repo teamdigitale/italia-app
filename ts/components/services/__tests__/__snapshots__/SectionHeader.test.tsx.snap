@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionHeader component should match the snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "paddingVertical": 8,
+    }
+  }
+>
+  <Text
+    accessibilityElementsHidden={true}
+    accessibilityLabel=""
+    accessible={false}
+    allowFontScaling={false}
+    importantForAccessibility="no-hide-descendants"
+    style={
+      Array [
+        Object {
+          "color": "#475A6D",
+          "fontSize": 18,
+        },
+        Array [
+          Array [
+            Object {},
+            Object {
+              "marginRight": 8,
+            },
+          ],
+          Object {
+            "color": "#475A6D",
+          },
+          Object {
+            "fontSize": 18,
+          },
+        ],
+        Object {
+          "fontFamily": "io-icon-font",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    
+  </Text>
+  <Text
+    accessibilityRole="header"
+    color="bluegrey"
+    font="TitilliumWeb"
+    fontStyle={
+      Object {
+        "fontSize": 18,
+      }
+    }
+    style={
+      Array [
+        Object {
+          "fontSize": 18,
+        },
+        Object {
+          "color": "#475A6D",
+          "fontFamily": "Titillium Web",
+          "fontStyle": "normal",
+          "fontWeight": "600",
+        },
+      ]
+    }
+    weight="SemiBold"
+    weightColorFactory={[Function]}
+  >
+    ID
+  </Text>
+</View>
+`;

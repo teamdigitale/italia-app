@@ -11,10 +11,22 @@ import ContactPreferencesToggles from "../index";
 import { ServicePreferenceResponse } from "../../../../types/services/ServicePreferenceResponse";
 import { loadServicePreference } from "../../../../store/actions/services/servicePreference";
 import { ServiceId } from "../../../../../definitions/backend/ServiceId";
+import I18n from "../../../../i18n";
 
 jest.useFakeTimers();
 
 describe("ContactPreferencesToggles component", () => {
+  it("should render the section header", () => {
+    const store = mockState({
+      id: "some_id" as ServiceId,
+      kind: "success",
+      value: { inbox: true, email: true, push: false, settings_version: 0 }
+    });
+    const component = renderComponent(store, {});
+    expect(
+      component.getByText(I18n.t("serviceDetail.contacts.title"))
+    ).toBeDefined();
+  });
   describe("when channels are not defined", () => {
     it("should render all the switches", () => {
       const store = mockState({

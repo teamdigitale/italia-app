@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkRow component should match the snapshot 1`] = `
+Array [
+  <Text
+    accessibilityRole="link"
+    color="blue"
+    defaultColor="blue"
+    defaultWeight="SemiBold"
+    ellipsizeMode="tail"
+    font="TitilliumWeb"
+    fontStyle={
+      Object {
+        "fontSize": 16,
+        "textDecorationLine": "underline",
+      }
+    }
+    numberOfLines={1}
+    onPress={[Function]}
+    style={
+      Array [
+        Object {
+          "paddingVertical": 16,
+        },
+        Object {
+          "fontSize": 16,
+          "textDecorationLine": "underline",
+        },
+        Object {
+          "color": "#0073E6",
+          "fontFamily": "Titillium Web",
+          "fontStyle": "normal",
+          "fontWeight": "600",
+        },
+      ]
+    }
+    weight="SemiBold"
+  >
+    Email
+  </Text>,
+  <View
+    style={
+      Array [
+        Object {},
+        Object {
+          "backgroundColor": "#C9C9C9",
+        },
+        false,
+        Object {
+          "height": 0.5,
+        },
+      ]
+    }
+  />,
+]
+`;

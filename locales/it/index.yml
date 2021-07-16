@@ -53,6 +53,7 @@ date:
     - "pm"
 global:
   you: "TU"
+  id: "ID"
   badges:
     blocked: "Bloccato"
     onGoing: "In corso"
@@ -178,6 +179,10 @@ global:
     spidLogin:
       title: Accedi per iniziare a usare l'app
       message: IO funziona solo se hai effettuato l'accesso almeno una volta
+  media:
+    email: "Email"
+    pec: "PEC"
+    phone: "Telefono"
 tablet:
   message: L’interfaccia di IO è ottimizzata per smartphone, ma tutte le funzioni compatibili con il tuo dispositivo sono comunque disponibili.
 rooted:
@@ -1593,6 +1598,7 @@ messageDetails:
   question: "Qualcosa non è chiaro?"
   answer: Se non ti è chiaro il contenuto del messaggio, devi segnalare un errore o vuoi approfondire, puoi contattare direttamente i referenti del servizio indicando il seguente ID del messaggio.
   call: Chiama
+  sendEmail: Manda email
   write: Scrivi
   id: "ID:"
 notifications:
@@ -1664,9 +1670,11 @@ services:
   privacyLink: Informativa sulla privacy
   otherAppsInfo: Puoi usare questo servizio anche
   otherAppWeb: Online su
-  otherAppIos: Con l'app per iOS
-  otherAppAndroid: Con l'app per Android
+  otherAppIos: App iOS
+  otherAppAndroid: App Android
   contactsAndInfo: Contatti ed informazioni
+  visitWebsite: Visita il sito
+  askForAssistance: Richiedi assistenza
   contactAddress: Indirizzo
   contactPhone: Telefono
   contactSupport: Assistenza
@@ -1691,6 +1699,7 @@ services:
   close: Chiudi
   emptyListMessage: Non ci sono servizi disponibili al momento, trascina in basso per aggiornare
 serviceDetail:
+  fiscalCode: "C.F. Ente"
   contacts:
     title: "Questo servizio può:"
   headerTitle: "Dettagli del Servizio"
@@ -1761,6 +1770,7 @@ reminders:
   noOtherDeadlines: Non ci sono altre scadenze
 openMaps:
   genericError: Si è verificato un errore durante l'apertura della mappa
+  openAddressOnMap: Apri l'indirizzo sulla mappa
 genericError: Si è verificato un errore
 titleUpdateApp: Aggiorna IO!
 msgErrorUpdateApp: "Si è verificato un errore durante l'apertura dello store delle app"

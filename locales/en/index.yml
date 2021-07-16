@@ -53,6 +53,7 @@ date:
     - "pm"
 global:
   you: "YOU"
+  id: "ID"
   badges:
     blocked: "Blocked"
     onGoing: "Ongoing"
@@ -178,6 +179,10 @@ global:
     spidLogin:
       title: Sign in to start using the app
       message: IO can only work if you have signed in at least once
+  media:
+    email: "Email"
+    pec: "Certified email"
+    phone: "Phone"
 tablet:
   message: The IO interface is optimized for smartphones, but all the functions compatible with your device are still available.
 rooted:
@@ -1566,6 +1571,7 @@ messageDetails:
   question: "Is something unclear?"
   answer: If something is unclear about the content of the message, you want to report an error, or you want to know more about it, you can contact the service directly by indicating the following message ID.
   call: Call
+  sendEmail: Send email
   write: Write
   id: "ID:"
 notifications:
@@ -1635,9 +1641,11 @@ services:
   privacyLink: Privacy information
   otherAppsInfo: You can find this service also
   otherAppWeb: Online on
-  otherAppIos: With the iOS app
-  otherAppAndroid: With the Android app
+  otherAppIos: iOS App
+  otherAppAndroid: Android App
   contactsAndInfo: Contacts and info
+  visitWebsite: Browse Website
+  askForAssistance: Get support
   contactAddress: Address
   contactPhone: Phone
   contactSupport: Support
@@ -1662,6 +1670,7 @@ services:
   close: Close
   emptyListMessage: There are no services available at this time, pull down to refresh
 serviceDetail:
+  fiscalCode: "Organization's fiscal code"
   contacts:
     title: "This service can:"
   headerTitle: "Service details"
@@ -1732,6 +1741,7 @@ reminders:
   noOtherDeadlines: There are no more deadline
 openMaps:
   genericError: An error occurred while opening the map
+  openAddressOnMap: Open the address on the map
 genericError: An error occurred
 titleUpdateApp: Update IO!
 msgErrorUpdateApp: "An error occurred while opening the app store"
