@@ -136,6 +136,7 @@ global:
     share: Share
     delete: Delete
     cancel: Cancel
+    settings: Settings
     ok: OK
     ok2: Ok
     continue: Continue
@@ -257,7 +258,8 @@ profile:
     spid: SPID PROFILE
   unknown: UNKNOWN
   logout:
-    menulabel: Do you want to logout?
+    menulabel: Logout from IO
+    alertTitle: Do you want to logout?
     alertMessage: If you want to login again, you'll need to authenticate using CIE or SPID.
     loading: Logout in progress...
     exit: Exit
@@ -287,9 +289,15 @@ profile:
       alert: Are you sure you want to clear the cache?
       clear: Clear cache
       cleared: The cache has been cleared.
+    data:
+      title: Your data
+      description: Review your information
     preferences:
       title: Preferences
       description: Customize your app experience
+    security:
+      title: Security
+      description: Manage biometric access and unlock code
     privacy:
       title: Privacy Policy and Terms of Service
       description: Your rights and obligations when using IO
@@ -404,25 +412,38 @@ profile:
       alertConfirmTitle: Do you want to use the pagoPA test environment?
       alertConfirmMessage: If you enable the pagoPA test environment you will no longer see the history of your transactions and your saved payment methods, and you can only use payment methods expressly created for this purpose. If you don’t understand what it means not enable this feature.
       alertMessage: The application must be restarted for the changes to take effect.
-    accountSectionHeader: Account
     appVersion: App Version
     backendVersion: Backend Version
     debugMode: Debug mode
     showroom: UI Showroom
+  data:
+    title: Your data
+    subtitle: Review your information.
+    list:
+      email: Email address
+      need_validate: To be validated
+    email:
+      contextualHelpTitle: How to manage your email
+      contextualHelpContent: !include profile/profile_data_email_address.md
+  security:
+    title: Security
+    subtitle: Manage in-app authentication methods.
+    list:       
+      biometric_recognition:
+        title: Biometric recognition
+        subtitle: Use your fingerprint or your face
+        needed_to_disable: Recognition required to disable
+        popup:
+          title: Allow access to the biometric sensor
+          description: Tap 'Settings' and allow IO to use the biometric sensor of your device.
   preferences:
     title: Preferences
-    subtitle: This settings will be used by all services of the Public Amministration.
+    subtitle: These settings allow you to customize the IO app experience.
     contextualHelpTitle: Your preferences
     contextualHelpContent: !include profile/profile_preferences_home.md
     list:
-      biometric_recognition: Biometric recognition
-      biometric_recognition_status:
-        enabled: Enabled
-        disabled: Disabled
       service_contact: Use of services
-      email: Email address
       spid_email: SPID email
-      need_validate: To be validated
       wip: In progress
       mobile_phone: Mobile number
       language: Language
@@ -448,8 +469,6 @@ profile:
       contextualHelpTitle: This setting is set up on your SPID profile
       contextualHelpContent: !include profile/profile_preferences_spid_email.md
     email:
-      contextualHelpTitle: How to manage your email
-      contextualHelpContent: !include profile/profile_preferences_email_address.md
       forward:
         contextualHelpTitle: How to handle message forwarding
         contextualHelpContent: !include profile/profile_preferences_email_forward.md
@@ -1573,14 +1592,8 @@ notifications:
     errorTitle: Push notifications
     errorMessage: Registration with the push notifications service generated an error
 biometric_recognition:
-  title: Biometric recognition
-  subTitle: Enable or disable biometric recognition
   contextualHelpTitle: How works biometric recognition
-  contextualHelpContent: !include profile/profile_preferences_biometric_recognition.md
-  switchLabel: Enable biometric recognition
-  enroll_cta: Biometric recognition is available on this device, but it is not enrolled. Please go to settings menu and enroll it to enable this feature in this app.
-  enroll_btnLabel: Go to settings
-  needed_to_disable: Recognition required to disable
+  contextualHelpContent: !include profile/profile_security_biometric_recognition.md
 send_email_messages:
   title: Forward messages by email
   subtitle: Do you want IO to forward messages contents by email to

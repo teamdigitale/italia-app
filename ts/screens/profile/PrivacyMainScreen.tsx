@@ -15,9 +15,7 @@ import { UserDataProcessingChoiceEnum } from "../../../definitions/backend/UserD
 import { UserDataProcessingStatusEnum } from "../../../definitions/backend/UserDataProcessingStatus";
 import { withLoadingSpinner } from "../../components/helpers/withLoadingSpinner";
 import { ContextualHelpPropsMarkdown } from "../../components/screens/BaseScreenComponent";
-import { EdgeBorderComponent } from "../../components/screens/EdgeBorderComponent";
 import ListItemComponent from "../../components/screens/ListItemComponent";
-import ScreenContent from "../../components/screens/ScreenContent";
 import TopScreenComponent from "../../components/screens/TopScreenComponent";
 import I18n from "../../i18n";
 import ROUTES from "../../navigation/routes";
@@ -32,6 +30,7 @@ import { isProfileEmailValidatedSelector } from "../../store/reducers/profile";
 import { GlobalState } from "../../store/reducers/types";
 import { userDataProcessingSelector } from "../../store/reducers/userDataProcessing";
 import { showToast } from "../../utils/showToast";
+import ScreenContent from "../../components/screens/ScreenContent";
 
 type Props = NavigationScreenProps &
   ReturnType<typeof mapDispatchToProps> &
@@ -184,7 +183,6 @@ class PrivacyMainScreen extends React.Component<Props, State> {
         goBack={this.props.navigation.goBack}
         contextualHelpMarkdown={contextualHelpMarkdown}
         faqCategories={["privacy"]}
-        headerTitle={I18n.t("profile.main.title")}
       >
         <ScreenContent
           title={I18n.t("profile.main.privacy.title")}
@@ -263,7 +261,6 @@ class PrivacyMainScreen extends React.Component<Props, State> {
                   : undefined
               }
             />
-            <EdgeBorderComponent />
           </List>
         </ScreenContent>
       </TopScreenComponent>

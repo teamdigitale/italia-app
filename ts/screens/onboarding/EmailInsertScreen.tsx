@@ -250,7 +250,7 @@ class EmailInsertScreen extends React.PureComponent<Props, State> {
         goBack={this.handleGoBack}
         headerTitle={
           isFromProfileSection
-            ? I18n.t("profile.preferences.list.email")
+            ? I18n.t("profile.data.list.email")
             : I18n.t("email.insert.header")
         }
         contextualHelpMarkdown={contextualHelpMarkdown}

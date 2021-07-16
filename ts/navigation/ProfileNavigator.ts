@@ -3,7 +3,6 @@ import LogoutScreen from "../components/screens/LogoutScreen";
 import EmailInsertScreen from "../screens/onboarding/EmailInsertScreen";
 import EmailReadScreen from "../screens/onboarding/EmailReadScreen";
 import TosScreen from "../screens/onboarding/TosScreen";
-import BiometricRecognitionScreen from "../screens/profile/BiometricRecognitionScreen";
 import CalendarsPreferencesScreen from "../screens/profile/CalendarsPreferencesScreen";
 import DownloadProfileDataScreen from "../screens/profile/DownloadProfileDataScreen";
 import EmailForwardingScreen from "../screens/profile/EmailForwardingScreen";
@@ -20,6 +19,8 @@ import ShareDataScreen from "../screens/profile/ShareDataScreen";
 import WebPlayground from "../screens/profile/WebPlayground";
 import { Showroom } from "../screens/showroom/Showroom";
 import ServicesPreferenceScreen from "../screens/profile/ServicesPreferenceScreen";
+import ProfileDataScreen from "../screens/profile/ProfileDataScreen";
+import SecurityScreen from "../screens/profile/SecurityScreen";
 import ROUTES from "./routes";
 
 /**
@@ -42,8 +43,11 @@ const ProfileNavigator = createStackNavigator(
     [ROUTES.PROFILE_PREFERENCES_HOME]: {
       screen: PreferencesScreen
     },
-    [ROUTES.PROFILE_PREFERENCES_BIOMETRIC_RECOGNITION]: {
-      screen: BiometricRecognitionScreen
+    [ROUTES.PROFILE_DATA]: {
+      screen: ProfileDataScreen
+    },
+    [ROUTES.PROFILE_SECURITY]: {
+      screen: SecurityScreen
     },
     [ROUTES.PROFILE_PREFERENCES_SERVICES]: {
       screen: ServicesPreferenceScreen
