@@ -13,13 +13,13 @@ import brokenLinkImage from "../../img/broken-link.png";
 import I18n from "../i18n";
 import customVariables from "../theme/variables";
 import { WebviewMessage } from "../types/WebviewMessage";
-import { getLocalePrimaryWithFallback } from "../utils/locale";
 import { showToast } from "../utils/showToast";
 import {
   closeInjectedScript,
   AVOID_ZOOM_JS,
   APP_EVENT_HANDLER
 } from "../utils/webview";
+import { getRemoteLocale } from "../utils/messages";
 import ButtonDefaultOpacity from "./ButtonDefaultOpacity";
 import { Label } from "./core/typography/Label";
 import { Body as BodyText } from "./core/typography/Body";
@@ -195,7 +195,7 @@ const RegionServiceWebView: React.FunctionComponent<Props> = (props: Props) => {
       return;
     }
 
-    const locale = getLocalePrimaryWithFallback();
+    const locale = getRemoteLocale();
     const message = maybeData.value;
     switch (message.type) {
       case "CLOSE_MODAL":

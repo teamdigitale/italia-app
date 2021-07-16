@@ -19,11 +19,11 @@ import Markdown from "../../../../components/ui/Markdown";
 import I18n from "../../../../i18n";
 import customVariables from "../../../../theme/variables";
 import { useScreenReaderEnabled } from "../../../../utils/accessibility";
-import { getLocalePrimaryWithFallback } from "../../../../utils/locale";
 import { maybeNotNullyString } from "../../../../utils/strings";
 import ButtonDefaultOpacity from "../../../../components/ButtonDefaultOpacity";
 import TosBonusComponent from "../../bonusVacanze/components/TosBonusComponent";
 import TouchableDefaultOpacity from "../../../../components/TouchableDefaultOpacity";
+import { getRemoteLocale } from "../../../../utils/messages";
 
 type OwnProps = {
   onBack?: () => void;
@@ -153,7 +153,7 @@ const BonusInformationComponent: React.FunctionComponent<Props> = props => {
 
   const bonusType = props.bonus;
   const bonusTypeLocalizedContent: BonusAvailableContent =
-    bonusType[getLocalePrimaryWithFallback()];
+    bonusType[getRemoteLocale()];
 
   const cancelButtonProps = {
     block: true,

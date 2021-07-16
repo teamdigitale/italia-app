@@ -5,7 +5,7 @@ import { BonusAvailable } from "../../../../../definitions/content/BonusAvailabl
 import { BonusAvailableContent } from "../../../../../definitions/content/BonusAvailableContent";
 import I18n from "../../../../i18n";
 import variables from "../../../../theme/variables";
-import { getLocalePrimaryWithFallback } from "../../../../utils/locale";
+import { getRemoteLocale } from "../../../../utils/messages";
 
 type Props = {
   bonusItem: BonusAvailable;
@@ -70,7 +70,7 @@ export const AvailableBonusItem: React.FunctionComponent<Props> = (
   const { bonusItem, isComingSoon } = props;
   const disabledStyle = isComingSoon ? styles.disabled : {};
   const bonusTypeLocalizedContent: BonusAvailableContent =
-    bonusItem[getLocalePrimaryWithFallback()];
+    bonusItem[getRemoteLocale()];
   return (
     <ListItem style={styles.listItem} onPress={props.onPress}>
       <View style={styles.columnLeft}>

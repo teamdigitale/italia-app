@@ -14,13 +14,13 @@ import { cgnEnabled } from "../../../../config";
 import I18n from "../../../../i18n";
 import { Dispatch } from "../../../../store/actions/types";
 import { GlobalState } from "../../../../store/reducers/types";
-import { getLocalePrimaryWithFallback } from "../../../../utils/locale";
 import { supportedAvailableBonusSelector } from "../../../bonus/bonusVacanze/store/reducers/availableBonusesTypes";
 import { ID_CGN_TYPE } from "../../../bonus/bonusVacanze/utils/bonus";
 import { bpdOnboardingStart } from "../../../bonus/bpd/store/actions/onboarding";
 import { bpdEnabledSelector } from "../../../bonus/bpd/store/reducers/details/activation";
 import { cgnActivationStart } from "../../../bonus/cgn/store/actions/activation";
 import { isCgnEnrolledSelector } from "../../../bonus/cgn/store/reducers/details";
+import { getRemoteLocale } from "../../../../utils/messages";
 import FeaturedCard from "./FeaturedCard";
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -75,7 +75,7 @@ const FeaturedCardCarousel: React.FunctionComponent<Props> = (props: Props) => {
             undefined,
             bu => bu.logo
           );
-          const currentLocale = getLocalePrimaryWithFallback();
+          const currentLocale = getRemoteLocale();
 
           switch (b.id_type) {
             case ID_CGN_TYPE:

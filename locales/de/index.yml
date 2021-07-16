@@ -1,0 +1,58 @@
+---
+global:
+  navigator:
+    messages: meldungen
+    documents: dokumente
+    wallet: zahlung
+    profile: profil
+    services: dienste
+features:
+  euCovidCertificate:
+    save:
+      noPermission: "Die App-IO hat vermutlich keine Berechtigung zum Speichern der Bilder. Bitte überprüfen Sie Ihre Geräteeinstellungen."
+      ok: "Das Bild wurde auf Ihrem Smartphone gespeichert"
+      bottomSheet:
+        title: "Speichern Sie das Zertifikat"
+        subTitle: "Sie können auch ohne Internetverbindung den QR-Code des Zertifikats anzeigen, ohne die App-IO zu öffnen."
+        saveAsImage:
+          title: "Bild in Galerie speichern"
+          subTitle: "Sie finden den QR-Code auch als Bild auf Ihrem Smartphone."
+    listItem:
+      cta: "Anzeigen"
+    common:
+      title: "Grünes COVID-19-Zertifikat"
+      subtitle: "EU Digital COVID Certificate"
+      learnMore: "Erfahren Sie mehr"
+      authorizationCode: "Autorisierungscode"
+      messageIdentifier: "Identifizierung der Nachricht"
+    loading:
+      title: "Downloaden der Zertifikatsdaten aus der nationalen Plattform des Gesundheitsministeriums"
+      subtitle: "Bitte warten"
+    valid:
+      accessibility:
+        qrCode: "QR-Code"
+        hint: "QR-Code als Vollbild anzeigen"
+      markdownDetails:
+        headerTitle: "Zertifikats-Details"
+        save: "Details speichern"
+    revoked:
+      title: "Dieses Zertifikat ist nicht mehr gültig"
+    expired:
+      title: "Dieses Zertifikat ist abgelaufen"
+    ko:
+      genericError:
+        title: "Ihre Zertifikatsdaten konnten nicht abgerufen werden: Bitte versuchen Sie es erneut"
+        subtitle: "Dies kann ein vorübergehendes Problem sein."
+      notFound:
+        title: "Das Zertifikat existiert anscheinend nicht: Kontaktieren Sie den Support"
+        subtitle: "Nützliche Informationen für den Support:"
+        cta: "Support kontaktieren"
+      notOperational:
+        title: "Die grüne COVID-19-Zertifizierung funktioniert derzeit nicht"
+      temporarilyNotAvailable:
+        title: "Der Dienst ist vorübergehend nicht verfügbar"
+        subtitle: "Bitte versuchen Sie es später erneut"
+      wrongFormat:
+        title: "Dieses Zertifikat kann nicht wiederhergestellt werden: Kontaktieren Sie den Support"
+        subtitle: "Nützliche Informationen um Support zu erhalten:"
+        cta: "Support kontaktieren"

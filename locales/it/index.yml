@@ -201,6 +201,7 @@ rooted:
 locales:
   it: Italiano
   en: Inglese
+  de: Tedesco
 clipboard:
   copyFeedback: Copiato negli appunti
   copyText: copia
@@ -2557,6 +2558,50 @@ bonus:
         seconds:
           one: 1 secondo
           other: "{{seconds}} secondi"
+  sv:
+    headerTitle: "Sicilia Vola"
+    voucherGeneration:
+      acceptTos:
+        title: "AcceptTosComponent"
+      checkResidence:
+        title: "CheckResidenceComponent"
+      selectBeneficiaryCategory:
+        title: "SelectBeneficiaryCategory"
+      student:
+        selectDestination:
+          title: "StudentSelectDestinationScreen"
+      disabled:
+        additionalInfo:
+          title: "DisabledAdditionalInfoScreen"
+      worker:
+        checkIncome:
+          title: "WorkerCheckIncomeScreen"
+        selectDestination:
+          title: "WorkerSelectDestinationScreen"
+      sick:
+        checkIncome:
+          title: "SickCheckIncomeScreen"
+        selectDestination:
+          title: "SickSelectDestinationScreen"
+      selectFlightsDate:
+        title: "SelectFlightsDateScreen"
+      summary:
+        title: "SummaryScreen"
+      voucherGenerated:
+        title: "VoucherGeneratedScreen"
+      ko:
+        checkIncome:
+          title: "Siamo spiacenti.\nNon hai le caratteristiche per accedere agli sconti."
+          body: "Gli sconti Sicilia Vola sono dedicati solo a chi ha un reddito personale lordo inferiore a 25.000€."
+        selectBeneficiaryCategory:
+          title: "Siamo spiacenti.\nNon hai le caratteristiche per accedere agli sconti."
+          body: "Gli sconti Sicilia Vola sono dedicati solo alle categorie presentate nella schermata precedente."
+        checkResidence:
+          title: "Siamo spiacenti.\nNon hai le caratteristiche per accedere agli sconti."
+          body: "Gli sconti Sicilia Vola sono dedicati solo ai residenti in Sicilia."
+        timeout:
+          title: "Il tuo codice sconto Sicilia Vola è in fase di generazione."
+          body: "Riceverai un messaggio in app IO quando sarà pronto."
 features:
   euCovidCertificate:
     save:

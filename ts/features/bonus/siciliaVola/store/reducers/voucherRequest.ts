@@ -1,10 +1,12 @@
 import { none, Option, some } from "fp-ts/lib/Option";
 import { getType } from "typesafe-actions";
+import { createSelector } from "reselect";
 import {
   Company,
   Hospital,
   PartialVoucherRequest,
-  University
+  University,
+  SvBeneficiaryCategory
 } from "../../types/SvVoucherRequest";
 import {
   FlightsDate,
@@ -17,6 +19,7 @@ import {
   svGenerateVoucherUnderThresholdIncome
 } from "../actions/voucherGeneration";
 import { Action } from "../../../../../store/actions/types";
+import { GlobalState } from "../../../../../store/reducers/types";
 
 export type VoucherRequestState = Option<PartialVoucherRequest>;
 const INITIAL_STATE: VoucherRequestState = none;
@@ -133,3 +136,9 @@ const reducer = (
 };
 
 export default reducer;
+
+export const selectedBeneficiaryCategorySelector = createSelector(
+  [(state: GlobalState) => state.bonus.sv.voucherGeneration.voucherRequest],
+  (voucherRequest: VoucherRequestState): Option<SvBeneficiaryCategory> =>
+    voucherRequest.fold(none, vR => some(vR.category))
+);

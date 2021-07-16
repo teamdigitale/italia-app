@@ -37,6 +37,8 @@ interface LocaleDocWithCheckedKeys extends LocaleDocWithKeys {
 }
 
 const root = path.join(__dirname, "../locales");
+// these locales can contains a subset of keys defined in "it"/"en" locales where all translations strings are required
+const partialLocales = new Set<string>(["de"]);
 
 /**
  * Custom YAML type for including files
@@ -140,7 +142,7 @@ function reportBadLocale(locale: LocaleDocWithCheckedKeys): void {
   if (locale.extra.length > 0) {
     console.log(
       chalk.yellow(
-        `${locale.extra.length} keys are not present in the master locale:`
+        `${locale.extra.length} keys are not present in the master locale (they must be removed):`
       )
     );
     console.log(locale.extra.join("\n") + "\n");
@@ -184,11 +186,12 @@ ${localesDeclarations}
   );
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 async function run(rootPath: string): Promise<void> {
   try {
     console.log(chalk.whiteBright("Translations builder"));
 
-    const masterLocale = process.env.I18N_MASTER_LOCALE || "en";
+    const masterLocale = "it";
 
     const locales = fs
       .readdirSync(root)
@@ -224,8 +227,17 @@ async function run(rootPath: string): Promise<void> {
         )} keys in master locale "${chalk.bold(masterKeys.locale)}"`
       )
     );
-    const otherLocaleKeys = localeKeys.slice(1);
+    console.log(
+      chalk.yellowBright(
+        `These locales can be partial defined: ${chalk.whiteBright(
+          Array.from(partialLocales)
+            .map(l => `"${l}"`)
+            .join(",")
+        )}`
+      )
+    );
 
+    const otherLocaleKeys = localeKeys.slice(1);
     // compare keys of locales with master keys
     console.log(chalk.gray("[3/4]"), "Comparing keys...");
     const checkedLocaleKeys: ReadonlyArray<LocaleDocWithCheckedKeys> = otherLocaleKeys.map(
@@ -236,9 +248,10 @@ async function run(rootPath: string): Promise<void> {
     );
 
     // look for locales that have missing or extra keys
-    const badLocales = checkedLocaleKeys.filter(
-      l => l.missing.length > 0 || l.extra.length > 0
-    );
+    const badLocales = checkedLocaleKeys
+      // remove locales for which is allowed to omit translation keys
+      .filter(l => !partialLocales.has(l.locale))
+      .filter(l => l.missing.length > 0 || l.extra.length > 0);
 
     if (badLocales.length > 0) {
       badLocales.forEach(reportBadLocale);
@@ -246,6 +259,40 @@ async function run(rootPath: string): Promise<void> {
         throw Error("bad locales detected");
       }
     }
+
+    // look for locales (partial) that have extra keys
+    const badLocalesPartial = checkedLocaleKeys
+      // include only locales for which is allowed to omit translation keys
+      .filter(l => partialLocales.has(l.locale))
+      .filter(l => l.extra.length > 0 || l.missing.length > 0);
+
+    const badLocalesPartialExtra = badLocalesPartial.filter(
+      l => l.extra.length > 0
+    );
+    // report if partial locales have extra keys
+    if (badLocalesPartialExtra.length > 0) {
+      badLocalesPartialExtra.forEach(reportBadLocale);
+      throw Error("bad locales detected in partial language");
+    }
+
+    // print the partial locale coverage relative to master
+    badLocalesPartial.forEach(l => {
+      const currentLocale = checkedLocaleKeys.find(
+        cl => cl.locale === l.locale
+      );
+      if (currentLocale) {
+        const coveragePerc =
+          100 - (currentLocale.missing.length / masterKeys.keys.length) * 100;
+        if (coveragePerc !== 0) {
+          console.log(
+            chalk.yellowBright(`"${currentLocale.locale}" locale`),
+            `has a coverage of ${coveragePerc.toFixed(2)}% (${
+              masterKeys.keys.length - currentLocale.missing.length
+            }/${masterKeys.keys.length} keys)`
+          );
+        }
+      }
+    });
 
     const emitPath = path.join(rootPath, "locales.ts");
     console.log(
