@@ -27,7 +27,10 @@ import contentReducer, {
 import { debugReducer } from "./debug";
 import deepLinkReducer from "./deepLink";
 import emailValidationReducer from "./emailValidation";
-import entitiesReducer, { EntitiesState } from "./entities";
+import entitiesReducer, {
+  entitiesPersistConfig,
+  EntitiesState
+} from "./entities";
 import identificationReducer, { IdentificationState } from "./identification";
 import instabugUnreadMessagesReducer from "./instabug/instabugUnreadMessages";
 import installationReducer from "./installation";
@@ -55,13 +58,6 @@ export const authenticationPersistConfig: PersistConfig = {
   key: "authentication",
   storage: createSecureStorage(),
   blacklist: ["deepLink"]
-};
-
-// A custom configuration to avoid to persist messages section
-export const entitiesPersistConfig: PersistConfig = {
-  key: "entities",
-  storage: AsyncStorage,
-  blacklist: ["messages"]
 };
 
 // A custom configuration to store the fail information of the identification section

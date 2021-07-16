@@ -79,11 +79,6 @@ export const removeServiceTuples = createStandardAction(
   "SERVICES_REMOVE_TUPLES"
 )<ReadonlyArray<ITuple2<string, string | undefined>>>();
 
-// User selects a service to view its details
-export const currentSelectedService = createStandardAction(
-  "CURRENT_SELECTED_SERVICE"
-)<ServiceId>();
-
 export type ServicesActions =
   | ActionType<typeof firstServiceLoadSuccess>
   | ActionType<typeof loadVisibleServices>
@@ -94,5 +89,4 @@ export type ServicesActions =
   | ActionType<typeof showServiceDetails>
   | ActionType<typeof loadServiceDetailNotFound>
   | ActionType<typeof loadServicePreference>
-  | ActionType<typeof currentSelectedService>
   | ActionType<typeof upsertServicePreference>;

@@ -38,17 +38,11 @@ import {
   visibleServicesSelector,
   VisibleServicesState
 } from "./visibleServices";
-import {
-  currentServiceSelectedReducer,
-  CurrentServiceSelectedState
-} from "./currentService";
 import servicePreferenceReducer, {
   ServicePreferenceState
 } from "./servicePreference";
 
 export type ServicesState = Readonly<{
-  // Section to hold the current service we selected
-  currentSelectedService: CurrentServiceSelectedState | null;
   // Section to hold the preference for services
   servicePreference: ServicePreferenceState;
   byId: ServicesByIdState;
@@ -66,7 +60,6 @@ export type ServicesSectionState = Readonly<{
 
 const reducer = combineReducers<ServicesState, Action>({
   servicePreference: servicePreferenceReducer,
-  currentSelectedService: currentServiceSelectedReducer,
   byId: servicesByIdReducer,
   byOrgFiscalCode: serviceIdsByOrganizationFiscalCodeReducer,
   visible: visibleServicesReducer,

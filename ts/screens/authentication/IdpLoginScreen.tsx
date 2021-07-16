@@ -5,7 +5,10 @@ import { Text, View } from "native-base";
 import * as React from "react";
 import { Image, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
-import { WebViewNavigation } from "react-native-webview/lib/WebViewTypes";
+import {
+  WebViewErrorEvent,
+  WebViewNavigation
+} from "react-native-webview/lib/WebViewTypes";
 import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 import brokenLinkImage from "../../../img/broken-link.png";
@@ -35,6 +38,7 @@ import { SessionToken } from "../../types/SessionToken";
 import { getIdpLoginUri, onLoginUriChanged } from "../../utils/login";
 import { getSpidErrorCodeDescription } from "../../utils/spidErrorCode";
 import { getUrlBasepath } from "../../utils/url";
+import { mixpanelTrack } from "../../mixpanel";
 
 type Props = NavigationScreenProps &
   ReturnType<typeof mapStateToProps> &
@@ -110,7 +114,14 @@ class IdpLoginScreen extends React.Component<Props, State> {
     this.setState({ loginTrace: url });
   };
 
-  private handleLoadingError = (): void => {
+  private handleLoadingError = (error: WebViewErrorEvent): void => {
+    const { code, description, domain } = error.nativeEvent;
+    void mixpanelTrack("SPID_ERROR", {
+      idp: this.props.loggedOutWithIdpAuth?.idp.id,
+      code,
+      description,
+      domain
+    });
     this.setState({
       requestState: pot.noneError(ErrorType.LOADING_ERROR)
     });
@@ -258,7 +269,6 @@ class IdpLoginScreen extends React.Component<Props, State> {
       return <LoadingSpinnerOverlay isLoading={true} />;
     }
     const loginUri = getIdpLoginUri(loggedOutWithIdpAuth.idp.id);
-
     return (
       <BaseScreenComponent
         goBack={true}

@@ -42,8 +42,6 @@ import { handleItemOnPress } from "../../utils/url";
 import ContactPreferencesToggles from "../../components/services/ContactPreferencesToggles";
 import ServiceMetadata from "../../components/services/ServiceMetadata";
 import TosAndPrivacyBox from "../../components/services/TosAndPrivacyBox";
-import { ServiceId } from "../../../definitions/backend/ServiceId";
-import { currentSelectedService } from "../../store/actions/services";
 
 type NavigationParams = Readonly<{
   service: ServicePublic;
@@ -309,10 +307,7 @@ const mapStateToProps = (state: GlobalState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setCurrentSelectedService: (id: ServiceId) =>
-    dispatch(currentSelectedService(id))
-});
+const mapDispatchToProps = (_: Dispatch) => ({});
 
 export default connect(
   mapStateToProps,

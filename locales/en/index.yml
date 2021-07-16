@@ -120,7 +120,7 @@ global:
     dayMonth: "MM/DD"
     dayMonthYear: "D MMMM YYYY"
     weekdayDayMonthYear: "dddd D MMMM YYYY"
-  genericError: Ooops, something did not work as expected, please try again!
+  genericError: There is a temporary problem, please try again.
   genericAlert: Warning!
   genericWaiting: Wait a few seconds..
   genericThanks: Thank you

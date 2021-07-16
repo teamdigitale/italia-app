@@ -62,7 +62,6 @@ Object {
   "services": Object {
     "byId": Object {},
     "byOrgFiscalCode": Object {},
-    "currentSelectedService": null,
     "firstLoading": Object {
       "isFirstServicesLoadingCompleted": false,
     },

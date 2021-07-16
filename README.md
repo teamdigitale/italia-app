@@ -10,9 +10,8 @@
     <a href="https://codecov.io/gh/pagopa/io-app">
         <img src="https://codecov.io/gh/pagopa/io-app/branch/master/graph/badge.svg" />
     </a>
-    <a href="CODE-OF-CONDUCT.md">
-        <img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg" />
-    </a>
+  <img src="https://img.shields.io/github/contributors-anon/pagopa/io-app" />
+  <img src="https://img.shields.io/github/repo-size/pagopa/io-app" />
 </p>
 
 <p align="center">
